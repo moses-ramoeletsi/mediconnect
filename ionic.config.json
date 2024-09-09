@@ -1,0 +1,7 @@
+{
+  "name": "MediConnect",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
