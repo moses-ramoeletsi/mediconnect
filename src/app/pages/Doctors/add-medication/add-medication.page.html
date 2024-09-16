@@ -1,0 +1,115 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-icon style="color: red" class="back" name="arrow-back"  routerLink="/doctor-dashboard"></ion-icon>
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="end"
+      class="ion-center-sm-down"
+    >
+      <ion-fab-button id="open-medication-modal">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-modal
+      [keepContentsMounted]="true"
+      trigger="open-medication-modal"
+      #modal
+    >
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title class="ion-text-center">ADD MEDICATION</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <form>
+
+              <ion-input
+              name="medicine_name"
+              label="Medicine Name"
+              labelPlacement="floating"
+              type="text"
+              fill="outline"
+              class="top-margin"
+              placeholder="Enter medicine name"
+              style="color: black"
+              ></ion-input>
+
+
+              <ion-textarea
+              name="price"
+              label="Price"
+              fill="outline"
+              class="top-margin"
+              labelPlacement="floating"
+              style="color: black"
+              placeholder="Enter medicine price"
+              ></ion-textarea>
+            
+              <ion-textarea
+              name="description"
+              label="Description"
+              fill="outline"
+              class="top-margin"
+              labelPlacement="floating"
+              style="color: black"
+              
+              placeholder="Enter medicine description"
+              ></ion-textarea>
+              
+              <br />
+              <ion-label  
+              label="Description"
+              fill="outline"
+              style="color: black"
+              class="top-margin" labelPlacement="floating">Medication Image</ion-label>
+              <input type="file"   style="color: black"  accept="image/*">
+        
+            <div class="top-margin">
+              <img  alt="Selected medication image" style="max-width: 100%; height: auto;">
+            </div>
+            <ion-button class="mycolor" type="submit" expand="block"
+              >Submit</ion-button
+            >
+          </form>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <div
+         class="post-medicine"
+      style="background-color: transparent"
+    >
+    <ion-card style="margin: 10px">
+      <img src="../../../../assets/icon/favicon.png" alt="Medication Image" />
+        <ion-card-header class="ion-text-center">
+        <ion-card-title>medicine_name</ion-card-title>
+        <ion-card-subtitle>medicine_name</ion-card-subtitle> 
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>M price</ion-label> <br />
+        description
+
+        <div style="display: flex; justify-content: space-between">
+          <ion-button fill="outline" slot="start" color="custom">Edit</ion-button>
+          <ion-button fill="outline" slot="end" color="danger" >Delete</ion-button>
+        </div>
+
+      </ion-card-content>
+
+  
+      
+    </ion-card>
+    </div>
+    <ng-template #noMedicine>
+      <ion-card>
+        <ion-card-content>
+          No medicine available
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </ion-content>
+

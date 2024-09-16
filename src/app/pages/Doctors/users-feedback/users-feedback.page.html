@@ -1,0 +1,23 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-icon   style="color: brown;" class="back" name="arrow-back" routerLink="/doctor-dashboard"></ion-icon>
+
+  <div>
+    <ion-card>
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>name</ion-card-title>
+        <ion-card-subtitle>email</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Feedback Type: feedBackType</p>
+        <p>Message: message </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ng-template #noFeedback>
+    <ion-card>
+      <ion-card-content>
+        No feedback available
+      </ion-card-content>
+    </ion-card>
+   </ng-template>
+</ion-content>

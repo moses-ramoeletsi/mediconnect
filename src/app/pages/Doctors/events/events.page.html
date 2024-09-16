@@ -1,0 +1,129 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    class="ion-center-sm-down"
+  >
+    <ion-fab-button id="open-events-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal [keepContentsMounted]="true" trigger="open-events-modal" #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="ion-text-center">POST EVENT</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form >
+          <ion-input
+            name="event_title"
+            label="Title"
+            label-placement="floating"
+            fill="outline"
+            type="text"
+            placeholder="Enter event title"
+            class="top-margin"
+            style="color: black"
+          ></ion-input>
+
+          <ion-input
+            name="host"
+            label="Host"
+            labelPlacement="floating"
+            type="text"
+            fill="outline"
+            placeholder="Enter host name"
+            class="top-margin"
+            style="color: black"
+          ></ion-input>
+
+          <ion-textarea
+            name="description"
+            label="Description"
+            fill="outline"
+            labelPlacement="floating"
+            placeholder="Enter event description"
+            class="top-margin"
+            style="color: black"
+          ></ion-textarea>
+
+          <ion-input
+            name="location"
+            label="Location"
+            labelPlacement="floating"
+            type="text"
+            fill="outline"
+            placeholder="Enter event location"
+            class="top-margin"
+            style="color: black"
+          ></ion-input>
+
+          <ion-datetime
+            name="date_and_time"
+            fill="outline"
+            displayFormat="MMM DD, YYYY HH:mm"
+            placeholder="Select Date & Time"
+            class="top-margin"
+            style="color: rgb(204, 204, 204)"
+          ></ion-datetime>
+
+          <br />
+          <ion-button class="mycolor" type="submit" expand="block"
+            >SUBMIT</ion-button
+          >
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <div
+    class="upcoming-events"
+    style="background-color: transparent"
+  >
+    <ion-card
+      class="white-card"
+      style="margin: 10px; position: relative"
+    >
+    <ion-card-header class="ion-text-center">
+      <ion-card-title>event_title</ion-card-title>
+      <ion-card-subtitle>Host: event.host</ion-card-subtitle>
+      <ion-card-subtitle>Posted by: event.authorName</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Date: date_and_time</p>
+      <p>Time: date_and_time</p>
+      <p>Location: location</p>
+      <p>description </p>
+      
+      <ion-item lines="none">
+        <ion-button
+        color="custom"
+        style="left: 10px"
+        >
+        Edit
+      </ion-button>
+      <ion-button
+        fill="clear"
+        color="danger"
+        slot="end"
+      >
+      Delete
+      </ion-button>
+      </ion-item>
+  </ion-card-content>
+</ion-card>
+  </div>
+  <ng-template #noEvents>
+    <ion-card>
+      <ion-card-content>
+        No events available
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

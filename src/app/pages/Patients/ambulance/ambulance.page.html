@@ -1,0 +1,90 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    class="ion-center-sm-down"
+  >
+    <ion-fab-button id="open-ambulance-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal [keepContentsMounted]="true" trigger="open-ambulance-modal" #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="ion-text-center">Request Ambulance</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form >
+          <ion-select
+          label="Urgency"
+          name="urgency"
+          label-placement="floating"
+          fill="outline"
+        >
+          <ion-select-option value="Emergency"
+            >Emergency</ion-select-option
+          >
+          <ion-select-option value="Significant"
+            >Significant</ion-select-option
+          >
+          <ion-select-option value="Minor"
+            >Minor</ion-select-option
+          >
+        </ion-select>
+
+          <br />
+          <ion-button class="mycolor" type="submit" expand="block"
+            >SUBMIT</ion-button
+          >
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <div
+    class="upcoming-events"
+    style="background-color: transparent"
+  >
+    <ion-card
+      class="white-card"
+      style="margin: 10px; position: relative"
+    >
+    <ion-card-header class="ion-text-center">
+      <ion-card-subtitle>Patient Name</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Urgency</p>
+      <p>Phone Number</p>
+      <p>Address</p>
+      <ion-item lines="none">
+        <ion-button
+        color="custom"
+        style="left: 10px"
+        >
+        Edit
+      </ion-button>
+      <ion-button
+        fill="clear"
+        color="danger"
+        slot="end"
+      >
+      Delete
+      </ion-button>
+      </ion-item>
+  </ion-card-content>
+</ion-card>
+  </div>
+  <ng-template #noEvents>
+    <ion-card>
+      <ion-card-content>
+        No events available
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

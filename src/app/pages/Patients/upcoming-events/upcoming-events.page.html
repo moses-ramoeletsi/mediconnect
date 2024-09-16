@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-icon style="color: brown;" name="arrow-back" routerLink="/patient-dashboard"></ion-icon>
+  <div
+    class="upcoming-events"
+    style="background-color: transparent"
+  >
+    <ion-card
+      class="white-card"
+      style="margin: 10px; position: relative"
+    >
+    <ion-card-header class="ion-text-center">
+      <ion-card-title>event_title</ion-card-title>
+      <ion-card-subtitle>Host: event.host</ion-card-subtitle>
+      <ion-card-subtitle>Posted by: event.authorName</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Date: date_and_time</p>
+      <p>Time: date_and_time</p>
+      <p>Location: location</p>
+      <p>description </p>
+  </ion-card-content>
+</ion-card>
+  </div>
+  <ng-template #noEvents>
+    <ion-card>
+      <ion-card-content>
+        No events available
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>
+

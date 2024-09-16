@@ -1,0 +1,110 @@
+<ion-content class="ion-padding">
+  <ion-icon style="color: red" class="back" name="arrow-back"  routerLink="/doctor-dashboard"></ion-icon>
+  <ion-fab
+  slot="fixed"
+  vertical="bottom"
+  horizontal="end"
+  class="ion-center-sm-down"
+  >
+  <ion-fab-button id="open-healthInformaition-modal">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-modal [keepContentsMounted]="true" trigger="open-healthInformaition-modal" #modal>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-text-center">POST DISEASE</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form >
+        <ion-input
+          name="disease_name"
+          label="Disease Name"
+          labelPlacement="floating"
+          fill="outline"
+          type="text"
+          class="top-margin"
+          placeholder="Enter disease name"
+          style="color: black"
+          ></ion-input>
+          
+          <ion-textarea
+          name="description"
+          label="Description"
+          labelPlacement="floating"
+          fill="outline"
+          class="top-margin"
+          style="color: black"
+          placeholder="Enter description"
+          ></ion-textarea>
+
+        <ion-textarea
+        name="symptoms"
+        label="Symptoms"
+        labelPlacement="floating"
+        fill="outline"
+        class="top-margin"
+        style="color: black"
+        placeholder="Enter description"
+        ></ion-textarea>
+
+        <ion-textarea
+        name="treatment"
+        label="Treatment"
+        labelPlacement="floating"
+        fill="outline"
+        class="top-margin"
+        style="color: black"
+        placeholder="Enter description"
+        ></ion-textarea>
+        
+          <ion-button color="custom" type="submit" expand="block"
+          >SUBMIT</ion-button
+          >
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<div
+  class="post-healthInformation"
+  style="background-color: transparent"
+  >
+  <ion-card  style="margin: 10px">
+    <ion-card-header class="ion-text-center">
+      <ion-card-title>disease_name</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>description</p>
+      <p>Symptoms: symptoms</p>
+      <p>Treatment: treatment</p>
+      <div style="display: flex; justify-content: space-between">
+        <ion-button
+          fill="outline"
+          slot="start"
+          color="custom"
+          >Edit</ion-button
+        >
+        <ion-button
+        fill="outline"
+          slot="end"
+          color="danger"
+          >Delete</ion-button
+          >
+        </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+<ng-template #noDiseases>
+  <ion-card>
+    <ion-card-content>
+      No Diseases available
+    </ion-card-content>
+  </ion-card>
+</ng-template>
+</ion-content>

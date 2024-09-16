@@ -1,0 +1,118 @@
+ion-content {
+    --ion-background-color: #fdfdfd;
+  }
+  ion-list {
+    background: white;
+  }
+  ion-item {
+    --background: white;
+  }
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+  
+  .back {
+    font-size: 24px;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #3e8156;
+    color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
+  }
+  .medicationPage{
+    background: white;
+    color: black;
+  }
+  .pageName {
+    color: #d73d3f;
+  }
+  .custom-color-button {
+    color: #d73d3f;
+    border-color: #d73d3f;
+  }
+  
+  .custom-button {
+    --background: var(--ion-color-btn);
+  }
+  
+  .medication {
+    margin-top: 10px;
+  }
+  
+  .medication ion-card {
+    border-radius: 15px;
+    background-color: #fefefe;
+    border: 1px solid #d73d3f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .medication ion-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .medication ion-card-header {
+    padding-bottom: 0;
+  }
+  
+  .medication ion-card-content {
+    padding-top: 0;
+  }
+  
+  .medication ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .medication ion-card-subtitle {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .medication ion-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+  }
+  .top-margin {
+    margin-top: 16px;
+  }
+  
+  .add-to-cart ion-card {
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #d73d3f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .add-to-cart ion-card-header {
+    padding-bottom: 0;
+  }
+  
+  .add-to-cart ion-card-content {
+    padding-top: 0;
+  }
+  
+  .add-to-cart ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .add-to-cart ion-card-subtitle {
+    font-size: 1rem;
+    color: #666;
+  }
+  .remove {
+    height: 18px;
+    width: 14px;
+  }
+  

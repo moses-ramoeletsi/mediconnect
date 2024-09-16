@@ -1,0 +1,114 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <ion-avatar class="logo" >
+      <ion-img src="../../../../assets/images/medicoonnect-logo.png"/>
+    </ion-avatar>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+          <ion-card>
+            <ion-card-content routerLink="/health-information">
+              <p>
+                Basic Information
+              </p>
+            </ion-card-content>  
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card routerLink="/medication">
+            <ion-card-content >
+              <p>
+                Medication
+              </p>
+            </ion-card-content>  
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-card routerLink="/upcoming-events">
+            <ion-card-content>
+              <p>
+                Events
+              </p>
+            </ion-card-content>  
+          </ion-card>
+      </ion-col>
+      <ion-col>
+          <ion-card routerLink="/feedback">
+            <ion-card-content>
+              <p>
+                Feedback
+              </p>
+            </ion-card-content>  
+          </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<div class="upcoming-schedule">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h5>Upcoming Schedule</h5>
+    <h5 style="color: brown;" color="custom" routerLink="/wetlands-map">See All</h5>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <h6>Doctor's Name</h6>
+      <p>Reason for Appointment</p>
+      <p>Date booked</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- <div class="categories">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h5>Categories</h5>
+    <ion-button fill="outline" color="custom" routerLink="/wetlands-map">See All</ion-button>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3" *ngFor="let category of categories">
+            <ion-button fill="clear" class="category-button" (click)="onCategoryClick(category)">
+              <div class="category-content">
+                <ion-icon [name]="category.icon" [style.color]="category.color"></ion-icon>
+                <ion-text>{{ category.name }}</ion-text>
+              </div>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</div> -->
+  
+<div class="categories">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h5>Top Doctors</h5>
+    <ion-button fill="outline" color="custom" routerLink="/doctor-list">See All</ion-button>
+  </div>
+  
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item lines="none" *ngFor="let doctor of topDoctors" [routerLink]="['/doctor-details', doctor.id]">
+          <ion-avatar slot="start">
+            <img src="../../../../assets/images/medicoonnect-logo.png" [alt]="doctor.name">
+          </ion-avatar>
+          <ion-label>
+            <h2 style="color: black;">{{ doctor.name }}</h2>
+            <p>{{ doctor.specialty }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openChat()">
+    <ion-icon name="logo-wechat"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+</ion-content>

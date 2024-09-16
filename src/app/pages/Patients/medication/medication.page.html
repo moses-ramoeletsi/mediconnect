@@ -1,0 +1,70 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-icon style="color:brown" routerLink="/patient-dashboard" name="arrow-back"></ion-icon>
+  <div class="add-to-cart">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Shopping Cart</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list >
+          <ion-item  lines="none" style="color: black;">
+            <ion-label>medicine_name</ion-label>
+            <ion-button fill="clear"
+              >-</ion-button
+            >
+            <ion-label>quantity</ion-label>
+            <ion-button fill="clear" 
+              >+</ion-button
+            >
+            <ion-img class='remove' src="../../../../assets/images/cart-minus.png" 
+              ></ion-img
+            >
+            <!-- <ion-label slot="end"
+              >M{{ parseFloat(item.price) * item.quantity | number:'1.2-2'
+              }}</ion-label
+            > -->
+          </ion-item>
+        </ion-list>
+        <ion-item lines="none" style="color: black;">
+          <ion-label>Total:</ion-label>
+          <ion-label slot="end">M total | number:'1.2-2' </ion-label>
+        </ion-item>
+        <ion-button expand="block"  class="custom-button "
+          >Checkout</ion-button
+        >
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div
+    class="medication"
+    style="background-color: transparent"
+  >
+    <ion-card style="margin: 10px">
+      <img src="medicineimageUrl" alt="Medication Image" />
+      <ion-card-header class="ion-text-center">
+        <ion-card-subtitle>medicine_name</ion-card-subtitle> 
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>M price</ion-label> <br />
+        description
+
+      </ion-card-content>
+      <ion-item lines="none">
+        <ion-button
+          fill="outline"
+          slot="start"
+          color="custom"
+          >Add to Cart</ion-button
+        >
+      </ion-item>
+    </ion-card>
+  </div>
+  <ng-template #noMedicine>
+    <ion-card>
+      <ion-card-content>
+        No items available
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

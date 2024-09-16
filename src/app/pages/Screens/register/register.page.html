@@ -1,0 +1,134 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2 style=" color: #d73d3f;">CareConnect</h2>
+  <ion-img src="../../../../assets/images/medicoonnect-logo.png"></ion-img>
+  <ion-segment color="custom"  [(ngModel)]="registerationType" (ionChange)="onRegistrationTypeChange()">
+    <ion-segment-button  value="register-patient">
+      <ion-label>User</ion-label>
+    </ion-segment-button>
+    <ion-segment-button  value="register-doctor">
+      <ion-label>Admin</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="registerationType">
+    <form  *ngIf="registerationType == 'register-patient'">  
+      <ion-input 
+        type="text"
+        fill="outline"
+        label="Name"
+        labelPlacement="floating"
+        class="top-margin"
+        style="color: black;"
+        />
+        <ion-input 
+        type="email"
+        fill="outline"
+        label="Email"
+        labelPlacement="floating"
+        class="top-margin"
+        style="color: black;"
+        />
+        <ion-select
+        required
+        label="Gender"
+        name="gender"
+        fill="outline"
+        class="top-margin"
+        labelPlacement="floating"
+        placeholder="Select all animals that apply"
+        style="color: black;"
+        >
+        <ion-select-option value="Male">Male</ion-select-option>
+        <ion-select-option value="Female">Female</ion-select-option>
+      </ion-select>
+      <ion-input 
+      type="text"
+      fill="outline"
+      label="Address"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-input 
+      type="text"
+      fill="outline"
+      label="Phone  Number"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-input 
+      type="password"
+      fill="outline"
+      label="Password"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-button  class="ion-margin" expand="block" color="custom">Login</ion-button>
+      <p style="color: black;">Already have an account?
+        <a href="/login">Register</a>
+      </p>
+    </form>
+  </div>
+  <div *ngIf="registerationType">
+    <form  *ngIf="registerationType == 'register-doctor'">  
+      <ion-input 
+        type="text"
+        fill="outline"
+        label="Name"
+        labelPlacement="floating"
+        class="top-margin"
+        style="color: black;"
+        />
+        <ion-input 
+        type="email"
+        fill="outline"
+        label="Email"
+        labelPlacement="floating"
+        class="top-margin"
+        style="color: black;"
+        />
+        <ion-select
+        required
+        label="Gender"
+        name="gender"
+        fill="outline"
+        class="top-margin"
+        labelPlacement="floating"
+        placeholder="Select all animals that apply"
+        style="color: black;"
+        >
+        <ion-select-option value="Male">Male</ion-select-option>
+        <ion-select-option value="Female">Female</ion-select-option>
+      </ion-select>
+      <ion-input 
+      type="text"
+      fill="outline"
+      label="Specialty"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-input 
+      type="text"
+      fill="outline"
+      label="Phone  Number"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-input 
+      type="password"
+      fill="outline"
+      label="Password"
+      labelPlacement="floating"
+      class="top-margin"
+      style="color: black;"
+      />
+      <ion-button  class="ion-margin" expand="block" color="custom">Register</ion-button>
+      <p style="color: black;">Already have an account?
+        <a href="/login">Login</a>
+      </p>
+    </form>
+  </div>
+</ion-content>

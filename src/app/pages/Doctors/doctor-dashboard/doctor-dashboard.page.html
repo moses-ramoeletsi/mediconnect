@@ -1,0 +1,83 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <ion-avatar class="logo" >
+      <ion-img src="../../../../assets/images/medicoonnect-logo.png"/>
+    </ion-avatar>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card routerLink="/ambulance-requests">
+          <ion-card-content>
+            <p>
+              Ambulance Requests
+            </p>
+          </ion-card-content>  
+        </ion-card>
+    </ion-col>
+      <ion-col>
+        <ion-card>
+            <ion-card-content routerLink="/basic-health-information">
+              <p>
+                Basic Information
+              </p>
+            </ion-card-content>  
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card routerLink="/add-medication">
+            <ion-card-content >
+              <p>
+                Add Medication
+              </p>
+            </ion-card-content>  
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      <ion-col>
+          <ion-card routerLink="/users-feedback">
+            <ion-card-content>
+              <p>
+               User Feedback
+              </p>
+            </ion-card-content>  
+          </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<div class="upcoming-schedul">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h5>Upcoming Schedule</h5>
+    <h5 style="color: brown;" color="custom" routerLink="/view-appointments">See All</h5>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <h6>Doctor's Name</h6>
+      <p>Reason for Appointment</p>
+      <p>Date booked</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+  
+<div class="ambulance">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <h5>Ambulance Requests</h5>
+    <h5 style="color: brown;" color="custom" routerLink="/ambulance-requests">See All</h5>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <h6>Name</h6>
+      <p>Urgency</p>
+      <p>Address</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+  
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openChat()">
+    <ion-icon name="logo-wechat"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+</ion-content>
