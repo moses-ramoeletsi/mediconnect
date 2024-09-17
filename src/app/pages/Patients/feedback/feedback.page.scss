@@ -14,7 +14,9 @@ ion-content {
     color: #ffffff;
   }
   
-
+  ion-card-title {
+    color: #d73d3f;
+  }
   ion-card ion-item{
     --background: #fefefe;
   }
@@ -33,7 +35,7 @@ ion-content {
   }
   
   ion-modal ion-header ion-toolbar {
-    --background: #ebebeb;
+    --background: #d73d3f;
   }
   
   ion-modal ion-content {

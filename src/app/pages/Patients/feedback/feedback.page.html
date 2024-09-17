@@ -21,13 +21,14 @@ trigger="open-feedback-modal"
     <ion-toolbar>
       <ion-title>Feedback Form</ion-title>
       <ion-buttons slot="end">
-        <ion-button fill="outline" color="custom" (click)="modal.dismiss()">Cancel</ion-button>
+        <ion-button (click)="modal.dismiss()">Cancel</ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <form >
+    <form (ngSubmit)="submitFeedBack(modal)">
       <ion-input
+      [(ngModel)]="userFeedback.name"
       label=" Name"
       name="name"
       label-placement="floating"
@@ -37,6 +38,7 @@ trigger="open-feedback-modal"
         ></ion-input>
         <br />
         <ion-input
+        [(ngModel)]="userFeedback.email"
         label="Email (optional)"
         name="emal"
         label-placement="floating"
@@ -46,6 +48,7 @@ trigger="open-feedback-modal"
       ></ion-input>
       <br />
       <ion-select
+      [(ngModel)]="userFeedback.feedBackType"
       label="FeedBack  type"
       name="feedBackType"
         label-placement="floating"
@@ -58,6 +61,7 @@ trigger="open-feedback-modal"
         > </ion-select
       ><br />
       <ion-textarea
+      [(ngModel)]="userFeedback.message"
         label="Message"
         name="message"
         label-placement="floating"
@@ -67,25 +71,29 @@ trigger="open-feedback-modal"
       ></ion-textarea>
       <br />
   
-      <ion-button color="custom" type="submit" expand="block"
+      <ion-button class="mycolor" type="submit" expand="block"
         >Submit</ion-button
       >
     </form>
   </ion-content>
 </ng-template>
 </ion-modal>
-<div>
-  <ion-card>
-    <ion-card-header class="ion-text-center">
-      <ion-card-title>name</ion-card-title>
-      <ion-card-subtitle>email</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Feedback Type: feedBackType</p>
-      <p>Message: message </p>
-    </ion-card-content>
-  </ion-card>
-</div>
+  <div *ngIf="feedback.length > 0; else noFeedback">
+    <ion-card *ngFor="let userFeedback of feedback">
+      <ion-card-header>
+        <ion-card-title>{{userFeedback.name}}</ion-card-title>
+        <ion-card-subtitle>{{userFeedback.email}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Feedback Type: {{userFeedback.feedBackType}}</p>
+        <p>Message: {{userFeedback.message}} </p>
+        <ion-item lines="none">
+          <ion-button fill="outline" color="custom" (click)="edituserFeedback(userFeedback,modal)">Edit</ion-button>
+          <ion-icon fill="outline" slot="end" name="trash" color="danger"></ion-icon>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
   <ng-template #noFeedback>
     <ion-card>
       <ion-card-content>
