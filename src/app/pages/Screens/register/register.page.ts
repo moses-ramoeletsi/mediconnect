@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterPage implements OnInit {
   registerationType: string = 'register-patient';
-  
+
   registerForm!: FormGroup;
   patientData = {
     name: '',
@@ -21,7 +21,7 @@ export class RegisterPage implements OnInit {
     phoneNumber: '',
     password: '',
     uid: '',
-    userType:'patient'
+    userType: 'patient',
   };
 
   doctorData = {
@@ -49,7 +49,7 @@ export class RegisterPage implements OnInit {
     this.registerForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      gender: new FormControl('', Validators.required), 
+      gender: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[5-6]\d{7,}$/),
@@ -66,10 +66,16 @@ export class RegisterPage implements OnInit {
 
   updateFormControls() {
     if (this.registerationType === 'register-patient') {
-      this.registerForm.addControl('address', new FormControl('', Validators.required));
+      this.registerForm.addControl(
+        'address',
+        new FormControl('', Validators.required)
+      );
       this.registerForm.removeControl('specialty');
     } else if (this.registerationType === 'register-doctor') {
-      this.registerForm.addControl('specialty', new FormControl('', Validators.required));
+      this.registerForm.addControl(
+        'specialty',
+        new FormControl('', Validators.required)
+      );
       this.registerForm.removeControl('address');
     }
   }
@@ -79,7 +85,7 @@ export class RegisterPage implements OnInit {
   }
 
   registerUser() {
-    if(this.registerForm.valid) {
+    if (this.registerForm.valid) {
       console.log('Form is valid:', this.registerForm.value);
       if (this.registerationType === 'register-patient') {
         this.createUserAccount();
@@ -91,7 +97,7 @@ export class RegisterPage implements OnInit {
       this.showAlert('Form Error', 'Please check the form fields.');
     }
   }
-  
+
   createUserAccount() {
     if (this.registerForm.valid) {
       const patientData = { ...this.patientData, ...this.registerForm.value };

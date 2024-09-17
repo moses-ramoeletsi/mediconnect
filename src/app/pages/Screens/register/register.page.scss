@@ -1,28 +1,29 @@
 ion-content {
-    --background:#fdfdfd ;
+  --background: #fdfdfd;
 }
 ion-segment-button {
-    color: #d73d3f;
-  }
-ion-img{
-    height: 150px;
-    width: 150px;
-    width: auto;
-    margin: 10px auto; 
-    display: block;
+  color: #d73d3f;
 }
-ion-input, ion-select {
-    color: black;
+ion-img {
+  height: 150px;
+  width: 150px;
+  width: auto;
+  margin: 10px auto;
+  display: block;
+}
+ion-input,
+ion-select {
+  color: black;
 }
 
 a {
-    color: #d73d3f;
+  color: #d73d3f;
 }
-h2{
+h2 {
   text-align: center;
   margin-top: 0;
 }
 
 .top-margin {
-    margin-top: 8px;
+  margin-top: 8px;
 }
