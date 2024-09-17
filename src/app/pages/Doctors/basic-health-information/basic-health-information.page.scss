@@ -44,6 +44,41 @@ ion-content {
     --inner-padding-end: 0;
     --background: #fdfdfd;
   }
+  ion-modal {
+    --background: transparent;
+  }
+  
+  ion-modal ion-header ion-toolbar ion-img {
+    width: 300px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  ion-modal ion-item ion-label {
+    color: black;
+  }
+  
+  ion-modal ion-header ion-toolbar {
+    --background: #d73d3f;
+  }
+  
+  ion-modal ion-content {
+    --background: #ebebeb;
+  }
+  
+  ion-modal ion-content form {
+    padding: 20px;
+  }
+  
+  ion-modal ion-content ion-item {
+    margin-bottom: 15px;
+  }
+  
+  ion-modal ion-content ion-button {
+    margin-top: 10px;
+    --background: #d73d3f;
+    --color: #f0f0f0;
+  }
   
   ion-avatar {
     width: 48px;
@@ -55,6 +90,9 @@ ion-content {
   ion-fab-button {
     --background: #d73d3f;
   }
+  .top-margin {
+    margin-top: 10px;
+  }
   .top{
-    margin-top: 7px;
+    margin-top: 10px;
   }

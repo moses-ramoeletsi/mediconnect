@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestAmbulanceService } from 'src/app/services/request-ambulance.service';
 
 @Component({
   selector: 'app-ambulance-requests',
@@ -7,9 +8,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AmbulanceRequestsPage implements OnInit {
 
-  constructor() { }
+  
+  ambulance = {
+    id: '',
+    patientName: '',
+    patientId: '',
+    patientAddress: '',
+    patientPhoneNumber: '',
+    urgency: '',
+    description: '',
+  };
+  requests: any[] = [];
+  constructor(    public fireservice: RequestAmbulanceService,
+  ) { }
 
   ngOnInit() {
+    this.getAmbulanceRequests();
+  }
+
+
+  getAmbulanceRequests() {
+    this.fireservice.fetchAmbulanceRequests().subscribe((requests) => {
+      this.requests = requests;
+    });
   }
 
 }

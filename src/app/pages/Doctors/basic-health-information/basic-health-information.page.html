@@ -44,28 +44,31 @@
           class="top-margin"
           style="color: black"
           placeholder="Enter description"
+          autoGrow="true"
           ></ion-textarea>
-        
-        <ion-textarea
-        [(ngModel)]="disease.symptoms"
-        name="symptoms"
-        label="Symptoms"
-        labelPlacement="floating"
-        fill="outline"
-        class="top-margin"
-        style="color: black"
-        placeholder="Enter description"
-        ></ion-textarea>
-
-        <ion-textarea
-        [(ngModel)]="disease.treatment"
-        name="treatment"
-        label="Treatment"
-        labelPlacement="floating"
-        fill="outline"
-        class="top-margin"
-        style="color: black"
-        placeholder="Enter description"
+          
+          <ion-textarea
+          [(ngModel)]="disease.symptoms"
+          name="symptoms"
+          label="Symptoms"
+          labelPlacement="floating"
+          fill="outline"
+          class="top-margin"
+          style="color: black"
+          autoGrow="true"
+          placeholder="Enter description"
+          ></ion-textarea>
+          
+          <ion-textarea
+          [(ngModel)]="disease.treatment"
+          name="treatment"
+          label="Treatment"
+          labelPlacement="floating"
+          fill="outline"
+          class="top-margin"
+          style="color: black"
+          placeholder="Enter description"
+          autoGrow="true"
         ></ion-textarea>
         
           <ion-button class="mycolor" type="submit" expand="block"

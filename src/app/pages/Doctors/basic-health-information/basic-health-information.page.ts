@@ -75,7 +75,7 @@ export class BasichealthInformationPage implements OnInit {
       description: disease.description,
       animal_type:disease.animal_type,
       symptoms: disease.symptoms,
-      treatment: disease.meadication,
+      treatment: disease.treatment,
     };
   
     await modal.present();
