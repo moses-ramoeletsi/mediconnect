@@ -7,3 +7,12 @@ export interface UserModel {
     password:string;
     uid:string;
   }
+export interface doctorModel {
+    name: string;
+    email: string;
+    specialty: string;
+    gender:'',
+    phoneNumber: string;
+    password:string;
+    uid:string;
+  }
