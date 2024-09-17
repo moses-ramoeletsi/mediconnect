@@ -3,131 +3,187 @@
   <ion-img src="../../../../assets/images/medicoonnect-logo.png"></ion-img>
   <ion-segment color="custom"  [(ngModel)]="registerationType" (ionChange)="onRegistrationTypeChange()">
     <ion-segment-button  value="register-patient">
-      <ion-label>User</ion-label>
+      <ion-label>PATIENT</ion-label>
     </ion-segment-button>
     <ion-segment-button  value="register-doctor">
-      <ion-label>Admin</ion-label>
+      <ion-label>DOCTOR</ion-label>
     </ion-segment-button>
   </ion-segment>
+
+  <!-- Patient Registration -->
   <div *ngIf="registerationType">
-    <form  *ngIf="registerationType == 'register-patient'">  
-      <ion-input 
-        type="text"
-        fill="outline"
-        label="Name"
-        labelPlacement="floating"
-        class="top-margin"
-        style="color: black;"
-        />
-        <ion-input 
-        type="email"
-        fill="outline"
-        label="Email"
-        labelPlacement="floating"
-        class="top-margin"
-        style="color: black;"
-        />
-        <ion-select
-        required
-        label="Gender"
-        name="gender"
-        fill="outline"
-        class="top-margin"
-        labelPlacement="floating"
-        placeholder="Select all animals that apply"
-        style="color: black;"
-        >
-        <ion-select-option value="Male">Male</ion-select-option>
-        <ion-select-option value="Female">Female</ion-select-option>
-      </ion-select>
-      <ion-input 
+    <form  [formGroup]="registerForm" *ngIf="registerationType == 'register-patient'" >  
+      <ion-input
+      class="ion-text-center"
+      fill="outline"
+      type="text"
+      class="top-margin"
+      placeholder="Enter First Name"
+      formControlName="name"
+    ></ion-input>
+    <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('name')?.errors?.['required']">First name is required.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
+      fill="outline"
+      type="email"
+      class="top-margin"
+      placeholder="Enter Email"
+      formControlName="email"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
       type="text"
       fill="outline"
-      label="Address"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-input 
-      type="text"
+      placeholder="Enter address"
+      formControlName="address"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</span>
+    </div>
+    <ion-select
+      name="gender"
+      (ionChange)="userGender($event.detail.value)"
+      formControlName="gender"
       fill="outline"
-      label="Phone  Number"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-input 
+      class="ion-text-center"
+      placeholder="Select gender"
+    >
+      <ion-select-option value="Male">Male</ion-select-option>
+      <ion-select-option value="Female">Female</ion-select-option>
+      
+    </ion-select>
+    
+    <ion-input
+      class="ion-text-center"
+      type="tel"
+      fill="outline"
+      class="top-margin"
+      placeholder="Phone Number"
+      formControlName="phoneNumber"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone Number is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Invalid phone number format. Phone number should start with 6 or 5 and have a minimum of 8 digits.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
       type="password"
       fill="outline"
-      label="Password"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-button  class="ion-margin" expand="block" color="custom">Login</ion-button>
+      placeholder="Enter password"
+      formControlName="password"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</span>
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['pattern']">Password must contain characters(- _ ! $).</span>
+    </div>
+
+      <ion-button  class="ion-margin" expand="block" color="custom" (click)="registerUser()"
+      >Login</ion-button>
       <p style="color: black;">Already have an account?
         <a href="/login">Register</a>
       </p>
     </form>
   </div>
+
+  <!-- Doctor Registration -->
   <div *ngIf="registerationType">
-    <form  *ngIf="registerationType == 'register-doctor'">  
-      <ion-input 
-        type="text"
-        fill="outline"
-        label="Name"
-        labelPlacement="floating"
-        class="top-margin"
-        style="color: black;"
-        />
-        <ion-input 
-        type="email"
-        fill="outline"
-        label="Email"
-        labelPlacement="floating"
-        class="top-margin"
-        style="color: black;"
-        />
-        <ion-select
-        required
-        label="Gender"
-        name="gender"
-        fill="outline"
-        class="top-margin"
-        labelPlacement="floating"
-        placeholder="Select all animals that apply"
-        style="color: black;"
-        >
-        <ion-select-option value="Male">Male</ion-select-option>
-        <ion-select-option value="Female">Female</ion-select-option>
-      </ion-select>
-      <ion-input 
+    <form  [formGroup]="registerForm" *ngIf="registerationType == 'register-doctor'">  
+      <ion-input
+      class="ion-text-center"
+      fill="outline"
+      type="text"
+      class="top-margin"
+      placeholder="Enter First Name"
+      formControlName="name"
+    ></ion-input>
+    <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('name')?.errors?.['required']">First name is required.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
+      fill="outline"
+      type="email"
+      class="top-margin"
+      placeholder="Enter Email"
+      formControlName="email"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
       type="text"
       fill="outline"
-      label="Specialty"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-input 
-      type="text"
+      placeholder="Enter specialty"
+      formControlName="specialty"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('specialty')?.invalid && registerForm.get('specialty')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('specialty')?.errors?.['required']">Specialty is required.</span>
+    </div>
+    <ion-select
+      name="gender"
+      (ionChange)="userGender($event.detail.value)"
+      formControlName="gender"
       fill="outline"
-      label="Phone  Number"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-input 
+      class="ion-text-center"
+      placeholder="Select gender"
+    >
+      <ion-select-option value="Male">Male</ion-select-option>
+      <ion-select-option value="Female">Female</ion-select-option>
+      
+    </ion-select>
+    
+    <ion-input
+      class="ion-text-center"
+      type="tel"
+      fill="outline"
+      class="top-margin"
+      placeholder="Phone Number"
+      formControlName="phoneNumber"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone Number is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Invalid phone number format. Phone number should start with 6 or 5 and have a minimum of 8 digits.</span>
+    </div>
+    <ion-input
+      class="ion-text-center"
       type="password"
       fill="outline"
-      label="Password"
-      labelPlacement="floating"
       class="top-margin"
-      style="color: black;"
-      />
-      <ion-button  class="ion-margin" expand="block" color="custom">Register</ion-button>
+      placeholder="Enter password"
+      formControlName="password"
+    ></ion-input>
+    
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</span>
+      <span class="error-message" *ngIf="registerForm.get('password')?.errors?.['pattern']">Password must contain characters(- _ ! $).</span>
+    </div>
+
+      <ion-button  class="ion-margin" expand="block" color="custom" (click)="registerUser()"
+      >Login</ion-button>
       <p style="color: black;">Already have an account?
-        <a href="/login">Login</a>
+        <a href="/login">Register</a>
       </p>
     </form>
   </div>
