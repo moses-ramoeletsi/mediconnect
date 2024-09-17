@@ -1,22 +1,20 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle class="ion-text-center">Name</ion-card-subtitle>
+      <ion-card-subtitle class="ion-text-center">{{ currentUser?.name }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Email</p>
-      <p>Address</p>
-      <p>Gender</p>
-      <p>Phone Number</p>
-      <p>Password</p>
+      <p>Email: {{ currentUser?.email }}</p>
+      <p>Address: {{ currentUser?.address }}</p>
+      <p>Gender: {{ currentUser?.gender }}</p>
+      <p>Phone Number: {{ currentUser?.phoneNumber }}</p>
     </ion-card-content>
     <ion-item lines="none">
       <ion-button color="custom" >Update</ion-button>
     </ion-item>
   </ion-card>
-  <ion-item lines="none" style="color: black;" routerLink="/login">
+  <ion-item lines="none" style="color: black;" (click)="logout()">
     <ion-icon  style="color: black;" slot="start" name="log-out-outline"></ion-icon>
     <ion-label>Log out</ion-label>
   </ion-item>
-</ion-content> 
-
+</ion-content>
