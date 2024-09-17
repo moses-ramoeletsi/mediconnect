@@ -14,77 +14,115 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title class="ion-text-center">Request Ambulance</ion-title>
+          <ion-title class="ion-text-center"
+            >{{ isEditing ? 'Edit' : 'Request' }} Ambulance</ion-title
+          >
           <ion-buttons slot="end">
-            <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+            <ion-button (click)="resetAmbulanceForm(modal)">Cancel</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <form >
+        <form (ngSubmit)="makeRequest(modal)">
+          <ion-textarea
+            [(ngModel)]="ambulance.description"
+            name="description"
+            label="Description"
+            fill="outline"
+            labelPlacement="floating"
+            placeholder="Enter event description"
+            class="top-margin"
+            style="color: black"
+          ></ion-textarea>
+
           <ion-select
-          label="Urgency"
-          name="urgency"
-          label-placement="floating"
-          fill="outline"
-        >
-          <ion-select-option value="Emergency"
-            >Emergency</ion-select-option
+            [(ngModel)]="ambulance.urgency"
+            label="Urgency"
+            name="urgency"
+            label-placement="floating"
+            fill="outline"
+            class="top-margin"
+            style="color: black"
           >
-          <ion-select-option value="Significant"
-            >Significant</ion-select-option
-          >
-          <ion-select-option value="Minor"
-            >Minor</ion-select-option
-          >
-        </ion-select>
+            <ion-select-option value="Emergency">Emergency</ion-select-option>
+            <ion-select-option value="Significant"
+              >Significant</ion-select-option
+            >
+            <ion-select-option value="Minor">Minor</ion-select-option>
+          </ion-select>
+
+          <ng-container *ngIf="isEditing">
+            <ion-input
+              [(ngModel)]="ambulance.patientAddress"
+              name="patientAddress"
+              label="Patient Address"
+              fill="outline"
+              labelPlacement="floating"
+              placeholder="Enter patient address"
+              class="top-margin"
+              style="color: black"
+            ></ion-input>
+            <ion-input
+              [(ngModel)]="ambulance.patientPhoneNumber"
+              name="patientPhoneNumber"
+              label="Patient Phone Number"
+              fill="outline"
+              labelPlacement="floating"
+              placeholder="Enter patient phone number"
+              class="top-margin"
+              style="color: black"
+            ></ion-input>
+          </ng-container>
 
           <br />
-          <ion-button class="mycolor" type="submit" expand="block"
-            >SUBMIT</ion-button
-          >
+          <ion-button class="mycolor" type="submit" expand="block">
+            {{ isEditing ? 'UPDATE' : 'SUBMIT' }}
+          </ion-button>
         </form>
       </ion-content>
     </ng-template>
   </ion-modal>
+
   <div
-    class="upcoming-events"
+    *ngIf="requests.length > 0; else noAmbulanceRequests"
+    class="ambulanceRequests"
     style="background-color: transparent"
   >
     <ion-card
+      *ngFor="let ambulance of requests"
       class="white-card"
       style="margin: 10px; position: relative"
     >
-    <ion-card-header class="ion-text-center">
-      <ion-card-subtitle>Patient Name</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Urgency</p>
-      <p>Phone Number</p>
-      <p>Address</p>
-      <ion-item lines="none">
-        <ion-button
-        color="custom"
-        style="left: 10px"
-        >
-        Edit
-      </ion-button>
-      <ion-button
-        fill="clear"
-        color="danger"
-        slot="end"
-      >
-      Delete
-      </ion-button>
-      </ion-item>
-  </ion-card-content>
-</ion-card>
-  </div>
-  <ng-template #noEvents>
-    <ion-card>
+      <ion-card-header class="ion-text-center">
+        <ion-card-subtitle>{{ambulance.patientName}}</ion-card-subtitle>
+      </ion-card-header>
       <ion-card-content>
-        No events available
+        <p><strong>Urgency:</strong> {{ambulance.urgency}}</p>
+        <p><strong>Location:</strong> {{ambulance.patientAddress}}</p>
+        <p><strong>Phone Number:</strong> {{ambulance.patientPhoneNumber}}</p>
+        <p class="top-margin">{{ambulance.description}}</p>
+        <ion-item lines="none">
+          <ion-button
+            color="custom"
+            (click)="editAmbulanceRequest(ambulance, modal)"
+          >
+            Edit
+          </ion-button>
+          <ion-button
+            fill="clear"
+            color="danger"
+            slot="end"
+            (click)="deleteRequest(ambulance)"
+          >
+            Delete
+          </ion-button>
+        </ion-item>
       </ion-card-content>
+    </ion-card>
+  </div>
+  <ng-template #noAmbulanceRequests>
+    <ion-card>
+      <ion-card-content> No Ambulance Requests available. </ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

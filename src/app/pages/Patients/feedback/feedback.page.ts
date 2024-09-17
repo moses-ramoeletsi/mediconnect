@@ -13,31 +13,31 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class FeedbackPage implements OnInit {
   userFeedback = {
-    id: '', 
+    id: '',
     userId: '',
-    name:"",
-    email:"",
-    feedBackType: "",
-    message:""
+    name: '',
+    email: '',
+    feedBackType: '',
+    message: '',
   };
-  
-  userName: string ='';
+
+  userName: string = '';
   user: Observable<UserModel | null>;
   feedback: any[] = [];
   userId: string = '';
   constructor(
     private userFeedBackServices: UserFeedbackService,
-    private userAuth:  AngularFireAuth, 
+    private userAuth: AngularFireAuth,
     private fireservices: UserService,
     private alertController: AlertController
   ) {
     this.user = this.userAuth.authState.pipe(
-      filter(user => user !== null),
-      switchMap(user =>{
+      filter((user) => user !== null),
+      switchMap((user) => {
         return this.fireservices.getUserDetails(user);
       }),
-      map(userDetails => userDetails as UserModel)
-    )
+      map((userDetails) => userDetails as UserModel)
+    );
     this.user.subscribe((userDetails) => {
       if (userDetails) {
         this.userName = userDetails.name;
@@ -45,25 +45,24 @@ export class FeedbackPage implements OnInit {
         this.loadUserFeedback(userDetails.uid);
       }
     });
-
-   }
-   loadUserFeedback(uid: string) {
-    this.userFeedBackServices.getUserFeedback(this.userFeedback.userId).subscribe(feedback => {
-      this.feedback = feedback;
-    });
+  }
+  loadUserFeedback(uid: string) {
+    this.userFeedBackServices
+      .getUserFeedback(this.userFeedback.userId)
+      .subscribe((feedback) => {
+        this.feedback = feedback;
+      });
   }
 
   ngOnInit() {
-    this.userAuth.user.subscribe(user => {
-      if(user){
+    this.userAuth.user.subscribe((user) => {
+      if (user) {
         this.userFeedback.userId = user.uid;
-        
+
         this.userFeedback.name = this.userName;
       }
-    })
+    });
   }
-
-
 
   async submitFeedBack(modal: IonModal) {
     try {
@@ -72,35 +71,35 @@ export class FeedbackPage implements OnInit {
         this.userFeedback.userId = user.uid;
         this.userFeedback.name = this.userName;
       }
-  
+
       if (this.userFeedback.id) {
         await this.userFeedBackServices.updateUserFeedback(this.userFeedback);
         this.showAlert('Success', 'Feedback updated successfully!');
       } else {
-        const docRef = await this.userFeedBackServices.addUserFeedback(this.userFeedback);
+        const docRef = await this.userFeedBackServices.addUserFeedback(
+          this.userFeedback
+        );
         this.showAlert('Success', 'Feedback submitted successfully!');
       }
-  
+
       this.loadUserFeedback(user!.uid);
       this.resetForm(modal);
-      
     } catch (error) {
       this.showAlert('Error', 'Error submitting feedback!');
     }
   }
   resetForm(modal: IonModal) {
     this.userFeedback = {
-      id: '', 
+      id: '',
       userId: '',
-      name:"",
-      email:"",
-      feedBackType: "",
-      message:""
+      name: '',
+      email: '',
+      feedBackType: '',
+      message: '',
     };
     modal.dismiss();
   }
-  
-  
+
   showAlert(title: string, message: string) {
     this.alertController
       .create({
@@ -113,26 +112,25 @@ export class FeedbackPage implements OnInit {
   async edituserFeedback(userFeedback: any, modal: IonModal) {
     this.resetForm(modal);
     this.userFeedback = {
-      id: userFeedback.id, 
+      id: userFeedback.id,
       userId: userFeedback.userId,
       name: userFeedback.name,
       email: userFeedback.email,
       feedBackType: userFeedback.feedBackType,
       message: userFeedback.message,
-      };
-  
+    };
+
     await modal.present();
   }
-  
-  
+
   async deleteuserFeedback(userFeedback: any) {
     const alert = await this.alertController.create({
       header: 'Confirm Delete',
-      message: `Are you sure you want to delete the profile for ${userFeedback.userFeedback_species}?`,
+      message: `Are you sure you want to delete the profile for ${userFeedback.feedBackType}?`,
       buttons: [
         {
           text: 'Cancel',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Delete',
@@ -140,16 +138,14 @@ export class FeedbackPage implements OnInit {
             try {
               await this.userFeedBackServices.deleteUserFeedback(userFeedback);
               this.showAlert('Success', 'Feedback deleted successfully!');
-              this.loadUserFeedback(this.userFeedback.userId);
             } catch (error) {
               this.showAlert('Error', 'Error deleting Feedback!');
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
-  
+
     await alert.present();
   }
-  
 }

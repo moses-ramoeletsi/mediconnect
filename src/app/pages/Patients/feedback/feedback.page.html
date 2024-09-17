@@ -1,83 +1,83 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon name="arrow-back"  style="color: brown;" routerLink="/patient-dashboard"></ion-icon>
+  <ion-icon
+    name="arrow-back"
+    style="color: brown"
+    routerLink="/patient-dashboard"
+  ></ion-icon>
   <ion-fab
-  slot="fixed"
-  vertical="bottom"
-  horizontal="end"
-  class="ion-center-sm-down"
- >
-  <ion-fab-button id="open-feedback-modal">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
- </ion-fab>
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    class="ion-center-sm-down"
+  >
+    <ion-fab-button id="open-feedback-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
- <ion-modal
-[keepContentsMounted]="true"
-trigger="open-feedback-modal"
-#modal
->
-<ng-template>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Feedback Form</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="modal.dismiss()">Cancel</ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <form (ngSubmit)="submitFeedBack(modal)">
-      <ion-input
-      [(ngModel)]="userFeedback.name"
-      label=" Name"
-      name="name"
-      label-placement="floating"
-        fill="outline"
-        style="color: #333;"
-        placeholder=" Enter Name"
-        ></ion-input>
-        <br />
-        <ion-input
-        [(ngModel)]="userFeedback.email"
-        label="Email (optional)"
-        name="emal"
-        label-placement="floating"
-        fill="outline"
-        style="color: #333;"
-        placeholder="Enter Email"
-      ></ion-input>
-      <br />
-      <ion-select
-      [(ngModel)]="userFeedback.feedBackType"
-      label="FeedBack  type"
-      name="feedBackType"
-        label-placement="floating"
-        fill="outline"
-        style="color: #333;"
-      >
-        <ion-select-option value="suggestion">Suggestion</ion-select-option>
-        <ion-select-option value="issue"
-        >Issue</ion-select-option
-        > </ion-select
-      ><br />
-      <ion-textarea
-      [(ngModel)]="userFeedback.message"
-        label="Message"
-        name="message"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Your message goes here..."
-        style="color: #333;"
-      ></ion-textarea>
-      <br />
-  
-      <ion-button class="mycolor" type="submit" expand="block"
-        >Submit</ion-button
-      >
-    </form>
-  </ion-content>
-</ng-template>
-</ion-modal>
+  <ion-modal [keepContentsMounted]="true" trigger="open-feedback-modal" #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Feedback Form</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (ngSubmit)="submitFeedBack(modal)">
+          <ion-input
+            [(ngModel)]="userFeedback.name"
+            label=" Name"
+            name="name"
+            label-placement="floating"
+            fill="outline"
+            style="color: #333"
+            placeholder=" Enter Name"
+          ></ion-input>
+          <br />
+          <ion-input
+            [(ngModel)]="userFeedback.email"
+            label="Email (optional)"
+            name="emal"
+            label-placement="floating"
+            fill="outline"
+            style="color: #333"
+            placeholder="Enter Email"
+          ></ion-input>
+          <br />
+          <ion-select
+            [(ngModel)]="userFeedback.feedBackType"
+            label="FeedBack  type"
+            name="feedBackType"
+            label-placement="floating"
+            fill="outline"
+            style="color: #333"
+          >
+            <ion-select-option value="suggestion">Suggestion</ion-select-option>
+            <ion-select-option value="issue"
+              >Issue</ion-select-option
+            > </ion-select
+          ><br />
+          <ion-textarea
+            [(ngModel)]="userFeedback.message"
+            label="Message"
+            name="message"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Your message goes here..."
+            style="color: #333"
+          ></ion-textarea>
+          <br />
+
+          <ion-button class="mycolor" type="submit" expand="block"
+            >Submit</ion-button
+          >
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
   <div *ngIf="feedback.length > 0; else noFeedback">
     <ion-card *ngFor="let userFeedback of feedback">
       <ion-card-header>
@@ -86,10 +86,21 @@ trigger="open-feedback-modal"
       </ion-card-header>
       <ion-card-content>
         <p>Feedback Type: {{userFeedback.feedBackType}}</p>
-        <p>Message: {{userFeedback.message}} </p>
+        <p>Message: {{userFeedback.message}}</p>
         <ion-item lines="none">
-          <ion-button fill="outline" color="custom" (click)="edituserFeedback(userFeedback,modal)">Edit</ion-button>
-          <ion-icon fill="outline" slot="end" name="trash" color="danger"></ion-icon>
+          <ion-button
+            color="custom"
+            (click)="edituserFeedback(userFeedback,modal)"
+            >Edit</ion-button
+          >
+          <ion-button
+            fill="clear"
+            color="danger"
+            slot="end"
+            (click)="deleteuserFeedback(userFeedback)"
+          >
+            Delete
+          </ion-button>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -101,5 +112,4 @@ trigger="open-feedback-modal"
       </ion-card-content>
     </ion-card>
   </ng-template>
-
 </ion-content>

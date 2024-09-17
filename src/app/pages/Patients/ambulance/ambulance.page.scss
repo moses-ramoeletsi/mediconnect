@@ -21,7 +21,9 @@ ion-content {
   ion-modal {
     --background: transparent;
   }
-  
+  ion-card-subtitle{
+    color: #d73d3f;
+  }
   ion-modal ion-header ion-toolbar ion-img {
     width: 300px;
     display: block;
