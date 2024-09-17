@@ -1,25 +1,28 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon style="color: brown" routerLink="/patient-dashboard" name="arrow-back"></ion-icon>
+  <ion-icon
+    style="color: brown"
+    routerLink="/patient-dashboard"
+    name="arrow-back"
+  ></ion-icon>
   <div
-  class="post-healthInformation"
-  style="background-color: transparent"
+    *ngIf="diseases.length > 0; else noDiseases"
+    class="post-diseases"
+    style="background-color: transparent"
   >
-  <ion-card  style="margin: 10px">
-    <ion-card-header class="ion-text-center">
-      <ion-card-title>disease_name</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>description</p>
-      <p>Symptoms: symptoms</p>
-      <p>Treatment: treatment</p>
-    </ion-card-content>
-  </ion-card>
-</div>
-<ng-template #noDiseases>
-  <ion-card>
-    <ion-card-content>
-      No Diseases available
-    </ion-card-content>
-  </ion-card>
-</ng-template>
+    <ion-card *ngFor="let disease of diseases" style="margin: 10px">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>{{ disease.disease_name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="top">
+        <p>{{ disease.description }}</p>
+        <p><strong>Symptoms:</strong> {{disease.symptoms}}</p>
+        <p><strong>Treatment:</strong> {{disease.treatment}}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ng-template #noDiseases>
+    <ion-card>
+      <ion-card-content> No Diseases available </ion-card-content>
+    </ion-card>
+  </ng-template>
 </ion-content>

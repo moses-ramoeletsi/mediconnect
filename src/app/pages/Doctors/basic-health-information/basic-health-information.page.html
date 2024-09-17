@@ -17,13 +17,14 @@
       <ion-toolbar>
         <ion-title class="ion-text-center">POST DISEASE</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+          <ion-button (click)="resetDisease(modal)">Cancel</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form >
+      <form (ngSubmit)="addDisease(modal)">
         <ion-input
+          [(ngModel)]="disease.disease_name"
           name="disease_name"
           label="Disease Name"
           labelPlacement="floating"
@@ -35,6 +36,7 @@
           ></ion-input>
           
           <ion-textarea
+          [(ngModel)]="disease.description"
           name="description"
           label="Description"
           labelPlacement="floating"
@@ -43,8 +45,9 @@
           style="color: black"
           placeholder="Enter description"
           ></ion-textarea>
-
+        
         <ion-textarea
+        [(ngModel)]="disease.symptoms"
         name="symptoms"
         label="Symptoms"
         labelPlacement="floating"
@@ -55,6 +58,7 @@
         ></ion-textarea>
 
         <ion-textarea
+        [(ngModel)]="disease.treatment"
         name="treatment"
         label="Treatment"
         labelPlacement="floating"
@@ -64,7 +68,7 @@
         placeholder="Enter description"
         ></ion-textarea>
         
-          <ion-button color="custom" type="submit" expand="block"
+          <ion-button class="mycolor" type="submit" expand="block"
           >SUBMIT</ion-button
           >
       </form>
@@ -72,33 +76,35 @@
   </ng-template>
 </ion-modal>
 <div
-  class="post-healthInformation"
-  style="background-color: transparent"
-  >
-  <ion-card  style="margin: 10px">
-    <ion-card-header class="ion-text-center">
-      <ion-card-title>disease_name</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>description</p>
-      <p>Symptoms: symptoms</p>
-      <p>Treatment: treatment</p>
-      <div style="display: flex; justify-content: space-between">
-        <ion-button
-          fill="outline"
-          slot="start"
-          color="custom"
-          >Edit</ion-button
+*ngIf="diseases.length > 0; else noDiseases" 
+class="post-diseases"
+style="background-color: transparent"
+>
+<ion-card *ngFor="let disease of diseases"  style="margin: 10px">
+  <ion-card-header class="ion-text-center">
+    <ion-card-title>{{ disease.disease_name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content class="top">
+    <p>{{ disease.description }}</p>
+    <p><strong>Symptoms:</strong>  {{disease.symptoms}}</p>
+    <p><strong>Treatment:</strong> {{disease.treatment}}</p>
+    <ion-item lines="none">
+      <ion-button
+      slot="start"
+      color="custom"
+      (click)="editDisease(disease, modal)"
+      >Edit</ion-button
+      >
+      <ion-button
+        fill="clear"
+        slot="end"
+        color="danger"
+        (click)="deleteDisease(disease)"
+        >Delete</ion-button
         >
-        <ion-button
-        fill="outline"
-          slot="end"
-          color="danger"
-          >Delete</ion-button
-          >
-        </div>
-    </ion-card-content>
-  </ion-card>
+      </ion-item>
+  </ion-card-content>
+</ion-card>
 </div>
 <ng-template #noDiseases>
   <ion-card>

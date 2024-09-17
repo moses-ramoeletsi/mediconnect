@@ -6,9 +6,9 @@ ion-content {
     --background: #fefefe;
     border-radius: 5px;
   }
-  ion-card-header,
+
   ion-card-title {
-    color: black;
+    color: #d73d3f;
   }
   
   ion-button {
@@ -55,4 +55,6 @@ ion-content {
   ion-fab-button {
     --background: #d73d3f;
   }
-  
+  .top{
+    margin-top: 7px;
+  }
