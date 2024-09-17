@@ -16,13 +16,14 @@
         <ion-toolbar>
           <ion-title class="ion-text-center">POST EVENT</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="modal.dismiss()">Cancel</ion-button>
+            <ion-button (click)="resetEventForm(modal)">Cancel</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <form >
+        <form (ngSubmit)="addEvent(modal)">
           <ion-input
+            [(ngModel)]="event.event_title"
             name="event_title"
             label="Title"
             label-placement="floating"
@@ -34,6 +35,7 @@
           ></ion-input>
 
           <ion-input
+            [(ngModel)]="event.host"
             name="host"
             label="Host"
             labelPlacement="floating"
@@ -45,6 +47,7 @@
           ></ion-input>
 
           <ion-textarea
+            [(ngModel)]="event.description"
             name="description"
             label="Description"
             fill="outline"
@@ -55,6 +58,7 @@
           ></ion-textarea>
 
           <ion-input
+            [(ngModel)]="event.location"
             name="location"
             label="Location"
             labelPlacement="floating"
@@ -66,6 +70,7 @@
           ></ion-input>
 
           <ion-datetime
+            [(ngModel)]="event.date_and_time"
             name="date_and_time"
             fill="outline"
             displayFormat="MMM DD, YYYY HH:mm"
@@ -83,41 +88,45 @@
     </ng-template>
   </ion-modal>
   <div
+    *ngIf="events.length > 0; else noEvents"
     class="upcoming-events"
     style="background-color: transparent"
   >
     <ion-card
+      *ngFor="let event of events"
       class="white-card"
       style="margin: 10px; position: relative"
     >
     <ion-card-header class="ion-text-center">
-      <ion-card-title>event_title</ion-card-title>
-      <ion-card-subtitle>Host: event.host</ion-card-subtitle>
-      <ion-card-subtitle>Posted by: event.authorName</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Date: date_and_time</p>
-      <p>Time: date_and_time</p>
-      <p>Location: location</p>
-      <p>description </p>
-      
+      <ion-card-title>{{ event.event_title }}</ion-card-title>
+        <ion-card-subtitle>Host: {{event.host}}</ion-card-subtitle>
+        <ion-card-subtitle>Posted by: {{event.authorName}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Time: {{ getFormattedDateTime(event.date_and_time).time }}</p>
+        <p>Date: {{ getFormattedDateTime(event.date_and_time).date }}</p>
+        <p>Location: {{ event.location }}</p>
+        <p>{{ event.description }}</p>
+
+      </ion-card-content>
       <ion-item lines="none">
         <ion-button
-        color="custom"
-        style="left: 10px"
+          fill="outline"
+          color="custom"
+          (click)="editEvent(event, modal)"
+          style="left: 10px"
         >
-        Edit
-      </ion-button>
-      <ion-button
-        fill="clear"
-        color="danger"
-        slot="end"
-      >
-      Delete
-      </ion-button>
+          Edit
+        </ion-button>
+        <ion-button
+          slot="end"
+          color="custom"
+          (click)="deletePostedEvent(event)"
+          >
+          Delete
+        </ion-button>
       </ion-item>
-  </ion-card-content>
-</ion-card>
+    </ion-card>
   </div>
   <ng-template #noEvents>
     <ion-card>
