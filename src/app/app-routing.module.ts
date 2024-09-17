@@ -114,6 +114,10 @@ const routes: Routes = [
     path: 'health-information',
     loadChildren: () => import('./pages/Patients/health-information/health-information.module').then( m => m.HealthInformationPageModule)
   },
+  {
+    path: 'confirm-order',
+    loadChildren: () => import('./pages/Patients/confirm-order/confirm-order.module').then( m => m.ConfirmOrderPageModule)
+  },
  
 ];
 
