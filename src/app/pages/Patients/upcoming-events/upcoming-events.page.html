@@ -1,26 +1,24 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-icon style="color: brown;" name="arrow-back" routerLink="/patient-dashboard"></ion-icon>
   <div
-    class="upcoming-events"
-    style="background-color: transparent"
-  >
-    <ion-card
-      class="white-card"
-      style="margin: 10px; position: relative"
-    >
+  *ngIf="events.length > 0; else noEvents"
+  class="upcoming-events"
+  style="background-color: transparent"
+>
+  <ion-card *ngFor="let event of events" style="margin: 10px">
     <ion-card-header class="ion-text-center">
-      <ion-card-title>event_title</ion-card-title>
-      <ion-card-subtitle>Host: event.host</ion-card-subtitle>
-      <ion-card-subtitle>Posted by: event.authorName</ion-card-subtitle>
+      <ion-card-title>{{ event.event_title }}</ion-card-title>
+      <ion-card-subtitle>Host: {{event.host}}</ion-card-subtitle>
+      <ion-card-subtitle>Posted by: {{event.authorName}}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Date: date_and_time</p>
-      <p>Time: date_and_time</p>
-      <p>Location: location</p>
-      <p>description </p>
-  </ion-card-content>
-</ion-card>
-  </div>
+      <p>Time: {{ getFormattedDateTime(event.date_and_time).time }}</p>
+      <p>Date: {{ getFormattedDateTime(event.date_and_time).date }}</p>
+      <p>Location: {{ event.location }}</p>
+      <p>{{ event.description }}</p>
+    </ion-card-content>
+  </ion-card>
+</div>
   <ng-template #noEvents>
     <ion-card>
       <ion-card-content>
