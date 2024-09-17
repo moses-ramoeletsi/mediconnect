@@ -7,13 +7,11 @@ ion-content {
   ion-item {
     --background: white;
   }
-  ion-toolbar {
-    --background: transparent;
-    --border-width: 0;
-    --padding-top: 0;
-    --padding-bottom: 0;
+  ion-card {
+    --background: #fefefe;
+    border-radius: 5px;
   }
-  
+
   .back {
     font-size: 24px;
     padding: 8px;
@@ -27,9 +25,6 @@ ion-content {
   .medicationPage{
     background: white;
     color: black;
-  }
-  .pageName {
-    color: #d73d3f;
   }
   .custom-color-button {
     color: #d73d3f;
@@ -47,8 +42,6 @@ ion-content {
   .medication ion-card {
     border-radius: 15px;
     background-color: #fefefe;
-    border: 1px solid #d73d3f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
   }
   
@@ -69,12 +62,12 @@ ion-content {
   .medication ion-card-title {
     font-size: 1.2rem;
     font-weight: bold;
-    color: black;
+    color: #d73d3f;
   }
   
   .medication ion-card-subtitle {
     font-size: 1rem;
-    color: #666;
+    color: #333;
   }
   
   .medication ion-card:hover {
@@ -87,7 +80,7 @@ ion-content {
   
   .add-to-cart ion-card {
     border-radius: 15px;
-    background-color: #f0f0f0;
+    background-color: #fefefe;
     border: 1px solid #d73d3f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -104,12 +97,12 @@ ion-content {
   .add-to-cart ion-card-title {
     font-size: 1.2rem;
     font-weight: bold;
-    color: black;
+    color: #d73d3f;
   }
   
   .add-to-cart ion-card-subtitle {
     font-size: 1rem;
-    color: #666;
+    color: #333;
   }
   .remove {
     height: 18px;

@@ -1,65 +1,66 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-icon style="color:brown" routerLink="/patient-dashboard" name="arrow-back"></ion-icon>
   <div class="add-to-cart">
-    <ion-card>
+    <ion-card *ngIf="cart.length > 0">
       <ion-card-header>
         <ion-card-title>Shopping Cart</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-list >
-          <ion-item  lines="none" style="color: black;">
-            <ion-label>medicine_name</ion-label>
-            <ion-button fill="clear"
+          <ion-item  *ngFor="let item of cart" lines="none" style="color: black;">
+            <ion-label>{{ item.medicine_name }}</ion-label>
+            <ion-button fill="clear" (click)="decreaseQuantity(item)"
               >-</ion-button
             >
-            <ion-label>quantity</ion-label>
-            <ion-button fill="clear" 
+            <ion-label>{{ item.quantity }}</ion-label>
+            <ion-button fill="clear" (click)="increaseQuantity(item)"
               >+</ion-button
             >
-            <ion-img class='remove' src="../../../../assets/images/cart-minus.png" 
+            <ion-img class='remove' src="../../../../assets/images/cart-minus.png" (click)="removeFromCart(item)"
               ></ion-img
             >
-            <!-- <ion-label slot="end"
+            <ion-label slot="end"
               >M{{ parseFloat(item.price) * item.quantity | number:'1.2-2'
               }}</ion-label
-            > -->
+            >
           </ion-item>
         </ion-list>
         <ion-item lines="none" style="color: black;">
           <ion-label>Total:</ion-label>
-          <ion-label slot="end">M total | number:'1.2-2' </ion-label>
+          <ion-label slot="end">M{{ total | number:'1.2-2' }}</ion-label>
         </ion-item>
-        <ion-button expand="block"  class="custom-button "
+        <ion-button expand="block"  color="custom " (click)="checkout()"
           >Checkout</ion-button
         >
       </ion-card-content>
     </ion-card>
   </div>
-
   <div
-    class="medication"
-    style="background-color: transparent"
-  >
-    <ion-card style="margin: 10px">
-      <img src="medicineimageUrl" alt="Medication Image" />
-      <ion-card-header class="ion-text-center">
-        <ion-card-subtitle>medicine_name</ion-card-subtitle> 
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>M price</ion-label> <br />
-        description
-
-      </ion-card-content>
-      <ion-item lines="none">
-        <ion-button
-          fill="outline"
-          slot="start"
-          color="custom"
-          >Add to Cart</ion-button
-        >
-      </ion-item>
-    </ion-card>
-  </div>
+  *ngIf="medication.length > 0; else noMedicine"
+  class="medication"
+  style="background-color: transparent"
+>
+  <ion-card *ngFor="let medicine of medication" style="margin: 10px">
+    <img [src]="medicine.imageUrl" alt="Medication Image" />
+    <ion-card-header class="ion-text-center">
+      <ion-card-title>{{ medicine.medicine_name }}</ion-card-title>
+      <ion-card-subtitle>{{medicine.medicationType}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>M{{medicine.price}}</ion-label> <br />
+      {{ medicine.description }}
+    </ion-card-content>
+    <ion-item lines="none">
+      <ion-button
+        fill="outline"
+        slot="start"
+        color="custom"
+        (click)="addToCart(medicine)"
+        >Add to Cart</ion-button
+      >
+    </ion-item>
+  </ion-card>
+</div>
   <ng-template #noMedicine>
     <ion-card>
       <ion-card-content>
