@@ -1,0 +1,54 @@
+ion-content {
+    --ion-background-color: #fdfdfd;
+  }
+
+  ion-img{
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin: 15px auto;
+  }
+
+  .custom-button {
+    --background: var(--ion-color-btn);
+  }
+  
+  .order-confirmation {
+    margin-top: 10px;
+  }
+  
+  .order-confirmation ion-card {
+    border-radius: 15px;
+    background-color: #fefefe;
+    overflow: hidden;
+  }
+  
+  .order-confirmation ion-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .order-confirmation ion-card-header {
+    padding-bottom: 0;
+  }
+  
+  .order-confirmation ion-card-content {
+    padding-top: 0;
+  }
+  
+  .order-confirmation ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #d73d3f;
+  }
+  
+  .order-confirmation ion-card-subtitle {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .order-confirmation ion-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+  }

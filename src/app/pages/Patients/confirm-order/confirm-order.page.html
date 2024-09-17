@@ -1,0 +1,17 @@
+<ion-content class="ion-padding">
+  <div class="order-confirmation">
+    <ion-card>
+      <ion-img src="../../../../assets/images/done.png">
+      </ion-img>
+      <ion-card-header>
+        <ion-card-title>Thank You!!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Your order has been successfully placed.</p>
+        <p>Order ID: {{ orderId }}</p>
+        <p>Total Amount: M{{ total | number:'1.2-2' }}</p>
+      </ion-card-content>
+    </ion-card>  
+  </div>
+  <ion-button expand="block" color="custom" routerLink="/medication">Done</ion-button>
+  </ion-content>
