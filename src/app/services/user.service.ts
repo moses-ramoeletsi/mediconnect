@@ -72,4 +72,19 @@ export class UserService {
   getAuth() {
     return this.userAuth;
   }
+
+  getDoctors(): Observable<any[]> {
+    return this.firebaseStore
+      .collection('users', ref => ref.where('userType', '==', 'doctor'))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Record<string, any>;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
 }

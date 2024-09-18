@@ -1,34 +1,46 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="upcoming-schedule">
-    <h5 style="color: black">All Appointments</h5>
-    <ion-card>
+  <div
+    class="user-appointments"
+    *ngIf="userAppointments. length > 0; else noAppointments"
+  >
+    <h5 style="color: black">Your Appointments</h5>
+    <ion-card *ngFor="let appointment of userAppointments">
       <ion-card-content>
-        <h6 class="ion-text-center">Doctor's Name</h6>
-        <p>Reason for Appointment</p>
-        <p>Date booked</p>
+        <h6 class="ion-text-center">{{ appointment.doctorName }}</h6>
+        <p><strong>Specialty:</strong> {{ appointment.specialty }}</p>
+        <p>
+          <strong>Time:</strong> {{
+          getFormattedDateTime(appointment.date_and_time).time }}
+        </p>
+        <p>
+          <strong>Date:</strong> {{
+          getFormattedDateTime(appointment.date_and_time).date }}
+        </p>
+        <p><strong>Purpose:</strong> {{ appointment.purpose }}</p>
+        <ion-badge [color]="getAppointmentStatusColor(appointment.status)">
+          {{ appointment.status | titlecase }}
+        </ion-badge>
       </ion-card-content>
     </ion-card>
   </div>
-  <div class="rejected-appiointments">
-    <h5 style="color: black">Rejected Appointment</h5>
+  <ng-template #noAppointments>
     <ion-card>
       <ion-card-content>
-        <h6 class="ion-text-center">Doctor's Name</h6>
-        <p>Reason for Appointment</p>
-        <p>Date booked</p>
-        <p>Reason for rejection</p>
+        <p>No Appointments available</p>
       </ion-card-content>
     </ion-card>
-  </div>
-
+  </ng-template>
   <div>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" *ngFor="let doctor of doctors">
+        <ion-col size="6" *ngFor="let doctor of doctors$ | async">
           <ion-card (click)="openDoctorDetails(doctor.id)">
             <ion-card-header>
               <ion-avatar>
-                <img src="../../../../assets/images/medicoonnect-logo.png" [alt]="doctor.name">
+                <img
+                  [src]="doctor.image || '../../../../assets/images/medicoonnect-logo.png'"
+                  [alt]="doctor.name"
+                />
               </ion-avatar>
             </ion-card-header>
             <ion-card-content>
@@ -38,7 +50,12 @@
               <ion-text color="medium">
                 <p>{{ doctor.specialty }}</p>
               </ion-text>
-              <ion-button expand="block" fill="clear" routerLink="/doctor-details" (click)="bookAppointment(doctor.id); $event.stopPropagation()">
+              <ion-button
+                expand="block"
+                color="custom"
+                fill="clear"
+                (click)="openBookingModal(doctor); $event.stopPropagation()"
+              >
                 Book
               </ion-button>
             </ion-card-content>
@@ -47,4 +64,65 @@
       </ion-row>
     </ion-grid>
   </div>
+
+  <ion-modal #modal trigger="open-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Book Appointment</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dismissModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form [formGroup]="appointmentForm" (ngSubmit)="bookAppointment()">
+          <ion-input
+            label="Doctor's Name"
+            labelPlacement="floating"
+            type="text"
+            style="color: black"
+            fill="outline"
+            [value]="selectedDoctor?.name"
+            readonly
+          ></ion-input>
+
+          <ion-input
+            label="Doctor's Specialty"
+            labelPlacement="floating"
+            type="text"
+            style="color: black"
+            class="top-margin"
+            fill="outline"
+            [value]="selectedDoctor?.specialty"
+            readonly
+          ></ion-input>
+          <ion-datetime
+            formControlName="date_and_time"
+            fill="outline"
+            displayFormat="MMM DD, YYYY HH:mm"
+            placeholder="Select Date & Time"
+            class="top-margin"
+            style="color: rgb(204, 204, 204)"
+          ></ion-datetime>
+          <ion-textarea
+            label="Purpose"
+            labelPlacement="floating"
+            type="text"
+            style="color: black"
+            class="top-margin"
+            fill="outline"
+            formControlName="purpose"
+            rows="3"
+          ></ion-textarea>
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="!appointmentForm.valid"
+            >Book Appointment</ion-button
+          >
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

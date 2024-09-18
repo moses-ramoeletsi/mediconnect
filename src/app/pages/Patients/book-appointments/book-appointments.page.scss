@@ -1,78 +1,95 @@
 ion-content {
-    --background: #fdfdfd;
-  }
-  
-  ion-card {
-    --background: #fefefe;
-    border-radius: 5px;
-  }
-  ion-icon {
-    color: #ffffff;
-  }
-  ion-fab-button {
-    --background: #;
-    color: #ffffff;
-  }
-  
+  --background: #fdfdfd;
+}
 
-  ion-card ion-item{
-    --background: #fefefe;
-  }
-  ion-modal {
-    --background: transparent;
-  }
-  
-  ion-modal ion-header ion-toolbar ion-img {
-    width: 300px;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  ion-modal ion-item ion-label {
-    color: black;
-  }
-  
-  ion-modal ion-header ion-toolbar {
-    --background: #ebebeb;
-  }
-  
-  ion-modal ion-content {
-    --background: #ebebeb;
-  }
-  
-  ion-modal ion-content form {
-    padding: 20px;
-  }
-  
-  ion-modal ion-content ion-item {
-    margin-bottom: 15px;
-  }
-  
-  ion-modal ion-content ion-button {
-    margin-top: 10px;
-    --background: #d73d3f;
-    --color: #f0f0f0;
-  }
+ion-card {
+  --background: #fefefe;
+  border-radius: 5px;
+}
+ion-icon {
+  color: #ffffff;
+}
+ion-fab-button {
+  --background: #;
+  color: #ffffff;
+}
 
-  h2 {
-    color: black;
-  }
-  
-  .back {
-    font-size: 24px;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: #d73d3f;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
-  }
+ion-card ion-item {
+  --background: #fefefe;
+}
+ion-modal {
+  --background: transparent;
+}
+
+ion-modal ion-header ion-toolbar ion-img {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+}
+
+ion-modal ion-item ion-label {
+  color: black;
+}
+
+ion-modal ion-header ion-toolbar {
+  --background: #d73d3f;
+}
+
+ion-modal ion-content {
+  --background: #ebebeb;
+}
+ion-modal ion-content form {
+  padding: 20px;
+}
+
+ion-modal ion-content ion-item {
+  margin-bottom: 15px;
+}
+
+ion-modal ion-content ion-button {
+  margin-top: 10px;
+  --background: #d73d3f;
+  --color: #f0f0f0;
+}
+
+h2 {
+  color: black;
+}
+
+.back {
+  font-size: 24px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #d73d3f;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 8px;
+}
 
 .top-margin {
   margin-top: 10px;
 }
 
 ion-fab-button {
-    --background: #d73d3f;
+  --background: #d73d3f;
+}
+
+ion-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-card-content {
+  flex-grow: 1;
+}
+
+ion-button {
+  margin-top: auto;
 }
