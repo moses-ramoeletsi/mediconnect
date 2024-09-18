@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar class="user-list">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" (click)="onBackButtonClick()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Users</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item lines="none" *ngFor="let user of users" (click)="startChat(user)">
+      <ion-label>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2>{{ user.name }}</h2>
+            <p *ngIf="user.latestMessage">{{ user.latestMessage.text || 'Image' }}</p>
+          </div>
+          <div>
+            <span>{{ user.latestMessage?.timestamp | date: 'shortDate' }}</span><br>
+            <span>{{ user.latestMessage?.timestamp | date: 'shortTime' }}</span>
+          </div>
+        </div>
+      </ion-label>
+      <ion-badge  class="message-count"  *ngIf="user.newMessageCount > 0">{{ user.newMessageCount }}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
