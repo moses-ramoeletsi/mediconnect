@@ -16,3 +16,16 @@ export interface doctorModel {
     password:string;
     uid:string;
   }
+export interface AppointmentModel {
+  id:string;
+  uid:string;
+  doctorId: string;
+  doctorName: string;
+  date_and_time: string,
+  specialty: string;
+  patientId:string,
+  patientPhone: string;
+  patientName:string;
+  purpose:string,
+  status:string;
+}
