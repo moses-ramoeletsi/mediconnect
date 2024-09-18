@@ -75,7 +75,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'chats',
+    path: 'chats/:userId',
     loadChildren: () => import('./pages/Chats/chats/chats.module').then( m => m.ChatsPageModule)
   },
   {
@@ -117,6 +117,10 @@ const routes: Routes = [
   {
     path: 'confirm-order',
     loadChildren: () => import('./pages/Patients/confirm-order/confirm-order.module').then( m => m.ConfirmOrderPageModule)
+  },
+  {
+    path: 'user-list',
+    loadChildren: () => import('./pages/chats/user-list/user-list.module').then( m => m.UserListPageModule)
   },
  
 ];

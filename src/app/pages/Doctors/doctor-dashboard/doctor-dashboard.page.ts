@@ -61,7 +61,7 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
   }
 
   openChat() {
-    this.navCtrl.navigateForward('/chats');
+    this.navCtrl.navigateForward('/user-list');
   }
 
   loadApprovedAppointments() {

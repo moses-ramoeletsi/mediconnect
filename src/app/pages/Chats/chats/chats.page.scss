@@ -1,0 +1,182 @@
+ion-content {
+    --background: #fdfdfd;
+  }
+  
+  ion-list {
+    padding: 16px;
+    background: #fefefe;
+  }
+  
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 16px;
+  }
+  
+  ion-item.my-message {
+    --background: transparent;
+  }
+  
+  ion-item.other-message {
+    --background: transparent;
+  }
+  
+  .chats-toolbar {
+    background: white;
+    color: black;
+  }
+  .message-bubble {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-item.my-message .message-bubble {
+    background-color: #DCF8C6;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  
+  ion-item.other-message .message-bubble {
+    background-color: #FFFFFF;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .message-name {
+    font-weight: 600;
+    font-size: 0.9em;
+    margin-bottom: 4px;
+    color: #d73d3f;
+  }
+  
+  .message-text {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #333;
+    word-wrap: break-word;
+  }
+  
+  .message-image {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+  
+  .message-time {
+    font-size: 11px;
+    color: #8e8e8e;
+    margin-top: 4px;
+    align-self: flex-end;
+  }
+  
+  ion-spinner {
+    display: block;
+    margin: 20px auto;
+  }
+  
+  p {
+    text-align: center;
+    color: #666;
+  }
+  
+  
+  ion-footer {
+    background-color: #f8f8f8;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+  
+  .message-input-container {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    max-height: 150px;
+  }
+  
+  .textarea-wrapper {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 24px;
+    margin-right: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  
+  ion-textarea {
+    max-height: 100%;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    color: #333;
+  }
+  
+  ion-textarea::part(textarea) {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+  }
+  
+  .image-preview-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 4px;
+    margin-right: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    height: 48px;
+  }
+  
+  .image-preview {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-right: 8px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 8px;
+  }
+  
+  ion-icon {
+    font-size: 24px;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #d73d3f;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
+  }
+  
+  ion-icon:last-child {
+    margin-right: 0;
+  }
+  
+  ion-icon:hover {
+    background-color: #d73d40cb;
+  }
+  
+  ion-icon[name="image"] {
+    background-color: #c7373a;
+  }
+  
+  ion-icon[name="image"]:hover {
+    background-color: #c73739e0;
+  }
+  

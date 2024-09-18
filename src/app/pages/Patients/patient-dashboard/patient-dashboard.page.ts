@@ -65,7 +65,7 @@ export class PatientDashboardPage implements OnInit {
   ngOnInit() {
   }
   openChat() {
-    this.navCtrl.navigateForward('/chats');
+    this.navCtrl.navigateForward('/user-list');
   }
 
 }
