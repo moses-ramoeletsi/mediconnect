@@ -23,7 +23,7 @@ export class AmbulancePage implements OnInit {
     urgency: '',
     description: '',
   };
-  userId: string | null = null;
+  userId:string = '';
   requests: any[] = [];
   user: Observable<UserModel | null>;
   isEditing: boolean = false;
@@ -103,7 +103,7 @@ export class AmbulancePage implements OnInit {
   }
 
   getAmbulanceRequests() {
-    this.fireservice.fetchAmbulanceRequests().subscribe((requests) => {
+    this.fireservice.getAmbulanceRequests(this.ambulance.patientId).subscribe((requests) => {
       this.requests = requests;
     });
   }

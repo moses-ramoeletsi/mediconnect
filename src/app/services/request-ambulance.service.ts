@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,18 @@ export class RequestAmbulanceService {
     }
   }
   
+  getAmbulanceRequests(patientId:string) : Observable<any[]>{
+    return this.firestore
+    .collection('request-ambulance', ref => ref.where('patientId', '==', patientId))
+    .snapshotChanges()
+    .pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const id = a.payload.doc.id;
+        return { id, ...data }; 
+      }))
+    );
+  }
   fetchAmbulanceRequests() : Observable<any[]>{
     return this.firestore.collection('request-ambulance').valueChanges();
   }
