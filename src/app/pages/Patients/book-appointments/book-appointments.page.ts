@@ -142,6 +142,8 @@ export class BookAppointmentsPage implements OnInit {
         return 'success';
       case 'rejected':
         return 'danger';
+      case 'completed':
+        return 'primary'; 
       default:
         return 'warning';
     }

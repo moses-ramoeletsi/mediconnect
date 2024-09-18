@@ -41,22 +41,28 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="upcoming-schedul">
-    <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
+  <div class="upcoming-schedule">
+    <div style="display: flex; align-items: center; justify-content: space-between">
       <h5>Upcoming Schedule</h5>
-      <h5 style="color: brown" color="custom" routerLink="/view-appointments">
-        See All
-      </h5>
+      <h5 style="color: brown" routerLink="/view-appointments">See All</h5>
     </div>
-    <ion-card>
-      <ion-card-content>
-        <h6>Doctor's Name</h6>
-        <p>Reason for Appointment</p>
-        <p>Date booked</p>
+
+    <ion-card *ngIf="approvedAppointments.length > 0; else noUpcoming">
+      <ion-card-content *ngFor="let appointment of approvedAppointments">
+        <h6>{{ appointment.patientName }}</h6>
+        <p><strong>Reason:</strong> {{ appointment.purpose }}</p>
+        <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
+        <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
       </ion-card-content>
     </ion-card>
+
+    <ng-template #noUpcoming>
+      <ion-card>
+        <ion-card-content>
+          <p>No upcoming appointments for today.</p>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
   </div>
 
   <div class="ambulance">

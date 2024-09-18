@@ -1,17 +1,34 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="upcoming-schedul">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>Name</ion-card-subtitle>
-      </ion-card-header>
+  <ion-spinner *ngIf="loadingAppointments" name="crescent"></ion-spinner>
+  
+  <div class="user-appointments" *ngIf="!loadingAppointments && userAppointments.length > 0; else noAppointments">
+    <h5 class="ion-text-center">Your Appointments</h5>
+    
+    <ion-card *ngFor="let appointment of userAppointments; trackBy: trackByAppointmentId">
       <ion-card-content>
-        <p>Reason for Appointment</p>
-        <p>Date booked</p>
+        <h6 class="ion-text-center">{{ appointment.patientName }}</h6>
+        <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
+        <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
+        <p><strong>Purpose:</strong> {{ appointment.purpose }}</p>
+        <p><strong>Contacts:</strong> {{ appointment.patientPhoneNumber }}</p>
+        <p><strong>Status:</strong> {{ appointment.status }}</p>
+        
+        <ion-item lines="none">
+          <ion-label style="color:black">Status</ion-label>
+          <ion-select class="status-select" [(ngModel)]="appointment.status" (ionChange)="updateAppointmentStatus(appointment.id, appointment.status)">
+            <ion-select-option value="approved">Approve</ion-select-option>
+            <ion-select-option value="rejected">Rejected</ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-card-content>
-      <ion-item lines="none">
-        <ion-button color="custom" >Approve</ion-button>
-        <ion-button slot="end" color="custom" >Reject</ion-button>
-      </ion-item>
     </ion-card>
   </div>
+
+  <ng-template #noAppointments>
+    <ion-card>
+      <ion-card-content>
+        <p>No Appointments available</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
 </ion-content>

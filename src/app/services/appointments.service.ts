@@ -9,8 +9,11 @@ import { map } from 'rxjs/operators';
 export class AppointmentsService {
   constructor(private firestore: AngularFirestore) {}
 
-  createAppointment(appointmentData: any): Promise<any> {
-    return this.firestore.collection('appointments').add(appointmentData);
+  createAppointment(appointmentData: any) {
+    const docRef = this.firestore.collection('appointments').doc();
+    const id = docRef.ref.id;
+    appointmentData.id = id;
+    return docRef.set(appointmentData)
   }
 
   getAppointmentsForUser(uid: string): Observable<any[]> {
