@@ -103,7 +103,7 @@ export class AmbulancePage implements OnInit {
   }
 
   getAmbulanceRequests() {
-    this.fireservice.getAmbulanceRequests(this.ambulance.patientId).subscribe((requests) => {
+    this.fireservice.getUserAmbulanceRequests(this.userId).subscribe((requests) => {
       this.requests = requests;
     });
   }

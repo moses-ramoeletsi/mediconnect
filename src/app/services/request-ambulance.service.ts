@@ -29,7 +29,7 @@ export class RequestAmbulanceService {
     }
   }
   
-  getAmbulanceRequests(patientId:string) : Observable<any[]>{
+  getUserAmbulanceRequests(patientId:string) : Observable<any[]>{
     return this.firestore
     .collection('request-ambulance', ref => ref.where('patientId', '==', patientId))
     .snapshotChanges()
