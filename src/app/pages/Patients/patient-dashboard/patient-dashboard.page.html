@@ -6,7 +6,13 @@
       <ion-img src="../../../../assets/images/medicoonnect-logo.png" />
     </ion-avatar>
   </div>
-  <h6>Welcome, {{userName}}</h6>
+  <div style="display: flex; justify-content: space-between">
+    <ion-button fill="clear" slot="start" color="custom">Welcome, {{userName}}</ion-button>
+    <ion-button fill="clear" slot="end" color="danger"  routerLink="/notifications">
+      <ion-icon color="custom" name="notifications"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- <h6></h6> -->
   <ion-grid>
     <ion-row>
       <ion-col>

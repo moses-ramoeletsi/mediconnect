@@ -15,7 +15,7 @@
         
         <ion-item lines="none">
           <ion-label style="color:black">Status</ion-label>
-          <ion-select class="status-select" [(ngModel)]="appointment.status" (ionChange)="updateAppointmentStatus(appointment.id, appointment.status)">
+          <ion-select class="status-select" [(ngModel)]="appointment.status" (ionChange)="updateAppointmentStatus(appointment.id, appointment.status, appointment)">
             <ion-select-option value="approved">Approve</ion-select-option>
             <ion-select-option value="rejected">Rejected</ion-select-option>
           </ion-select>

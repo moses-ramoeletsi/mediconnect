@@ -122,6 +122,10 @@ const routes: Routes = [
     path: 'user-list',
     loadChildren: () => import('./pages/chats/user-list/user-list.module').then( m => m.UserListPageModule)
   },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/Patients/notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
  
 ];
 

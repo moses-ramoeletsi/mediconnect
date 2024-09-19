@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AppointmentsService } from 'src/app/services/appointments.service';
 import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-view-appointments',
@@ -19,6 +20,7 @@ export class ViewAppointmentsPage implements OnInit {
     patientId: '',
     patientName: '',
     patientPhone: '',
+    purpose:'',
     status: 'pending',
   };
 
@@ -57,17 +59,18 @@ export class ViewAppointmentsPage implements OnInit {
       }
     );
   }
-
-  async updateAppointmentStatus(appointmentId: string, status: string) {
+  async updateAppointmentStatus(appointmentId: string, status: string, appointment: any) {
     const toast = await this.toastController.create({
       message: 'Updating appointment status...',
       duration: 1000,
     });
     await toast.present();
-
-    this.appointmentsService
-      .updateAppointmentStatus(appointmentId, status)
-      .then(() => {
+  
+    this.appointmentsService.updateAppointmentStatus(appointmentId, status)
+      .then(async () => {
+        await this.addNotificationToFirestore(appointmentId, appointment.doctorName, appointment.patientName, appointment.patientId, appointment.purpose, status);
+          await this.scheduleLocalNotification(appointmentId, appointment.doctorName, appointment.patientName, status);
+  
         this.showSuccessToast('Appointment status updated successfully');
       })
       .catch((error) => {
@@ -75,6 +78,54 @@ export class ViewAppointmentsPage implements OnInit {
         console.error('Error updating appointment status:', error);
       });
   }
+  
+  // Add notification to Firestore
+  async addNotificationToFirestore(appointmentId: string, doctorName: string, patientName: string, patientId: string, purpose: string, status: string) {
+    const notificationData = {
+      appointmentId,
+      doctorName,
+      patientName,
+      patientId,
+      purpose,
+      status,
+      timestamp: new Date(),
+    };
+  
+    return this.appointmentsService.addNotification(notificationData);
+  }
+  
+  // Schedule local notification
+  async scheduleLocalNotification(appointmentId: string, doctorName: string, patientName: string, status: string) {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: `Appointment Status Changed`,
+          body: `Your appointment with Dr. ${doctorName} has been ${status}.`,
+          id: new Date().getTime(),
+          schedule: { at: new Date(Date.now() + 1000) },
+          extra: { appointmentId, doctorName, patientName, status },
+        },
+      ],
+    });
+  }
+  
+  // async updateAppointmentStatus(appointmentId: string, status: string) {
+  //   const toast = await this.toastController.create({
+  //     message: 'Updating appointment status...',
+  //     duration: 1000,
+  //   });
+  //   await toast.present();
+
+  //   this.appointmentsService
+  //     .updateAppointmentStatus(appointmentId, status)
+  //     .then(() => {
+  //       this.showSuccessToast('Appointment status updated successfully');
+  //     })
+  //     .catch((error) => {
+  //       this.showErrorToast('Error updating appointment status');
+  //       console.error('Error updating appointment status:', error);
+  //     });
+  // }
 
   async showSuccessToast(message: string) {
     const toast = await this.toastController.create({

@@ -45,4 +45,8 @@ export class AppointmentsService {
   updateAppointmentStatus(appointmentId: string, status: string): Promise<void> {
     return this.firestore.collection('appointments').doc(appointmentId).update({ status });
   }
+  addNotification(notificationData: any) {
+    return this.firestore.collection('notifications').add(notificationData);
+  }
+  
 }
