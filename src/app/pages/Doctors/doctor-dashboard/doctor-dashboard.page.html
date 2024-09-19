@@ -7,35 +7,39 @@
     </ion-avatar>
   </div>
   <h6>Welcome, {{userName}}</h6>
-  <ion-grid>
+  <ion-grid  class="ion-padding">
     <ion-row>
-      <ion-col>
-        <ion-card routerLink="/ambulance-requests">
-          <ion-card-content>
-            <p>Ambulance Requests</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card"  routerLink="/ambulance-requests">
+          <ion-card-content  class="ion-text-center">
+            <ion-icon name="car-outline" size="large"></ion-icon>
+            <h2>Ambulance Requests</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col>
-        <ion-card>
-          <ion-card-content routerLink="/basic-health-information">
-            <p>Basic Information</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card" routerLink="/basic-health-information" >
+          <ion-card-content  class="ion-text-center">
+            <ion-icon name="information-circle-outline" size="large"></ion-icon>
+            <h2>Basic Information</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col>
-        <ion-card routerLink="/add-medication">
-          <ion-card-content>
-            <p>Add Medication</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card"  routerLink="/add-medication">
+          <ion-card-content  class="ion-text-center">
+            <ion-icon name="medkit-outline" size="large"></ion-icon>
+            <h2>Medication</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-card routerLink="/users-feedback">
-          <ion-card-content>
-            <p>User Feedback</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card"  routerLink="/users-feedback">
+          <ion-card-content  class="ion-text-center">
+            <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+            <h2>Feedback</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>

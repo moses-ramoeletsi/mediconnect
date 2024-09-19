@@ -12,90 +12,66 @@
       <ion-icon color="custom" name="notifications"></ion-icon>
     </ion-button>
   </div>
-  <!-- <h6></h6> -->
-  <ion-grid>
+  <ion-grid class="ion-padding">
     <ion-row>
-      <ion-col>
-        <ion-card>
-          <ion-card-content routerLink="/health-information">
-            <p>Basic Information</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card" routerLink="/health-information">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="information-circle-outline" size="large"></ion-icon>
+            <h2>Basic Information</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col>
-        <ion-card routerLink="/medication">
-          <ion-card-content>
-            <p>Medication</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card" routerLink="/medication">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="medkit-outline" size="large"></ion-icon>
+            <h2>Medication</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-card routerLink="/upcoming-events">
-          <ion-card-content>
-            <p>Events</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card" routerLink="/upcoming-events">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="calendar-outline" size="large"></ion-icon>
+            <h2>Events</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col>
-        <ion-card routerLink="/feedback">
-          <ion-card-content>
-            <p>Feedback</p>
+      <ion-col size="12" size-md="6">
+        <ion-card class="equal-height-card" routerLink="/feedback">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+            <h2>Feedback</h2>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
   <div class="upcoming-schedule">
-    <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
+    <div style="display: flex; align-items: center; justify-content: space-between">
       <h5>Upcoming Schedule</h5>
-      <h5 style="color: brown" color="custom" routerLink="/wetlands-map">
-        See All
-      </h5>
-    </div>
-    <ion-card>
-      <ion-card-content>
-        <h6>Doctor's Name</h6>
-        <p>Reason for Appointment</p>
-        <p>Date booked</p>
-      </ion-card-content>
-    </ion-card>
-  </div>
-  <div class="categories">
-    <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
-      <h5>Top Doctors</h5>
-      <ion-button fill="outline" color="custom" routerLink="/doctor-list"
-        >See All</ion-button
-      >
+      <h5 style="color: #d73d3f" routerLink="/book-appointments">See All</h5>
     </div>
 
-    <ion-card>
-      <ion-card-content>
-        <ion-list>
-          <ion-item
-            lines="none"
-            *ngFor="let doctor of topDoctors"
-            [routerLink]="['/doctor-details', doctor.id]"
-          >
-            <ion-avatar slot="start">
-              <img
-                src="../../../../assets/images/medicoonnect-logo.png"
-                [alt]="doctor.name"
-              />
-            </ion-avatar>
-            <ion-label>
-              <h2 style="color: black">{{ doctor.name }}</h2>
-              <p>{{ doctor.specialty }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+    <ion-card *ngIf="approvedAppointments.length > 0; else noUpcoming">
+      <ion-card-content *ngFor="let appointment of approvedAppointments">
+        <h6>{{ appointment.doctorName }}</h6>
+        <p><strong>Reason:</strong> {{ appointment.purpose }}</p>
+        <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
+        <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
       </ion-card-content>
     </ion-card>
+
+    <ng-template #noUpcoming>
+      <ion-card>
+        <ion-card-content>
+          <p>No upcoming appointments for today.</p>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
   </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openChat()">

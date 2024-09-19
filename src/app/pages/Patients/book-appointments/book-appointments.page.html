@@ -33,7 +33,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6" *ngFor="let doctor of doctors$ | async">
-          <ion-card (click)="openDoctorDetails(doctor.id)">
+          <ion-card class="equal-height" (click)="openDoctorDetails(doctor.id)">
             <ion-card-header>
               <ion-avatar>
                 <img

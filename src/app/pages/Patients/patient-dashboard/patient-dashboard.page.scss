@@ -73,3 +73,27 @@ ion-fab-button {
 h6 {
   color:#d73d3f
 }
+.equal-height-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.equal-height-card ion-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.equal-height-card ion-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #d73d3f;
+}
+
+h2 {
+  margin: 0;
+  font-size: 14px;
+}
