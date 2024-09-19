@@ -7,7 +7,7 @@ ion-card {
   border-radius: 5px;
 }
 ion-icon {
-  color: #ffffff;
+  color: #d73d3f;
 }
 ion-fab-button {
   --background: #;
@@ -15,6 +15,9 @@ ion-fab-button {
 }
 
 ion-card ion-item {
+  --background: #fefefe;
+}
+ion-item {
   --background: #fefefe;
 }
 ion-modal {
@@ -92,4 +95,7 @@ ion-card-content {
 
 ion-button {
   margin-top: auto;
+}
+ion-list{
+  background: #fefefe;
 }
