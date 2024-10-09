@@ -26,17 +26,12 @@ export class UserService {
   loginWithEmail(data: { email: string; password: string }) {
     return this.userAuth.signInWithEmailAndPassword(data.email, data.password);
   }
+  logout() {
+		return signOut(this.userAuth);
+	}
   getUserDetails(data: any) {
     return this.firebaseStore.collection('users').doc(data.uid).valueChanges();
   }
-
-  // getVeterinarianDetails(uid: string): Observable<VeterinarianDetails | null> {
-  //   return this.firebaseStore.collection('users', ref => ref.where('uid', '==', uid).where('userType', '==', 'veterinarian'))
-  //     .valueChanges({ idField: 'id' })
-  //     .pipe(
-  //       map(vetArray => (vetArray.length > 0 ? vetArray[0] : null))
-  //     ) as Observable<VeterinarianDetails | null>;
-  // }
 
   getUsers(): Observable<any[]> {
     return this.firebaseStore
@@ -88,3 +83,7 @@ export class UserService {
       );
   }
 }
+function signOut(auth: any) {
+  throw new Error('Function not implemented.');
+}
+

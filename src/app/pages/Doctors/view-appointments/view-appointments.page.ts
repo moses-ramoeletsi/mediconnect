@@ -79,7 +79,6 @@ export class ViewAppointmentsPage implements OnInit {
       });
   }
   
-  // Add notification to Firestore
   async addNotificationToFirestore(appointmentId: string, doctorName: string, patientName: string, patientId: string, purpose: string, status: string) {
     const notificationData = {
       appointmentId,
@@ -94,38 +93,40 @@ export class ViewAppointmentsPage implements OnInit {
     return this.appointmentsService.addNotification(notificationData);
   }
   
-  // Schedule local notification
   async scheduleLocalNotification(appointmentId: string, doctorName: string, patientName: string, status: string) {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: `Appointment Status Changed`,
-          body: `Your appointment with Dr. ${doctorName} has been ${status}.`,
-          id: new Date().getTime(),
-          schedule: { at: new Date(Date.now() + 1000) },
-          extra: { appointmentId, doctorName, patientName, status },
-        },
-      ],
-    });
+   try{
+     await LocalNotifications.schedule({
+       notifications: [
+         {
+           title: `Appointment Status Changed`,
+           body: `Your appointment with Dr. ${doctorName} has been ${status}.`,
+           // id: new Date().getTime(),
+           id: Math.floor(Math.random() * 100000), 
+           schedule: { at: new Date(Date.now() + 1000) },
+           extra: { appointmentId, doctorName, patientName, status },
+          },
+        ],
+      });
+      console.log('Local notification scheduled');
+    } catch (error) {
+      console.error('Error creating notification:', error);
+      try {
+        await LocalNotifications.schedule({
+          notifications: [
+            {
+              title: `Appointment Status Changed`,
+              body: `Your appointment with Dr. ${doctorName} has been ${status}.`,
+              id: Math.floor(Math.random() * 100000),
+              extra: { appointmentId, doctorName, patientName, status },
+            }
+          ]
+        });
+        console.log('Local notification scheduled without custom scheduling');
+      } catch (retryError) {
+        console.error('Error scheduling notification on retry:', retryError);
+      }
+    }
   }
-  
-  // async updateAppointmentStatus(appointmentId: string, status: string) {
-  //   const toast = await this.toastController.create({
-  //     message: 'Updating appointment status...',
-  //     duration: 1000,
-  //   });
-  //   await toast.present();
-
-  //   this.appointmentsService
-  //     .updateAppointmentStatus(appointmentId, status)
-  //     .then(() => {
-  //       this.showSuccessToast('Appointment status updated successfully');
-  //     })
-  //     .catch((error) => {
-  //       this.showErrorToast('Error updating appointment status');
-  //       console.error('Error updating appointment status:', error);
-  //     });
-  // }
 
   async showSuccessToast(message: string) {
     const toast = await this.toastController.create({

@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: "AIzaSyDCBrTHO2Bf2SX3TuPcq5LWV5A56rbpPDY",
-    authDomain: "livestockcare-7087d.firebaseapp.com",
-    projectId: "livestockcare-7087d",
-    storageBucket: "livestockcare-7087d.appspot.com",
-    messagingSenderId: "617203668537",
-    appId: "1:617203668537:web:f791142e57fe156eaa5fe8"
+    apiKey: "AIzaSyALXXLAuA8oaIP786ZTrV6DGm8vaYztVYU",
+    authDomain: "mediconnect-66bab.firebaseapp.com",
+    projectId: "mediconnect-66bab",
+    storageBucket: "mediconnect-66bab.appspot.com",
+    messagingSenderId: "259864051421",
+    appId: "1:259864051421:web:aec1fb114101d0f763a534"
   }
 };

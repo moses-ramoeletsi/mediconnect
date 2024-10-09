@@ -1,3 +1,4 @@
+import { AuthGuardService } from './services/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { DoctorNavBarComponent } from './components/doctor-nav-bar/doctor-nav-bar.component';
@@ -8,20 +9,17 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./pages/Screens/login/login.module').then( m => m.LoginPageModule)
   },
-
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/Screens/register/register.module').then( m => m.RegisterPageModule)
-  },
+  
 
   {
     path: '',
     component:DoctorNavBarComponent,
+    canActivate: [AuthGuardService],
     children: [
       {
         path: '',
@@ -50,6 +48,7 @@ const routes: Routes = [
   {
     path:'',
     component: PatientsNavBarComponent,
+    canActivate: [AuthGuardService],
     children: [
       {
         path: '',
@@ -74,6 +73,11 @@ const routes: Routes = [
       },
     ]
   },
+  
+    {
+      path: 'register',
+      loadChildren: () => import('./pages/Screens/register/register.module').then( m => m.RegisterPageModule)
+    },
   {
     path: 'chats/:userId',
     loadChildren: () => import('./pages/Chats/chats/chats.module').then( m => m.ChatsPageModule)
@@ -122,6 +126,7 @@ const routes: Routes = [
     path: 'user-list',
     loadChildren: () => import('./pages/chats/user-list/user-list.module').then( m => m.UserListPageModule)
   },
+
   {
     path: 'notifications',
     loadChildren: () => import('./pages/Patients/notifications/notifications.module').then( m => m.NotificationsPageModule)

@@ -22,6 +22,8 @@ export class AmbulancePage implements OnInit {
     patientPhoneNumber: '',
     urgency: '',
     description: '',
+    requestDate: '',
+    status: 'pending'
   };
   userId:string = '';
   requests: any[] = [];
@@ -71,7 +73,10 @@ export class AmbulancePage implements OnInit {
         this.ambulance.patientAddress = patientData.address || 'Unknown';
         this.ambulance.patientPhoneNumber = patientData.phoneNumber || 'Unknown';
       }
-
+      
+      this.ambulance.status = 'pending'; 
+      this.ambulance.requestDate = new Date().toISOString();
+  
       if (this.ambulance.id) {
         await this.fireservice.updateAmbulanceRequests(this.ambulance);
         this.showAlert('Success', 'Ambulance Request updated successfully!');
@@ -79,15 +84,16 @@ export class AmbulancePage implements OnInit {
         await this.fireservice.requestForAmbulance(this.ambulance);
         this.showAlert('Success', 'Ambulance Request posted successfully!');
       }
-
+  
       this.resetAmbulanceForm(modal);
       await modal.dismiss();
-
+  
     } catch (error) {
       this.showAlert('Error', 'Error posting ambulance request!');
     }
   }
-
+  
+  
   resetAmbulanceForm(modal: IonModal) {
     this.ambulance = {
       id: '',
@@ -97,6 +103,8 @@ export class AmbulancePage implements OnInit {
       patientPhoneNumber: '',
       urgency: '',
       description: '',
+      requestDate: '',
+      status:'',
     };
     this.isEditing = false;
     modal.dismiss();
@@ -128,7 +136,7 @@ export class AmbulancePage implements OnInit {
           text: 'Delete',
           handler: async () => {
             try {
-              await this.fireservice.deleterAmbulanceRequests(ambulance);
+              await this.fireservice.deleteAmbulanceRequests(ambulance);
               this.showAlert('Success', 'Ambulance Request deleted successfully!');
             } catch (error) {
               this.showAlert('Error', 'Error deleting ambulance request!');

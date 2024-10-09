@@ -2,28 +2,41 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationsService {
-  constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) {}
+  constructor(
+    private firestore: AngularFirestore,
+    private afAuth: AngularFireAuth
+  ) {}
 
-  // Fetch notifications for the current user
   getUserNotifications(): Observable<any[]> {
     return this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          // If the user is logged in, fetch their notifications
           return this.firestore
             .collection('notifications', ref => ref.where('patientId', '==', user.uid))
-            .valueChanges({ idField: 'id' });
+            .snapshotChanges()
+            .pipe(
+              map(actions =>
+                actions.map(a => {
+                  const data = a.payload.doc.data() as any;
+                  const id = a.payload.doc.id;
+                  return { id, ...data };
+                })
+              )
+            );
         } else {
-          // If no user is logged in, return an empty array
           return of([]);
         }
       })
     );
+  }
+
+  deleteNotification(notificationId: string): Promise<void> {
+    return this.firestore.collection('notifications').doc(notificationId).delete();
   }
 }

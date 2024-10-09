@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthGuardService {
+export class AuthGuardService implements CanActivate {
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  async canActivate(): Promise<boolean> {
+    if (this.authenticationService.isLoggedIn()) {
+      return true;
+    } else {
+      await this.presentToast('Please log in to access this page');
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
 
-  canActivate(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      map(user => !!user),
-      tap(loggedIn => {
-        if (!loggedIn) {
-          this.router.navigate(['/login'], { replaceUrl: true });
-        }
-      })
-    );
+  private async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      color: 'danger',
+    });
+    toast.present();
   }
 }

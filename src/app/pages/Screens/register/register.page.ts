@@ -90,7 +90,7 @@ export class RegisterPage implements OnInit {
       if (this.registerationType === 'register-patient') {
         this.createUserAccount();
       } else if (this.registerationType === 'register-doctor') {
-        this.createVeterinarianAccount();
+        this.createDoctorAccount();
       }
     } else {
       console.log('Form is invalid:', this.registerForm.errors);
@@ -126,7 +126,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  createVeterinarianAccount() {
+  createDoctorAccount() {
     if (this.registerForm.valid) {
       const doctorData = { ...this.doctorData, ...this.registerForm.value };
       this.fireserviceStore

@@ -6,11 +6,7 @@
     routerLink="/doctor-dashboard"
   ></ion-icon>
 
-  <div
-    *ngIf="requests.length > 0; else noAmbulanceRequests"
-    class="ambulanceRequests"
-    style="background-color: transparent"
-  >
+  <div *ngIf="requests.length > 0; else noAmbulanceRequests" class="ambulanceRequests">
     <ion-card
       *ngFor="let ambulance of requests"
       class="white-card"
@@ -24,12 +20,21 @@
         <p><strong>Location:</strong> {{ambulance.patientAddress}}</p>
         <p><strong>Phone Number:</strong> {{ambulance.patientPhoneNumber}}</p>
         <p class="top-margin">{{ambulance.description}}</p>
+        <p><strong>Status:</strong> 
+          <span *ngIf="ambulance.status === 'approved'" style="color: green">Approved</span>
+          <span *ngIf="ambulance.status === 'pending'" style="color: orange">Pending</span>
+          <span *ngIf="ambulance.status === 'rejected'" style="color: red">Rejected</span>
+        </p>
+
+        <ion-button color="success" (click)="respondToRequest(ambulance.id, 'approved')">Accept</ion-button>
+        <ion-button color="danger" (click)="respondToRequest(ambulance.id, 'rejected')">Reject</ion-button>
       </ion-card-content>
     </ion-card>
   </div>
+
   <ng-template #noAmbulanceRequests>
     <ion-card>
-      <ion-card-content> No Ambulance Requests available. </ion-card-content>
+      <ion-card-content>No Ambulance Requests available.</ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

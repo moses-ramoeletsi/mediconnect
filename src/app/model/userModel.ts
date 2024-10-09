@@ -29,3 +29,12 @@ export interface AppointmentModel {
   purpose:string,
   status:string;
 }
+
+  export interface AmbulanceRequestModel {
+    id?: string;
+    patientId: string;
+    requestDate: string;
+    status?: string;
+    responseTime?: Date;
+    rejectionReason?: string;
+  }

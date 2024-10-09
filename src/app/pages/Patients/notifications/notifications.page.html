@@ -1,27 +1,31 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <h3>Your Notifications</h3>
-
   <ion-icon routerLink="/patient-dashboard" name="arrow-back"></ion-icon>
   <ion-spinner *ngIf="loadingNotifications" name="crescent"></ion-spinner>
-
   <div *ngIf="!loadingNotifications && notifications.length > 0">
+    <div>
+      <h2>Ambulance Requests Notifications</h2>
+    </div>
     <ion-card *ngFor="let notification of notifications">
       <ion-card-content>
         <ion-label>
-          <h2>{{ notification.purpose }}</h2>
+          <h2>{{ notification.title }}</h2>
+          <p *ngIf="notification.message"><strong>Message:</strong> {{ notification.message }}</p>
           <p><strong>Status:</strong> {{ notification.status }}</p>
           <p><strong>Doctor:</strong> {{ notification.doctorName }}</p>
           <p><strong>Notification Date:</strong> {{ notification.timestamp.toDate() | date: 'short' }}</p>
         </ion-label>
+        <ion-button color="danger" fill="clear" (click)="deleteNotification(notification)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
       </ion-card-content>
-    </ion-card> 
+    </ion-card>
   </div>
-  
-  <ng-template *ngIf="!loadingNotifications && notifications.length === 0">
+  <ng-container *ngIf="!loadingNotifications && notifications.length === 0">
     <ion-card>
       <ion-card-content>
         No notifications available
       </ion-card-content>
     </ion-card>
-  </ng-template>
+  </ng-container>
 </ion-content>

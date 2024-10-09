@@ -1,4 +1,12 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding">\
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <h5> User Profile</h5>
+    <ion-button fill="clear" lines="none" color="custom" (click)="logout()">
+      <ion-icon  color="custom" slot="start" name="log-out-outline"></ion-icon>
+      <ion-label >Log out</ion-label>
+    </ion-button>
+  </div>
+
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle class="ion-text-center">{{ currentUser?.name }}</ion-card-subtitle>
@@ -9,12 +17,5 @@
       <p>Gender: {{ currentUser?.gender }}</p>
       <p>Phone Number: {{ currentUser?.phoneNumber }}</p>
     </ion-card-content>
-    <ion-item lines="none">
-      <ion-button color="custom" >Update</ion-button>
-    </ion-item>
   </ion-card>
-  <ion-item lines="none" style="color: black;" (click)="logout()">
-    <ion-icon  style="color: black;" slot="start" name="log-out-outline"></ion-icon>
-    <ion-label>Log out</ion-label>
-  </ion-item>
 </ion-content>

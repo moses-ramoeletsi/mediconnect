@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,20 +11,32 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  userLogin = {
-    email: '',
-    password: '',
-  };
+  private logoutSubscription: Subscription;
 
   constructor(
+    private authService: AuthenticationService,
     public fireServices: UserService,
     public alertController: AlertController,
     public router: Router
-  ) {}
+  ) {
+    this.logoutSubscription = this.authService.getLogoutObservable().subscribe(() => {
+      this.resetForm();
+    });
+  }
 
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    if (this.logoutSubscription) {
+      this.logoutSubscription.unsubscribe();
+    }
+  }
+
+  private initForm(): void {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -33,15 +47,18 @@ export class LoginPage implements OnInit {
     });
   }
 
+  private resetForm(): void {
+    if (this.loginForm) {
+      this.loginForm.reset();
+    }
+  }
+
   login() {
     if (this.loginForm.valid) {
       const userLogin = this.loginForm.value;
-      this.fireServices
-        .loginWithEmail(userLogin)
-        .then((userDetails) => {
-          const user = userDetails.user;
-
-          this.fireServices.getUserDetails(user).subscribe((userData: any) => {
+      this.authService.login(userLogin).then(
+        (userCredential) => {
+          this.fireServices.getUserDetails(userCredential.user).subscribe((userData: any) => {
             if (userData && Object.keys(userData).length !== 0) {
               if (userData.userType === 'doctor') {
                 this.router.navigate(['/doctor-dashboard']);
@@ -50,10 +67,11 @@ export class LoginPage implements OnInit {
               }
             }
           });
-        })
-        .catch((error) => {
-          this.showAlert('User Not Found', 'The user does not exist.');
-        });
+        },
+        (error) => {
+          this.showAlert('Login Error', error.message);
+        }
+      );
     } else {
       this.showAlert('Form Error', 'Please check the form fields.');
     }

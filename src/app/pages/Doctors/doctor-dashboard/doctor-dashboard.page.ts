@@ -7,28 +7,32 @@ import { doctorModel, AppointmentModel } from 'src/app/model/userModel';
 import { UserService } from 'src/app/services/user.service';
 import { AppointmentsService } from 'src/app/services/appointments.service';
 import { DatePipe } from '@angular/common';
+import { RequestAmbulanceService } from 'src/app/services/request-ambulance.service';
 
 @Component({
   selector: 'app-doctor-dashboard',
   templateUrl: './doctor-dashboard.page.html',
   styleUrls: ['./doctor-dashboard.page.scss'],
-  providers: [DatePipe],
+  providers: [DatePipe]
 })
 export class DoctorDashboardPage implements OnInit, OnDestroy {
   userName: string = '';
   user: Observable<doctorModel | null>;
   approvedAppointments: AppointmentModel[] = [];
+  ambulanceRequests: any[] = []; 
   uid: string = '';
   now: Date = new Date(); 
   autoReloadInterval: any; 
   reloadIntervalTime: number = 60000; 
   appointmentSubscription: Subscription | undefined;
+  ambulanceRequestSubscription: any;
 
   constructor(
     private navCtrl: NavController,
     private fireServices: UserService,
     private afAuth: AngularFireAuth,
     private appointmentsService: AppointmentsService,
+    private ambulanceService: RequestAmbulanceService,
     private datePipe: DatePipe
   ) {
     this.user = this.afAuth.authState.pipe(
@@ -44,6 +48,7 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
       if (userDetails) {
         this.userName = userDetails.name;
         this.loadApprovedAppointments();
+        this.loadAllAmbulanceRequests();
         this.setupAutoReload(); 
       }
     });
@@ -57,6 +62,9 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
     }
     if (this.appointmentSubscription) {
       this.appointmentSubscription.unsubscribe(); 
+    }
+    if (this.ambulanceRequestSubscription) {
+      this.ambulanceRequestSubscription.unsubscribe(); 
     }
   }
 
@@ -87,6 +95,18 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
       }
     );
   }
+  loadAllAmbulanceRequests() {
+    this.ambulanceRequestSubscription = this.ambulanceService
+      .getAllAmbulanceRequests()
+      .subscribe(
+        (requests: any[]) => {
+          this.ambulanceRequests = requests;
+        },
+        (error) => {
+          console.error('Error fetching ambulance requests:', error);
+        }
+      );
+  }
 
   updatePassedAppointments(appointments: AppointmentModel[]) {
     appointments.forEach(appointment => {
@@ -108,6 +128,7 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
     this.autoReloadInterval = setInterval(() => {
       this.now = new Date(); 
       this.loadApprovedAppointments();
+      this.loadAllAmbulanceRequests();
     }, this.reloadIntervalTime);
   }
 
@@ -116,4 +137,5 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
     const time = this.datePipe.transform(dateTimeStr, 'HH:mm');
     return { date: date || '', time: time || '' };
   }
+  
 }

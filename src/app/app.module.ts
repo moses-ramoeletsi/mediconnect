@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, DoctorNavBarComponent, PatientsNavBarComponent],
@@ -26,7 +27,7 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
     IonicModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },  DatePipe ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

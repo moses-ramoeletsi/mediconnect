@@ -70,22 +70,33 @@
   </div>
 
   <div class="ambulance">
-    <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
-      <h5>Ambulance Requests</h5>
-      <h5 style="color: brown" color="custom" routerLink="/ambulance-requests">
-        See All
-      </h5>
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <h5> Today Ambulance Requests</h5>
+      <h5 style="color: brown" routerLink="/ambulance-requests">See All</h5>
     </div>
-    <ion-card>
-      <ion-card-content>
-        <h6>Name</h6>
-        <p>Urgency</p>
-        <p>Address</p>
+
+    <ion-card *ngIf="ambulanceRequests.length > 0; else noAmbulanceRequests">
+      <ion-card-content *ngFor="let request of ambulanceRequests">
+        <h6>{{ request.patientName }}</h6>
+        <p><strong>Urgency:</strong> {{ request.urgency }}</p>
+        <p><strong>Description:</strong> {{ request.description }}</p>
+        <p><strong>Address:</strong> {{ request.patientAddress }}</p>
+        <p><strong>Phone:</strong> {{ request.patientPhoneNumber }}</p>
+        <p><strong>Request Date:</strong> {{ getFormattedDateTime(request.requestDate).date || 'N/A' }}</p>
+        <p><strong>Request Time:</strong> {{ getFormattedDateTime(request.requestDate).time || 'N/A' }}</p>
       </ion-card-content>
     </ion-card>
+
+    <ng-template #noAmbulanceRequests>
+      <ion-card>
+        <ion-card-content>
+          <p *ngIf="ambulanceRequests && ambulanceRequests.length === 0">No ambulance requests found.</p>
+          <p *ngIf="!ambulanceRequests">Loading ambulance requests...</p>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
   </div>
+  
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openChat()">
