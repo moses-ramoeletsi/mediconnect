@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,8 +15,7 @@ export class PatientProfilePage implements OnInit {
   currentUser: any;
 
   constructor(
-    private afAuth: AngularFireAuth,
-    private router: Router,
+    private afAuth: AuthenticationService,
     private alertController: AlertController,
     private userService: UserService
   ) { }
@@ -28,11 +28,7 @@ export class PatientProfilePage implements OnInit {
     });
   }
 
-  logout() {
-    this.presentLogoutAlert();
-  }
-
-  async presentLogoutAlert() {
+  async logout() {
     const alert = await this.alertController.create({
       header: 'Confirm Logout',
       message: 'Are you sure you want to logout?',
@@ -45,12 +41,11 @@ export class PatientProfilePage implements OnInit {
           }
         }, {
           text: 'Logout',
-          handler: () => {
-            this.afAuth.signOut().then(() => {
-              localStorage.clear();
-              sessionStorage.clear();
-              this.router.navigate(['/login']);
-            });
+          handler:async () => {
+          await this.afAuth.logout();
+          localStorage.removeItem('userRole');
+          localStorage.clear();
+
           }
         }
       ]

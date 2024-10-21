@@ -26,6 +26,8 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
   reloadIntervalTime: number = 60000; 
   appointmentSubscription: Subscription | undefined;
   ambulanceRequestSubscription: any;
+  noAmbulanceRequestsToday: boolean = false;
+
 
   constructor(
     private navCtrl: NavController,
@@ -95,19 +97,27 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
       }
     );
   }
+ 
   loadAllAmbulanceRequests() {
-    this.ambulanceRequestSubscription = this.ambulanceService
-      .getAllAmbulanceRequests()
-      .subscribe(
-        (requests: any[]) => {
-          this.ambulanceRequests = requests;
-        },
-        (error) => {
-          console.error('Error fetching ambulance requests:', error);
+    this.ambulanceRequestSubscription = this.ambulanceService.getAllAmbulanceRequests().subscribe(
+      (requests: any[]) => {
+        const today = this.datePipe.transform(this.now, 'yyyy-MM-dd');
+        this.ambulanceRequests = requests.filter((request) => {
+          const requestDate = this.datePipe.transform(request.requestDate, 'yyyy-MM-dd');
+          return request.status === 'approved' && requestDate === today;
+        });
+  
+        if (this.ambulanceRequests.length === 0) {
+          console.log('No approved ambulance requests for today.');
         }
-      );
+      },
+      (error) => {
+        console.error('Error fetching ambulance requests:', error);
+      }
+    );
   }
 
+ 
   updatePassedAppointments(appointments: AppointmentModel[]) {
     appointments.forEach(appointment => {
       const appointmentTime = new Date(appointment.date_and_time);

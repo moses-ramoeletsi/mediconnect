@@ -1,38 +1,77 @@
 ion-content {
     --ion-background-color: #fdfdfd;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
   }
-  
+  .back-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
+  }
   ion-list {
     background: white;
   }
+  ion-title {
+    color: #d73d3f;
+  }
+  
   ion-item {
     --background: white;
     color: black;
-  }
-  ion-toolbar {
-    --background: transparent;
-    --border-width: 0;
-    --padding-top: 0;
-    --padding-bottom: 0;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
   }
   
-  ion-icon {
-    font-size: 24px;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: #d73d3f;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
+  ion-toolbar {
+    --background: #fdfdfd;
+    --border-width: 0 0 1px 0;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --padding-top: 8px;
+    --padding-bottom: 8px;
   }
-  .user-list {
-    background: white;
-    color: black;
+  
+  ion-avatar {
+    width: 48px;
+    height: 48px;
+  }
+  
+  ion-label h2 {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: #d73d3f;
+  }
+  
+  ion-label p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .message-meta {
+    text-align: right;
+  }
+  
+  ion-note {
+    font-size: 12px;
+    color: #999;
   }
   
   .message-count {
-    background: #d73d3f;
-    color: #fdfdfd;
+    margin-top: 4px;
+    --padding-start: 6px;
+    --padding-end: 6px;
+    --padding-top: 2px;
+    --padding-bottom: 2px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: bold;
   }
   
+  ion-item-option {
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }

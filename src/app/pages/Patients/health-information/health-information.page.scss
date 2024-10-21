@@ -13,13 +13,6 @@ ion-card-title {
 ion-button {
   color: "custom";
 }
-
-ion-icon {
-  font-size: 24px;
-  margin-bottom: 5px;
-  color: #fdfdfd;
-}
-
 ion-text {
   font-size: 12px;
   text-align: center;
@@ -53,6 +46,44 @@ h5 {
 }
 ion-fab-button {
   --background: #d73d3f;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .back-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d73d3f;
+  }
+}
+
+.health-information-state-card {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+
+  .health-information-state-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
 }
 
 .top {

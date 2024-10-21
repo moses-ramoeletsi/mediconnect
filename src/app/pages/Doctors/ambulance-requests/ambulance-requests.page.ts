@@ -110,4 +110,17 @@ export class AmbulanceRequestsPage implements OnInit {
       console.error('Error scheduling local notification:', error);
     });
   }
+  
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'approved':
+        return 'checkmark-circle-outline';
+      case 'rejected':
+        return 'close-circle-outline';
+      case 'pending':
+        return 'time-outline';
+      default:
+        return 'help-circle-outline';
+    }
+  }
 }

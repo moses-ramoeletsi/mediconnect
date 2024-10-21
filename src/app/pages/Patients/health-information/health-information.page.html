@@ -1,9 +1,10 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon
-    style="color: brown"
-    routerLink="/patient-dashboard"
-    name="arrow-back"
-  ></ion-icon>
+  <div class="header-container">
+    <ion-button fill="clear" color="danger" routerLink="/patient-dashboard" class="back-button">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>Basic Information</h1>
+  </div>
   <div
     *ngIf="diseases.length > 0; else noDiseases"
     class="post-diseases"
@@ -21,8 +22,11 @@
     </ion-card>
   </div>
   <ng-template #noDiseases>
-    <ion-card>
-      <ion-card-content> No Diseases available </ion-card-content>
+    <ion-card class="health-information-state-card">
+      <ion-card-content> 
+        <ion-icon name="information-circle-outline" class="health-information-state-icon"></ion-icon>
+       <p>No Diseases available</p> 
+      </ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

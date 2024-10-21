@@ -1,6 +1,153 @@
 ion-content {
   --background: #fdfdfd;
 }
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  ion-avatar {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #d73d3f;
+  }
+
+  .welcome-text {
+    color: #d73d3f;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.dashboard-card {
+  margin: 0;
+  height: 100%;
+  border-radius: 12px;
+  background: #f1f1f1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .card-content-center { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .icon-container {
+    background-color: rgba(#d73d3f, 0.1);
+    border-radius: 50%;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+
+    ion-icon {
+      color: #d73d3f;
+      font-size: 2rem;
+    }
+  }
+
+  h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+}
+
+.section-container {
+  margin-top: 2rem;
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+  }
+  ion-card{
+    --background: #f5f5f5;
+  }
+}
+
+.appointment-item, .ambulance-request-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--ion-color-light-shade);
+  }
+  
+  .appointment-icon, .request-icon {
+    background-color: rgba(#d73d3f, 0.1);
+    border-radius: 50%;
+    padding: 0.75rem;
+    height: fit-content;
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: #d73d3f;
+    }
+  }
+
+  .appointment-details, .request-details {
+    flex: 1;
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #d73d3f;
+    }
+
+    p {
+      margin: 0.25rem 0;
+      font-size: 0.875rem;
+      color: var(--ion-color-medium);
+
+      ion-icon {
+        vertical-align: middle;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .time-details {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+
+  .empty-state-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ion-color-medium);
+  }
+}
 
 ion-card {
   --background: #fefefe;
@@ -13,12 +160,6 @@ ion-card-title {
 
 ion-button {
   color: "custom";
-}
-
-ion-icon {
-  font-size: 24px;
-  margin-bottom: 5px;
-  color: #fdfdfd;
 }
 
 ion-text {
@@ -70,30 +211,4 @@ h5 {
 ion-fab-button {
   --background: #d73d3f;
 }
-h6 {
-  color:#d73d3f
-}
-.equal-height-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
-.equal-height-card ion-card-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.equal-height-card ion-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  color: #d73d3f;
-}
-
-h2 {
-  margin: 0;
-  font-size: 14px;
-}

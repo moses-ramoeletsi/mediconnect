@@ -1,26 +1,24 @@
 <ion-content [fullscreen]="true" class="ion-padding">
+  <div class="header-container">
+    <ion-button fill="clear" class="back-button" routerLink="/doctor-dashboard">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>User Profile</h1>
+  </div>
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle class="ion-text-center"
-        >{{ currentUser?.name }}</ion-card-subtitle
-      >
+      <ion-card-subtitle class="ion-text-center">{{ currentUser?.name }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Email: {{ currentUser?.email }}</p>
-      <p>Specialty: {{ currentUser?.specialty }}</p>
-      <p>Gender: {{ currentUser?.gender }}</p>
-      <p>Phone Number: {{ currentUser?.phoneNumber }}</p>
+      <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+      <p><strong>Specialty:</strong> {{ currentUser?.specialty }}</p>
+      <p><strong>Gender:</strong> {{ currentUser?.gender }}</p>
+      <p><strong>Phone Number:</strong> {{ currentUser?.phoneNumber }}</p>
     </ion-card-content>
-    <ion-item lines="none">
-      <ion-button color="custom">Update</ion-button>
-    </ion-item>
   </ion-card>
-  <ion-item lines="none" style="color: black" (click)="logout()">
-    <ion-icon
-      style="color: black"
-      slot="start"
-      name="log-out-outline"
-    ></ion-icon>
+  
+  <ion-item button lines="none" class="logout-item" (click)="logout()">
+    <ion-icon slot="start" name="log-out-outline"></ion-icon>
     <ion-label>Log out</ion-label>
   </ion-item>
 </ion-content>

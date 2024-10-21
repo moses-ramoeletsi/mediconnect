@@ -33,8 +33,10 @@ export class AuthenticationService {
     try {
       await this.firebaseAuth.signOut();
       localStorage.removeItem('user');
+      localStorage.removeItem('userRole');
       this.logoutSubject.next();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { replaceUrl: true });
+
     } catch (error) {
       console.error('Logout error', error);
     }

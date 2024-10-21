@@ -1,49 +1,190 @@
 ion-content {
-    --background: #fdfdfd;
-  }
-  
-  ion-card {
-    --background: #fefefe;
-    border-radius: 5px;
-  }
-  ion-card-subtitle {
-    color:#d73d3f;
-  }
-  
-  ion-button {
-    color: "custom";
-  }
-  
-  ion-icon {
-    font-size: 24px;
-    margin-bottom: 5px;
-    color: #fdfdfd;
-  }
-  
-  ion-text {
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  ion-badge {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-  
-  ion-badge ion-icon {
-    margin-right: 4px;
-  }
-  
-  ion-list {
-    background: #fdfdfd;
-  }
-  ion-item {
+  --background: #fdfdfd;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .back-button {
     --padding-start: 0;
-    --inner-padding-end: 0;
-    --background: #fdfdfd;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
   }
 
-  h5 {
-    color: black;
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d73d3f;
   }
+}
+
+.request-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  margin-bottom: 1rem;
+
+  .urgency-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    
+    &.high {
+      background-color: rgba(#d73d3f, 0.1);
+      color: #d73d3f;
+    }
+    
+    &.medium {
+      background-color: rgba(#f59e0b, 0.1);
+      color: #f59e0b;
+    }
+    
+    &.low {
+      background-color: rgba(#10b981, 0.1);
+      color: #10b981;
+    }
+  }
+
+  .patient-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+
+    ion-avatar {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(#d73d3f, 0.1);
+
+      ion-icon {
+        font-size: 2rem;
+        color: #d73d3f;
+      }
+    }
+    
+    ion-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #d73d3f;
+      margin: 0;
+    }
+  }
+
+  .info-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      ion-icon {
+        font-size: 1.25rem;
+        margin-top: 0.125rem;
+      }
+
+      p {
+        margin: 0;
+        color: var(--ion-color-medium);
+        line-height: 1.4;
+      }
+
+      &.description {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  .status-section {
+    margin-bottom: 1rem;
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-weight: 500;
+
+      &.approved {
+        background-color: rgba(#10b981, 0.1);
+        color: #10b981;
+      }
+
+      &.pending {
+        background-color: rgba(#f59e0b, 0.1);
+        color: #f59e0b;
+      }
+
+      &.rejected {
+        background-color: rgba(#d73d3f, 0.1);
+        color: #d73d3f;
+      }
+    }
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    ion-button {
+      margin: 0;
+      --border-radius: 8px;
+
+      &.accept-btn {
+        --background: #10b981;
+      }
+
+      &.reject-btn {
+        --background: #d73d3f;
+      }
+    }
+  }
+}
+
+.no-request-card {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+  
+  .no-request-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    grid-template-columns: 1fr !important;
+  }
+}

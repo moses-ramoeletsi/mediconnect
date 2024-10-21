@@ -1,20 +1,118 @@
 ion-content {
-    --background: #fdfdfd;
+  --background: #fdfdfd;
 }
 
-  ion-icon {
-    color: #ffffff;
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .back-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
   }
- 
-  ion-card{
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d73d3f;
+  }
+}
+
+.spinner {
+  display: block;
+  margin: 20px auto;
+  color: #d73d3f;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.appointment-card {
+  --background: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+
+  ion-card-header {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #d73d3f;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  ion-list{
+    background: #fefefe;
+  }
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
     --background: #fefefe;
-    border-radius: 8px;
+
+    ion-icon {
+      color: #d73d3f;
+      margin-right: 1rem;
+    }
+
+    ion-label {
+      h3 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
   }
-  ion-card ion-item{
-    --background: #fefefe;
+
+  .status-select-item {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
   }
- 
-  h6 {
-    color:#d73d3f;
+
+  .status-select {
+    max-width: 150px;
+    font-size: 0.9rem;
+    color: #666;
   }
-  
+}
+
+.no-appointments-card {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+
+  .no-appointments-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+}

@@ -1,77 +1,105 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div
-    style="display: flex; align-items: center; justify-content: space-between"
-  >
-    <ion-avatar class="logo">
-      <ion-img src="../../../../assets/images/medicoonnect-logo.png" />
-    </ion-avatar>
-  </div>
-  <div style="display: flex; justify-content: space-between">
-    <ion-button fill="clear" slot="start" color="custom">Welcome, {{userName}}</ion-button>
-    <ion-button fill="clear" slot="end" color="danger"  routerLink="/notifications">
-      <ion-icon color="custom" name="notifications"></ion-icon>
-    </ion-button>
-  </div>
-  <ion-grid class="ion-padding">
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <div class="header-container">
+      <ion-avatar>
+        <ion-img src="../../../../assets/images/medicoonnect-logo.png"></ion-img>
+      </ion-avatar>
+      <h1 class="welcome-text">Welcome, {{userName}}</h1>
+      <ion-button fill="clear" slot="end" color="danger"  routerLink="/notifications">
+        <ion-icon color="custom" name="notifications"></ion-icon>
+      </ion-button>
+    </div>
+  <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6">
-        <ion-card class="equal-height-card" routerLink="/health-information">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="information-circle-outline" size="large"></ion-icon>
-            <h2>Basic Information</h2>
+      <ion-col size="12" size-md="4">
+        <ion-card class="dashboard-card" routerLink="/health-information">
+          <ion-card-content>
+            <div class="card-content-center">
+              <div class="icon-container">
+                <ion-icon name="information-circle-outline" size="large"></ion-icon>
+              </div>
+              <h2>Basic Information</h2>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="6">
-        <ion-card class="equal-height-card" routerLink="/medication">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="medkit-outline" size="large"></ion-icon>
-            <h2>Medication</h2>
+
+      <ion-col size="12" size-md="4">
+        <ion-card class="dashboard-card" routerLink="/medication">
+          <ion-card-content>
+            <div class="card-content-center">
+              <div class="icon-container">
+                <ion-icon name="medkit-outline" size="large"></ion-icon>
+              </div>
+              <h2>Medication</h2>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12" size-md="6">
-        <ion-card class="equal-height-card" routerLink="/upcoming-events">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="calendar-outline" size="large"></ion-icon>
-            <h2>Events</h2>
+      <ion-col size="12" size-md="4">
+        <ion-card class="dashboard-card" routerLink="/upcoming-events">
+          <ion-card-content>
+            <div class="card-content-center">
+              <div class="icon-container">
+                <ion-icon name="calendar-outline" size="large"></ion-icon>
+              </div>
+              <h2>Events</h2>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="6">
-        <ion-card class="equal-height-card" routerLink="/feedback">
-          <ion-card-content class="ion-text-center">
-            <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
-            <h2>Feedback</h2>
+
+      <ion-col size="12" size-md="4">
+        <ion-card class="dashboard-card" routerLink="/feedback">
+          <ion-card-content>
+            <div class="card-content-center">
+              <div class="icon-container">
+                <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+              </div>
+              <h2>Feedback</h2>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="upcoming-schedule">
-    <div style="display: flex; align-items: center; justify-content: space-between">
+  <div class="section-container">
+    <div class="section-header">
       <h5>Upcoming Schedule</h5>
-      <h5 style="color: #d73d3f" routerLink="/book-appointments">See All</h5>
+      <ion-button fill="clear" color="danger"routerLink="/book-appointments">
+        See All
+      </ion-button>
     </div>
 
     <ion-card *ngIf="approvedAppointments.length > 0; else noUpcoming">
-      <ion-card-content *ngFor="let appointment of approvedAppointments">
-        <h6>{{ appointment.doctorName }}</h6>
-        <p><strong>Reason:</strong> {{ appointment.purpose }}</p>
-        <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
-        <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
-      </ion-card-content>
+      <div class="appointment-item">
+        <div class="appointment-icon">
+          <ion-icon name="calendar-outline" color="danger"></ion-icon>
+        </div>
+        <div class="appointment-details">
+          <ion-card-content *ngFor="let appointment of approvedAppointments">
+            <h6>{{ appointment.doctorName }}</h6>
+            <p><strong>Reason:</strong> {{ appointment.purpose }}</p>
+            <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
+            <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
+          </ion-card-content>
+        </div>
+      </div>
     </ion-card>
 
     <ng-template #noUpcoming>
-      <ion-card>
+      <ion-card class="empty-state">
         <ion-card-content>
+          <ion-icon
+            name="calendar-outline"
+            class="empty-state-icon"
+          ></ion-icon>
           <p>No upcoming appointments for today.</p>
         </ion-card-content>
       </ion-card>
     </ng-template>
+  </div>
+
   </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openChat()">

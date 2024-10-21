@@ -1,9 +1,10 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon
-    name="arrow-back"
-    style="color: brown"
-    routerLink="/patient-dashboard"
-  ></ion-icon>
+  <div class="header-container">
+    <ion-button fill="clear" color="danger" routerLink="/patient-dashboard" class="back-button">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>User Feedback</h1>
+  </div>
   <ion-fab
     slot="fixed"
     vertical="bottom"
@@ -88,27 +89,28 @@
       <ion-card-content>
         <p>Feedback Type: {{userFeedback.feedBackType}}</p>
         <p>Message: {{userFeedback.message}}</p>
-        <ion-item lines="none">
-          <ion-button
-            color="custom"
-            (click)="edituserFeedback(userFeedback,modal)"
-            >Edit</ion-button
-          >
-          <ion-button
-            fill="clear"
-            color="danger"
-            slot="end"
-            (click)="deleteuserFeedback(userFeedback)"
-          >
-            Delete
-          </ion-button>
-        </ion-item>
       </ion-card-content>
+      <ion-item lines="none">
+        <ion-button
+          color="custom"
+          (click)="edituserFeedback(userFeedback,modal)"
+          >Edit</ion-button
+        >
+        <ion-button
+          fill="clear"
+          color="danger"
+          slot="end"
+          (click)="deleteuserFeedback(userFeedback)"
+        >
+          Delete
+        </ion-button>
+      </ion-item>
     </ion-card>
   </div>
   <ng-template #noFeedback>
-    <ion-card>
+    <ion-card class="user-feedback-state">
       <ion-card-content>
+        <ion-icon  name="chatbox-ellipses-outline" class="user-feedback-state-icon"></ion-icon>
         <p>No feedback available</p>
       </ion-card-content>
     </ion-card>

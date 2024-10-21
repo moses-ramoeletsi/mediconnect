@@ -1,73 +1,110 @@
 ion-content {
-    --background: #fdfdfd;
+  --background: #fdfdfd;
 }
 
-  ion-icon {
-    color: #ffffff;
+ion-toolbar {
+  --background: #d73d3f;
+  --color: #ffffff;
+}
+
+ion-fab-button {
+  --background: #d73d3f;
+  --color: #ffffff;
+}
+
+ion-modal ion-content {
+  --background: #ffffff;
+}
+
+ion-modal ion-item {
+  --background: #ffffff;
+  --border-color: #d1d1d1;
+}
+
+ion-modal ion-button[type="submit"] {
+  --background: #d73d3f;
+  --color: #ffffff;
+}
+
+ion-item{
+  --background: #f5f5f5;
+}
+.event-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.event-card ion-card-title {
+  color: #d73d3f;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.event-card ion-card-subtitle {
+  color: #666666;
+}
+
+.event-card ion-card-content p {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+}
+
+.event-card ion-card-content ion-icon {
+  margin-right: 8px;
+  color: #d73d3f;
+}
+
+.event-card ion-button {
+  --color: #d73d3f;
+}
+
+ion-card ion-card-content.ion-text-center {
+  padding: 24px;
+}
+
+ion-card ion-card-content.ion-text-center ion-icon {
+  font-size: 48px;
+  color: #d73d3f;
+  margin-bottom: 16px;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .back-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
   }
- 
-  ion-card{
-    --background: #fefefe;
-    border-radius: 8px;
-  }
-  ion-card ion-item{
-    --background: #fefefe;
-  }
-  ion-fab-button {
-    --background: #d73d3f;
-  }
-  
-  ion-card-title {
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #d73d3f;
   }
+}
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  --background: #f5f5f5;
 
-  ion-modal {
-    --background: transparent;
-  }
-  
-  ion-modal ion-header ion-toolbar ion-img {
-    width: 300px;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  ion-modal ion-item ion-label {
-    color: black;
-  }
-  
-  ion-modal ion-header ion-toolbar {
-    --background: #d73d3f;
-  }
-  
-  ion-modal ion-content {
-    --background: #ebebeb;
-  }
-  
-  ion-modal ion-content form {
-    padding: 20px;
-  }
-  
-  ion-modal ion-content ion-item {
-    margin-bottom: 15px;
-  }
-  
-  ion-modal ion-content ion-button {
-    margin-top: 10px;
-    --background: #d73d3f;
-    --color: #f0f0f0;
-  }
-  
-  .back {
-    font-size: 24px;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: #d73d3f;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
+  .empty-state-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
   }
 
-.top-margin {
-  margin-top: 10px;
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+
 }

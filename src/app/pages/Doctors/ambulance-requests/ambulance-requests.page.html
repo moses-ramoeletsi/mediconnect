@@ -1,40 +1,88 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon
-    style="color: red"
-    class="back"
-    name="arrow-back"
-    routerLink="/doctor-dashboard"
-  ></ion-icon>
-
-  <div *ngIf="requests.length > 0; else noAmbulanceRequests" class="ambulanceRequests">
-    <ion-card
-      *ngFor="let ambulance of requests"
-      class="white-card"
-      style="margin: 10px; position: relative"
-    >
-      <ion-card-header class="ion-text-center">
-        <ion-card-subtitle>{{ambulance.patientName}}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p><strong>Urgency:</strong> {{ambulance.urgency}}</p>
-        <p><strong>Location:</strong> {{ambulance.patientAddress}}</p>
-        <p><strong>Phone Number:</strong> {{ambulance.patientPhoneNumber}}</p>
-        <p class="top-margin">{{ambulance.description}}</p>
-        <p><strong>Status:</strong> 
-          <span *ngIf="ambulance.status === 'approved'" style="color: green">Approved</span>
-          <span *ngIf="ambulance.status === 'pending'" style="color: orange">Pending</span>
-          <span *ngIf="ambulance.status === 'rejected'" style="color: red">Rejected</span>
-        </p>
-
-        <ion-button color="success" (click)="respondToRequest(ambulance.id, 'approved')">Accept</ion-button>
-        <ion-button color="danger" (click)="respondToRequest(ambulance.id, 'rejected')">Reject</ion-button>
-      </ion-card-content>
-    </ion-card>
+  <div class="header-container">
+    <ion-button fill="clear" class="back-button" routerLink="/doctor-dashboard">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>Ambulance Requests</h1>
   </div>
 
+  <div class="requests-container" *ngIf="requests.length > 0; else noAmbulanceRequests">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let ambulance of requests">
+          <ion-card class="request-card">
+            <div class="urgency-badge" [ngClass]="ambulance.urgency.toLowerCase()">
+              {{ ambulance.urgency }}
+            </div>
+            
+            <ion-card-header>
+              <div class="patient-info">
+                <ion-avatar>
+                  <ion-icon name="person-circle-outline"></ion-icon>
+                </ion-avatar>
+                <ion-card-title>{{ ambulance.patientName }}</ion-card-title>
+              </div>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div class="info-grid">
+                <div class="info-item">
+                  <ion-icon name="location-outline" color="medium"></ion-icon>
+                  <p>{{ ambulance.patientAddress }}</p>
+                </div>
+                
+                <div class="info-item">
+                  <ion-icon name="call-outline" color="medium"></ion-icon>
+                  <p>{{ ambulance.patientPhoneNumber }}</p>
+                </div>
+
+                <div class="info-item description">
+                  <ion-icon name="information-circle-outline" color="medium"></ion-icon>
+                  <p>{{ ambulance.description }}</p>
+                </div>
+              </div>
+
+              <div class="status-section">
+                <div class="status-badge" [ngClass]="ambulance.status">
+                  <ion-icon [name]="getStatusIcon(ambulance.status)"></ion-icon>
+                  {{ ambulance.status | titlecase }}
+                </div>
+              </div>
+
+              <div class="action-buttons" *ngIf="ambulance.status === 'pending'">
+                <ion-button 
+                  expand="block" 
+                  color="success" 
+                  (click)="respondToRequest(ambulance.id, 'approved')"
+                  class="accept-btn">
+                  <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                  Accept
+                </ion-button>
+                
+                <ion-button 
+                  expand="block" 
+                  color="danger" 
+                  (click)="respondToRequest(ambulance.id, 'rejected')"
+                  class="reject-btn">
+                  <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+                  Reject
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
   <ng-template #noAmbulanceRequests>
-    <ion-card>
-      <ion-card-content>No Ambulance Requests available.</ion-card-content>
+    <ion-card class="no-request-card">
+    <ion-card-content>
+      <ion-icon name="car-outline" class="no-request-icon"></ion-icon>
+      <h3>No Ambulance Requests</h3>
+      <p>There are currently no pending ambulance requests.</p>
+      </ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

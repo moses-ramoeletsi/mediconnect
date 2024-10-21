@@ -1,26 +1,29 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon
-    style="color: brown"
-    class="back"
-    name="arrow-back"
-    routerLink="/doctor-dashboard"
-  ></ion-icon>
+
+  <div class="header-container">
+    <ion-button fill="clear" class="back-button" routerLink="/doctor-dashboard">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>User Feedback</h1>
+  </div>
 
   <div *ngIf="feedback.length > 0; else noFeedback">
-    <ion-card *ngFor="let userFeedback of feedback">
+    <ion-card *ngFor="let userFeedback of feedback" class="feedback-card">
       <ion-card-header>
         <ion-card-title>{{userFeedback.name}}</ion-card-title>
         <ion-card-subtitle>{{userFeedback.email}}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        <p>Feedback Type: {{userFeedback.feedBackType}}</p>
-        <p>Message: {{userFeedback.message}} </p>
+        <p><strong>Feedback Type:</strong> {{userFeedback.feedBackType}}</p>
+        <p><strong>Message:</strong> {{userFeedback.message}}</p>
       </ion-card-content>
     </ion-card>
   </div>
+
   <ng-template #noFeedback>
-    <ion-card>
+    <ion-card class="no-feedback-card">
       <ion-card-content>
+        <ion-icon name="chatbox-ellipses-outline" class="no-feedback-icon"></ion-icon>
         <p>No feedback available</p>
       </ion-card-content>
     </ion-card>

@@ -1,111 +1,224 @@
 ion-content {
-    --ion-background-color: #fdfdfd;
-  }
-  ion-list {
-    background: white;
-  }
-  ion-item {
-    --background: white;
-  }
-  ion-card {
-    --background: #fefefe;
-    border-radius: 5px;
+  --background: #fdfdfd;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .back-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    --color: #d73d3f;
   }
 
-  .back {
-    font-size: 24px;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: #3e8156;
-    color: #f0f0f0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
-  }
-  .medicationPage{
-    background: white;
-    color: black;
-  }
-  .custom-color-button {
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #d73d3f;
-    border-color: #d73d3f;
   }
-  
-  .custom-button {
-    --background: var(--ion-color-btn);
+}
+
+.cart-section {
+  margin-bottom: 2rem;
+  --background-color: #f5f5f5;
+}
+
+.cart-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(#d73d3f, 0.2);
+  --background: #f5f5f5;
+
+  ion-card-header {
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #d73d3f;
+      font-size: 1.25rem;
+    }
   }
-  
-  .medication {
-    margin-top: 10px;
+  ion-list {
+    background: #f5f5f5;
   }
-  
-  .medication ion-card {
-    border-radius: 15px;
-    background-color: #fefefe;
-    overflow: hidden;
+  ion-item{
+    --background: #f5f5f5;
   }
+}
+
+.cart-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-bottom: 0.5rem;
+  --background: #f5f5f5;
   
-  .medication ion-card img {
+  .item-content {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item-name {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
+
+    .quantity {
+      min-width: 2rem;
+      text-align: center;
+      color: #333;
+    }
+
+    .quantity-btn {
+      --padding-start: 0.5rem;
+      --padding-end: 0.5rem;
+    }
+  }
+
+  .price-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .price {
+      font-weight: 500;
+      color: #d73d3f;
+    }
+  }
+}
+
+.cart-total {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+  --background: #f5f5f5;
+
+  .total {
+    color: #333;
+  }
+  .total-amount {
+    font-weight: 600;
+    color: #d73d3f;
+    font-size: 1.2rem;
+  }
+
+  .checkout-btn {
+    margin-top: 1rem;
+    --border-radius: 10px;
+  }
+}
+
+.medication-grid {
+  margin-top: 1rem;
+}
+
+.medicine-card {
+  border-radius: 16px;
+  overflow: hidden;
+  --background: #f5f5f5;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
     height: 200px;
-    object-fit: cover;
-  }
-  
-  .medication ion-card-header {
-    padding-bottom: 0;
-  }
-  
-  .medication ion-card-content {
-    padding-top: 0;
-  }
-  
-  .medication ion-card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #d73d3f;
-  }
-  
-  .medication ion-card-subtitle {
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  .medication ion-card:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease;
-  }
-  .top-margin {
-    margin-top: 16px;
-  }
-  
-  .add-to-cart ion-card {
-    border-radius: 15px;
-    background-color: #fefefe;
-    border: 1px solid #d73d3f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
-  
-  .add-to-cart ion-card-header {
-    padding-bottom: 0;
+
+  ion-card-header {
+    padding: 1rem;
+
+    ion-card-title {
+      color: #d73d3f;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    ion-card-subtitle {
+      color: var(--ion-color-medium);
+      font-size: 0.9rem;
+    }
   }
-  
-  .add-to-cart ion-card-content {
-    padding-top: 0;
+
+  ion-card-content {
+    padding: 0 1rem 1rem;
+
+    .price-tag {
+      margin-bottom: 0.5rem;
+    }
+
+    .description {
+      color: var(--ion-color-medium);
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .add-to-cart-btn {
+      --border-radius: 8px;
+    }
   }
-  
-  .add-to-cart ion-card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
+}
+
+.medication-state-card {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+
+    .medication-state-icon {
+    font-size: 3rem;
     color: #d73d3f;
+    margin-bottom: 1rem;
   }
-  
-  .add-to-cart ion-card-subtitle {
+
+  p {
     font-size: 1rem;
-    color: #333;
+    color: #666;
   }
-  .remove {
-    height: 18px;
-    width: 14px;
+}
+
+@media (max-width: 768px) {
+  .cart-item {
+    .item-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .price-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
   }
-  
+}

@@ -1,10 +1,11 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon
-    style="color: red"
-    class="back"
-    name="arrow-back"
-    routerLink="/doctor-dashboard"
-  ></ion-icon>
+  <div class="header-container">
+    <ion-button fill="clear" class="back-button" routerLink="/doctor-dashboard">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>Add Medication</h1>
+  </div>
+  
   <ion-fab
     slot="fixed"
     vertical="bottom"
@@ -123,8 +124,12 @@
         <ion-card-subtitle>{{medicine.medicationType}}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        <ion-label>M: {{medicine.price}}</ion-label> <br />
-        {{ medicine.description }}
+        <div class="price-tag">
+          <ion-chip color="danger" outline>
+            <ion-label>M{{ medicine.price }}</ion-label>
+          </ion-chip>
+        </div>
+        <p class="description">{{ medicine.description }}</p>
         <ion-item lines="none">
           <ion-button
             slot="start"
@@ -144,8 +149,12 @@
     </ion-card>
   </div>
   <ng-template #noMedicine>
-    <ion-card>
-      <ion-card-content> No medicine available </ion-card-content>
+    <ion-card class="no-medication-card">
+      <ion-card-content>
+        <ion-icon name="medkit-outline" class="no-medication-icon"></ion-icon>
+        <h3>No Appointments available</h3>
+        <p>There are currently no medicine available.</p>
+      </ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

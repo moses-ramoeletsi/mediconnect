@@ -60,6 +60,7 @@ export class LoginPage implements OnInit, OnDestroy {
         (userCredential) => {
           this.fireServices.getUserDetails(userCredential.user).subscribe((userData: any) => {
             if (userData && Object.keys(userData).length !== 0) {
+              localStorage.setItem('userRole', userData.userType);
               if (userData.userType === 'doctor') {
                 this.router.navigate(['/doctor-dashboard']);
               } else {

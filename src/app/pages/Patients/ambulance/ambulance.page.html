@@ -1,4 +1,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
+  <div class="header-container">
+    <h1>User Ambulance Requests</h1>
+  </div>
   <ion-fab
     slot="fixed"
     vertical="bottom"
@@ -122,8 +125,11 @@
     </ion-card>
   </div>
   <ng-template #noAmbulanceRequests>
-    <ion-card>
-      <ion-card-content> No Ambulance Requests available. </ion-card-content>
+    <ion-card class="ambulance-state-card">
+      <ion-card-content>
+        <ion-icon name="car-outline" class="ambulance-state-icon"></ion-icon> 
+        <p>No Ambulance Requests available.</p> 
+      </ion-card-content>
     </ion-card>
   </ng-template>
 </ion-content>

@@ -1,5 +1,11 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-icon style="color: brown;" name="arrow-back" routerLink="/patient-dashboard"></ion-icon>
+  <div class="header-container">
+    <ion-button fill="clear" color="danger" routerLink="/patient-dashboard" class="back-button">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>Events</h1>
+  </div>  
+  
   <div
   *ngIf="events.length > 0; else noEvents"
   class="upcoming-events"
@@ -12,17 +18,21 @@
       <ion-card-subtitle>Posted by: {{event.authorName}}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Time: {{ getFormattedDateTime(event.date_and_time).time }}</p>
-      <p>Date: {{ getFormattedDateTime(event.date_and_time).date }}</p>
-      <p>Location: {{ event.location }}</p>
-      <p>{{ event.description }}</p>
+      <ion-card-content>
+        <p><ion-icon name="time-outline"></ion-icon> {{ getFormattedDateTime(event.date_and_time).time }}</p>
+        <p><ion-icon name="calendar-outline"></ion-icon> {{ getFormattedDateTime(event.date_and_time).date }}</p>
+        <p><ion-icon name="location-outline"></ion-icon> {{ event.location }}</p>
+        <p><ion-icon name="information-circle-outline"></ion-icon> {{ event.description }}</p>
+      </ion-card-content>
     </ion-card-content>
   </ion-card>
 </div>
   <ng-template #noEvents>
-    <ion-card>
+
+    <ion-card class="events-state-card">
       <ion-card-content>
-        No events available
+        <ion-icon name="car-outline" class="events-state-icon"></ion-icon> 
+        <p>No events available.</p> 
       </ion-card-content>
     </ion-card>
   </ng-template>

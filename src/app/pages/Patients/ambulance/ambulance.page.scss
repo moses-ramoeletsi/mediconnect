@@ -56,15 +56,18 @@ ion-content {
     --color: #f0f0f0;
   }
   
-  .back {
-    font-size: 24px;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: #d73d3f;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
+  .header-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #d73d3f;
+    }
   }
 
 .top-margin {
@@ -73,4 +76,22 @@ ion-content {
 
 ion-fab-button {
     --background: #d73d3f;
+}
+
+
+.ambulance-state-card {
+  text-align: center;
+  padding: 2rem;
+  background: #f5f5f5;
+
+    .ambulance-state-icon {
+    font-size: 3rem;
+    color: #d73d3f;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
 }

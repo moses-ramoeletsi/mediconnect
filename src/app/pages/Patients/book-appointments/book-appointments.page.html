@@ -1,69 +1,88 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div *ngIf="userAppointments.length > 0; else noAppointments">
-    <h5 style="color: black">Your Appointments</h5>
-    <ion-card *ngFor="let appointment of userAppointments">
+  <div class="header-container">
+    <h1>Your Appointments</h1>
+  </div>
+  <div *ngIf="userAppointments.length > 0; else noAppointments" class="appointments-container">
+    <ion-card *ngFor="let appointment of userAppointments" class="appointment-card">
+      <ion-card-header>
+        <ion-card-title>{{ appointment.doctorName }}</ion-card-title>
+        <ion-card-subtitle>{{ appointment.specialty }}</ion-card-subtitle>
+      </ion-card-header>
       <ion-card-content>
-        <h6 class="ion-text-center">{{ appointment.doctorName }}</h6>
-        <p><strong>Specialty:</strong> {{ appointment.specialty }}</p>
-        <p><strong>Time:</strong> {{ getFormattedDateTime(appointment.date_and_time).time }}</p>
-        <p><strong>Date:</strong> {{ getFormattedDateTime(appointment.date_and_time).date }}</p>
-        <p><strong>Purpose:</strong> {{ appointment.purpose }}</p>
+        <ion-list lines="none">
+          <ion-item lines="none">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Date</h3>
+              <p>{{ getFormattedDateTime(appointment.date_and_time).date }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="time-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Time</h3>
+              <p>{{ getFormattedDateTime(appointment.date_and_time).time }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="medical-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Purpose</h3>
+              <p>{{ appointment.purpose }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
         <div class="ion-text-center ion-margin-top">
           <ion-badge [color]="getAppointmentStatusColor(appointment.status)">
             {{ appointment.status | titlecase }}
           </ion-badge>
         </div>
-        <ion-item lines="none" style="color: #d73d3f;" *ngIf="appointment.status === 'approved'" (click)="openReminderModal(appointment)">
-          <ion-icon color="custom" name="alarm"></ion-icon>
-          <ion-label style="margin-inline-start: 5px;">Reminder</ion-label>
-        </ion-item>
+        <ion-button expand="block" fill="clear" color="custom" *ngIf="appointment.status === 'approved'" (click)="openReminderModal(appointment)">
+          <ion-icon name="alarm" slot="start"></ion-icon>
+          Set Reminder
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </div>
 
   <ng-template #noAppointments>
-    <ion-card>
+    <ion-card class="no-appointments-card">
       <ion-card-content>
+        <ion-icon name="calendar-outline" class="no-appointments-icon"></ion-icon>
         <p>No Appointments available</p>
       </ion-card-content>
     </ion-card>
   </ng-template>
 
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" *ngFor="let doctor of doctors$ | async">
-          <ion-card class="equal-height" (click)="openDoctorDetails(doctor.id)">
-            <ion-card-header>
-              <ion-avatar>
-                <img
-                  [src]="doctor.image || '../../../../assets/images/medicoonnect-logo.png'"
-                  [alt]="doctor.name"
-                />
-              </ion-avatar>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-text color="dark">
-                <h2>{{ doctor.name }}</h2>
-              </ion-text>
-              <ion-text color="medium">
-                <p>{{ doctor.specialty }}</p>
-              </ion-text>
-              <ion-button
-                expand="block"
-                color="custom"
-                fill="clear"
-                (click)="openBookingModal(doctor); $event.stopPropagation()"
-              >
-                Book
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <div class="header-container">
+    <h1 class="section-title">Available Doctors</h1>
+  </div>  
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let doctor of doctors$ | async">
+        <ion-card class="doctor-card" (click)="openDoctorDetails(doctor.id)">
+          <ion-card-header>
+            <ion-avatar>
+              <img [src]="doctor.image || '../../../../assets/images/medicoonnect-logo.png'" [alt]="doctor.name" />
+            </ion-avatar>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text color="danger">
+              <h2>{{ doctor.name }}</h2>
+            </ion-text>
+            <ion-text color="medium">
+              <p>{{ doctor.specialty }}</p>
+            </ion-text>
+            <ion-button expand="block" color="custom" (click)="openBookingModal(doctor); $event.stopPropagation()">
+              Book Appointment
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
+  <!-- Booking Modal -->
   <ion-modal #modal trigger="open-modal">
     <ng-template>
       <ion-header>
@@ -76,55 +95,29 @@
       </ion-header>
       <ion-content class="ion-padding">
         <form [formGroup]="appointmentForm" (ngSubmit)="bookAppointment()">
-          <ion-input
-            label="Doctor's Name"
-            labelPlacement="floating"
-            type="text"
-            style="color: black"
-            fill="outline"
-            [value]="selectedDoctor?.name"
-            readonly
-          ></ion-input>
-
-          <ion-input
-            label="Doctor's Specialty"
-            labelPlacement="floating"
-            type="text"
-            style="color: black"
-            class="top-margin"
-            fill="outline"
-            [value]="selectedDoctor?.specialty"
-            readonly
-          ></ion-input>
-          <ion-datetime
-            formControlName="date_and_time"
-            fill="outline"
-            displayFormat="MMM DD, YYYY HH:mm"
-            placeholder="Select Date & Time"
-            class="top-margin"
-            style="color: rgb(204, 204, 204)"
-          ></ion-datetime>
-          <ion-textarea
-            label="Purpose"
-            labelPlacement="floating"
-            type="text"
-            style="color: black"
-            class="top-margin"
-            fill="outline"
-            formControlName="purpose"
-            rows="3"
-          ></ion-textarea>
-          <ion-button
-            expand="block"
-            type="submit"
-            [disabled]="!appointmentForm.valid"
-            >Book Appointment</ion-button
-          >
+          <ion-item style="color: black;" lines="none">
+            <ion-label position="stacked">Doctor's Name</ion-label>
+            <ion-input type="text" [value]="selectedDoctor?.name" readonly></ion-input>
+          </ion-item>
+          <ion-item style="color: black;" lines="none">
+            <ion-label position="stacked">Doctor's Specialty</ion-label>
+            <ion-input type="text" [value]="selectedDoctor?.specialty" readonly></ion-input>
+          </ion-item>
+          <ion-item style="color: black;" lines="none">
+            <ion-label position="stacked">Date & Time</ion-label>
+            <ion-datetime formControlName="date_and_time" displayFormat="MMM DD, YYYY HH:mm" placeholder="Select Date & Time"></ion-datetime>
+          </ion-item>
+          <ion-item style="color: black;" lines="none">
+            <ion-label position="stacked">Purpose</ion-label>
+            <ion-textarea formControlName="purpose" rows="3"></ion-textarea>
+          </ion-item>
+          <ion-button expand="block" type="submit" [disabled]="!appointmentForm.valid">Book Appointment</ion-button>
         </form>
       </ion-content>
     </ng-template>
   </ion-modal>
 
+  <!-- Reminder Modal -->
   <ion-modal #reminderModal trigger="open-modal">
     <ng-template>
       <ion-header>
@@ -137,32 +130,28 @@
       </ion-header>
       <ion-content class="ion-padding">
         <form [formGroup]="reminderForm" (ngSubmit)="setAppointmentReminder()">
-          <ion-list>
-            <ion-radio-group formControlName="reminderTime">
-              <ion-list-header>
-                <ion-label>Select Reminder Time</ion-label>
-              </ion-list-header>
-              <ion-item lines="none">
-                <ion-label>5 minutes before</ion-label>
-                <ion-radio slot="start" value="5"></ion-radio>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-label>15 minutes before</ion-label>
-                <ion-radio slot="start" value="15"></ion-radio>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-label>30 minutes before</ion-label>
-                <ion-radio slot="start" value="30"></ion-radio>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-label>1 hour before</ion-label>
-                <ion-radio slot="start" value="60"></ion-radio>
-              </ion-item>
-            </ion-radio-group>
-          </ion-list>
-          <ion-button expand="block" type="submit" [disabled]="!reminderForm.valid">
-            Set Reminder
-          </ion-button>
+          <ion-radio-group formControlName="reminderTime">
+            <ion-list-header>
+              <ion-label>Select Reminder Time</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>5 minutes before</ion-label>
+              <ion-radio slot="end" value="5"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>15 minutes before</ion-label>
+              <ion-radio slot="end" value="15"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>30 minutes before</ion-label>
+              <ion-radio slot="end" value="30"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>1 hour before</ion-label>
+              <ion-radio slot="end" value="60"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+          <ion-button expand="block" type="submit" [disabled]="!reminderForm.valid">Set Reminder</ion-button>
         </form>
       </ion-content>
     </ng-template>

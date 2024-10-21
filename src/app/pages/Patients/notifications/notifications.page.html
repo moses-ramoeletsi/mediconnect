@@ -1,7 +1,11 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <h3>Your Notifications</h3>
-  <ion-icon routerLink="/patient-dashboard" name="arrow-back"></ion-icon>
-  <ion-spinner *ngIf="loadingNotifications" name="crescent"></ion-spinner>
+  <div class="header-container">
+    <ion-button fill="clear" color="danger" routerLink="/patient-dashboard" class="back-button">
+      <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1>Your Notifications</h1>
+    <ion-spinner *ngIf="loadingNotifications" name="crescent"></ion-spinner>
+  </div>
   <div *ngIf="!loadingNotifications && notifications.length > 0">
     <div>
       <h2>Ambulance Requests Notifications</h2>
@@ -22,9 +26,10 @@
     </ion-card>
   </div>
   <ng-container *ngIf="!loadingNotifications && notifications.length === 0">
-    <ion-card>
+    <ion-card class="notification-state-card">
       <ion-card-content>
-        No notifications available
+        <ion-icon name="notifications" class="notification-state-icon"></ion-icon>
+        <p>No notification available</p>
       </ion-card-content>
     </ion-card>
   </ng-container>
