@@ -37,10 +37,39 @@
             {{ appointment.status | titlecase }}
           </ion-badge>
         </div>
-        <ion-button expand="block" fill="clear" color="custom" *ngIf="appointment.status === 'approved'" (click)="openReminderModal(appointment)">
-          <ion-icon name="alarm" slot="start"></ion-icon>
-          Set Reminder
-        </ion-button>
+
+        <div class="appointment-actions" *ngIf="appointment.status === 'completed'">
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            color="danger" 
+            (click)="deleteCompletedAppointment(appointment)">
+            <ion-icon name="trash" slot="start"></ion-icon>
+            Delete Appointment
+          </ion-button>
+        </div>
+
+        <div class="reminder-controls" *ngIf="appointment.status === 'approved'">
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            color="custom" 
+            *ngIf="!appointment.hasReminder"
+            (click)="openReminderModal(appointment)">
+            <ion-icon name="alarm" slot="start"></ion-icon>
+            Set Reminder
+          </ion-button>
+          
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            color="danger" 
+            *ngIf="appointment.hasReminder"
+            (click)="cancelReminder(appointment.id)">
+            <ion-icon name="alarm-off" slot="start"></ion-icon>
+            Cancel Reminder
+          </ion-button>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>
@@ -82,7 +111,6 @@
     </ion-row>
   </ion-grid>
 
-  <!-- Booking Modal -->
   <ion-modal #modal trigger="open-modal">
     <ng-template>
       <ion-header>
@@ -117,41 +145,60 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Reminder Modal -->
   <ion-modal #reminderModal trigger="open-modal">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Set Reminder</ion-title>
+          <ion-title>Set Appointment Reminder</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="dismissReminderModal()">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+      
       <ion-content class="ion-padding">
         <form [formGroup]="reminderForm" (ngSubmit)="setAppointmentReminder()">
-          <ion-radio-group formControlName="reminderTime">
-            <ion-list-header>
-              <ion-label>Select Reminder Time</ion-label>
-            </ion-list-header>
-            <ion-item>
-              <ion-label>5 minutes before</ion-label>
-              <ion-radio slot="end" value="5"></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>15 minutes before</ion-label>
-              <ion-radio slot="end" value="15"></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>30 minutes before</ion-label>
-              <ion-radio slot="end" value="30"></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>1 hour before</ion-label>
-              <ion-radio slot="end" value="60"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-          <ion-button expand="block" type="submit" [disabled]="!reminderForm.valid">Set Reminder</ion-button>
+          <ion-list lines="none">
+            <ion-radio-group formControlName="reminderTime">
+              <ion-list-header>
+                <ion-label>Remind me before the appointment</ion-label>
+              </ion-list-header>
+              
+              <ion-item>
+                <ion-label>5 minutes</ion-label>
+                <ion-radio slot="end" value="5"></ion-radio>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>15 minutes</ion-label>
+                <ion-radio slot="end" value="15"></ion-radio>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>30 minutes</ion-label>
+                <ion-radio slot="end" value="30"></ion-radio>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>1 hour</ion-label>
+                <ion-radio slot="end" value="60"></ion-radio>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>2 hours</ion-label>
+                <ion-radio slot="end" value="120"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+  
+          <div class="ion-padding">
+            <ion-button 
+              expand="block" 
+              type="submit" 
+              [disabled]="!reminderForm.valid">
+              Set Reminder
+            </ion-button>
+          </div>
         </form>
       </ion-content>
     </ng-template>

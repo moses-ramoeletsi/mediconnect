@@ -27,7 +27,7 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
   appointmentSubscription: Subscription | undefined;
   ambulanceRequestSubscription: any;
   noAmbulanceRequestsToday: boolean = false;
-
+  completionTimeouts: Map<string, any> = new Map();
 
   constructor(
     private navCtrl: NavController,
@@ -68,6 +68,8 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
     if (this.ambulanceRequestSubscription) {
       this.ambulanceRequestSubscription.unsubscribe(); 
     }
+    this.completionTimeouts.forEach((timeout) => clearTimeout(timeout));
+    this.completionTimeouts.clear();
   }
 
   openChat() {
@@ -78,6 +80,21 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
     this.appointmentSubscription = this.appointmentsService.getAppointmentsForDoctor(this.uid).subscribe(
       (appointments: AppointmentModel[]) => {
         const today = this.datePipe.transform(this.now, 'yyyy-MM-dd');
+        
+        // Filter appointments and schedule completion
+        appointments.forEach(appointment => {
+          const appointmentDate = this.datePipe.transform(appointment.date_and_time, 'yyyy-MM-dd');
+          const appointmentTime = new Date(appointment.date_and_time);
+          
+          if (appointment.status === 'approved') {
+            // If appointment is today and hasn't been scheduled for completion yet
+            if (appointmentDate === today && !this.completionTimeouts.has(appointment.id)) {
+              this.scheduleAppointmentCompletion(appointment);
+            }
+          }
+        });
+
+        // Update the displayed appointments
         this.approvedAppointments = appointments
           .filter(appointment => {
             const appointmentDate = this.datePipe.transform(appointment.date_and_time, 'yyyy-MM-dd');
@@ -85,19 +102,45 @@ export class DoctorDashboardPage implements OnInit, OnDestroy {
             return (
               appointment.status === 'approved' &&
               appointmentDate === today &&
-              appointmentTime > this.now 
+              appointmentTime > this.now
             );
           })
-          .slice(0, 2); 
-
-        this.updatePassedAppointments(appointments); 
+          .slice(0, 2);
       },
       (error) => {
         console.error('Error fetching appointments:', error);
       }
     );
   }
- 
+
+  scheduleAppointmentCompletion(appointment: AppointmentModel) {
+    const appointmentTime = new Date(appointment.date_and_time);
+    const now = new Date();
+    
+    const completionTime = new Date(appointmentTime.getTime() + 2 * 60000); // Add 2 minutes
+    const delay = completionTime.getTime() - now.getTime();
+
+    if (delay > 0) {
+      if (this.completionTimeouts.has(appointment.id)) {
+        clearTimeout(this.completionTimeouts.get(appointment.id));
+      }
+
+      const timeout = setTimeout(() => {
+        this.appointmentsService.updateAppointmentStatus(appointment.id, 'completed')
+          .then(() => {
+            console.log(`Appointment ${appointment.id} marked as completed after 2 minutes.`);
+            this.loadApprovedAppointments();
+            this.completionTimeouts.delete(appointment.id);
+          })
+          .catch(error => {
+            console.error('Error updating appointment status:', error);
+          });
+      }, delay);
+
+      this.completionTimeouts.set(appointment.id, timeout);
+    }
+  }
+
   loadAllAmbulanceRequests() {
     this.ambulanceRequestSubscription = this.ambulanceService.getAllAmbulanceRequests().subscribe(
       (requests: any[]) => {

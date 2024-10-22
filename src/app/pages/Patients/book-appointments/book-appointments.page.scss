@@ -113,7 +113,16 @@ ion-avatar {
 
 ion-modal {
   --background: #fefefe;
-
+  
+  ion-list{
+    background: #fefefe;
+  }
+  ion-list-header {
+    color: #d73d3f;
+    text-align: center;
+    font-size: 1rem;
+    font-style: bold;
+  }
   ion-header ion-toolbar {
     --background: #d73d3f;
     --color: #ffffff;
@@ -128,13 +137,18 @@ ion-modal {
   }
 
   ion-item {
-    --background: #fefefe;
+    --background: #f5f5f5;
     --border-color: #d1d1d1;
     margin-bottom: 1rem;
+    color: #333;
   }
 
   ion-button[type="submit"] {
     margin-top: 1rem;
+  }
+
+  ion-radio-group {
+    color: #333;
   }
 }
 

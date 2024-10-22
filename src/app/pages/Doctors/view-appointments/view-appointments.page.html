@@ -39,13 +39,19 @@
           </ion-item>
         </ion-list>
 
-        <ion-item lines="none" class="status-select-item">
-          <ion-label>Update Status</ion-label>
-          <ion-select class="status-select" [(ngModel)]="appointment.status" (ionChange)="updateAppointmentStatus(appointment.id, appointment.status, appointment)">
-            <ion-select-option value="approved">Approve</ion-select-option>
-            <ion-select-option value="rejected">Reject</ion-select-option>
-          </ion-select>
-        </ion-item>
+        <div class="status-update-container">
+          <ion-item lines="none" class="status-update-item">
+            <ion-label position="stacked" color="primary">Update Appointment Status</ion-label>
+            <ion-select 
+              class="status-select" 
+              [(ngModel)]="appointment.status" 
+              (ionChange)="updateAppointmentStatus(appointment.id, appointment.status, appointment)"
+              interface="popover">
+              <ion-select-option value="approved">Approve</ion-select-option>
+              <ion-select-option value="rejected">Reject</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>

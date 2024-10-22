@@ -85,21 +85,47 @@ ion-content {
       }
     }
   }
-
-  .status-select-item {
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333;
-  }
-
-  .status-select {
-    max-width: 150px;
-    font-size: 0.9rem;
-    color: #666;
-  }
+}
+.status-update-container {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
 }
 
+.status-update-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --background: transparent;
+}
+
+.status-update-item ion-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #d73d3f;
+}
+
+.status-select {
+  width: 100%;
+  max-width: none;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background: white;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+ion-select::part(icon) {
+  color: #d73d3f;
+}
+
+ion-select::part(text) {
+  margin-right: 0.5rem;
+}
 .no-appointments-card {
   text-align: center;
   padding: 2rem;

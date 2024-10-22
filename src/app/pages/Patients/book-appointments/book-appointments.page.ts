@@ -15,6 +15,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
   styleUrls: ['./book-appointments.page.scss'],
 })
 export class BookAppointmentsPage implements OnInit {
+  [x: string]: any;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('reminderModal')  reminderModal!: IonModal;
 
@@ -61,17 +62,28 @@ export class BookAppointmentsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.requestNotificationPermission();
+    this.requestNotificationPermissions();
+    setInterval(() => {
+      this.appointmentsService.checkAndUpdateReminders();
+    }, 60000);
     this.userService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
       this.loadUserAppointments(user.uid); 
     });
   }
 
-  async requestNotificationPermission() {
-    const granted = await LocalNotifications.requestPermissions();
-    if (granted.display === 'granted') {
-      console.log('Notification permissions granted');
+
+  async requestNotificationPermissions() {
+    try {
+      const perms = await LocalNotifications.requestPermissions();
+      if (perms.display !== 'granted') {
+        await this.showAlert(
+          'Notifications Required',
+          'Please enable notifications to receive appointment reminders.'
+        );
+      }
+    } catch (error) {
+      console.error('Error requesting notification permissions:', error);
     }
   }
 
@@ -103,6 +115,14 @@ export class BookAppointmentsPage implements OnInit {
   }
 
   openReminderModal(appointment: any) {
+    if (appointment.status !== 'approved') {
+      this.showAlert(
+        'Not Available',
+        'Reminders can only be set for approved appointments.'
+      );
+      return;
+    }
+    
     this.selectedAppointment = appointment;
     this.reminderModal.present();
   }
@@ -133,28 +153,43 @@ export class BookAppointmentsPage implements OnInit {
   }
 
   async setAppointmentReminder() {
-    if (this.reminderForm.valid && this.selectedAppointment) {
-      const reminderTimeInMinutes = this.reminderForm.value.reminderTime;
-      const appointmentDateTime = new Date(this.selectedAppointment.date_and_time);
-      const reminderTime = new Date(appointmentDateTime.getTime() - reminderTimeInMinutes * 60 * 1000);
+    if (!this.reminderForm.valid || !this.selectedAppointment) {
+      return;
+    }
 
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            id: this.selectedAppointment.id,
-            title: 'Appointment Reminder',
-            body: `You have an appointment with Dr. ${this.selectedAppointment.doctorName} in ${reminderTimeInMinutes} minutes.`,
-            schedule: { at: reminderTime },
-            sound: 'default',
-            smallIcon: 'icon.png',
-          },
-        ],
-      });
+    try {
+      const appointmentDate = new Date(this.selectedAppointment.date_and_time);
+      const minutesBefore = parseInt(this.reminderForm.value.reminderTime);
+      const reminderTime = new Date(appointmentDate.getTime() - (minutesBefore * 60000));
 
-      this.showAlert('Reminder Set', `Reminder set for ${reminderTimeInMinutes} minutes before your appointment.`);
+      if (reminderTime <= new Date()) {
+        throw new Error('Reminder time must be in the future');
+      }
+
+      await this.appointmentsService.setAppointmentReminder(
+        this.selectedAppointment.id,
+        reminderTime
+      );
+
+      await this.showAlert(
+        'Reminder Set',
+        `You will be notified ${minutesBefore} minutes before your appointment.`
+      );
       this.dismissReminderModal();
+    } catch (error) {
+      await this.showAlert('Error', 'Failed to set reminder: ');
     }
   }
+
+  async cancelReminder(appointmentId: string) {
+    try {
+      await this.appointmentsService.cancelReminder(appointmentId);
+      await this.showAlert('Success', 'Reminder cancelled successfully');
+    } catch (error) {
+      await this.showAlert('Error', 'Failed to cancel reminder: ');
+    }
+  }
+
 
   getFormattedDateTime(dateTimeStr: string): { date: string; time: string } {
     const dateTime = new Date(dateTimeStr);
@@ -177,9 +212,46 @@ export class BookAppointmentsPage implements OnInit {
         return 'warning';
       case 'rejected':
         return 'danger';
+      case 'completed': 
+        return 'medium';
       default:
         return 'medium';
     }
+  }
+
+  async deleteCompletedAppointment(appointment: any) {
+    if (appointment.status !== 'completed') {
+      await this.showAlert(
+        'Not Allowed',
+        'Only completed appointments can be deleted.'
+      );
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this completed appointment?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: async () => {
+            try {
+              await this.appointmentsService.deleteAppointment(appointment.id);
+              await this.showAlert('Success', 'Appointment deleted successfully');
+              this.loadUserAppointments(this.currentUser.uid);
+            } catch (error) {
+              await this.showAlert('Error', 'Failed to delete appointment');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async showAlert(header: string, message: string) {
