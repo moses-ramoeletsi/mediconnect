@@ -100,7 +100,6 @@ export class ViewAppointmentsPage implements OnInit {
          {
            title: `Appointment Status Changed`,
            body: `Your appointment with Dr. ${doctorName} has been ${status}.`,
-           // id: new Date().getTime(),
            id: Math.floor(Math.random() * 100000), 
            schedule: { at: new Date(Date.now() + 1000) },
            extra: { appointmentId, doctorName, patientName, status },

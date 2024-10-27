@@ -101,4 +101,64 @@
       </ion-card-content>
     </ion-card>
   </ng-template>
+
+  <div class="header-container">
+    <h1 style="margin-top: 1rem;">Your Orders</h1>
+  </div>
+
+  <div class="orders-container">
+    <div class="orders-section" *ngIf="orders.length > 0; else noOrders">
+      <ion-list>
+        <ion-item-group *ngFor="let order of orders" class="order-card">
+          <ion-item lines="none" class="order-header">
+            <ion-label>
+              <h2 class="order-title">
+                <ion-icon name="receipt-outline" ></ion-icon>
+                Order #{{ order.id }}
+              </h2>
+              <p class="order-date">
+                <ion-icon name="calendar-outline"></ion-icon>
+                {{ order.timestamp.toDate() | date:'medium' }}
+              </p>
+            </ion-label>
+            <ion-button fill="clear" color="danger" slot="end" (click)="deleteOrder(order.id)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+  
+          <ion-item-group class="order-items">
+            <ion-item *ngFor="let item of order.items" lines="none" class="order-item">
+              <ion-thumbnail slot="start">
+                <ion-icon name="medical-outline" color="medium" class="medicine-icon"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>
+                <h3 class="item-name">{{ item.medicineName }}</h3>
+                <ion-note color="medium">Quantity: {{ item.quantity }}</ion-note>
+              </ion-label>
+              <ion-note slot="end" color="primary" class="item-price">
+                M{{ item.price }}
+              </ion-note>
+            </ion-item>
+          </ion-item-group>
+  
+          <ion-item lines="none" class="order-footer">
+            <ion-label>
+              <div class="total-section">
+                <span>Total Amount</span>
+                <span class="total-amount">M{{ order.total | number:'1.2-2' }}</span>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-item-group>
+      </ion-list>
+    </div>
+  
+    <ng-template #noOrders>
+      <div class="no-orders">
+        <ion-icon name="file-tray-outline" class="empty-icon"></ion-icon>
+        <h3>No Orders Yet</h3>
+        <p>Your order history will appear here</p>
+      </div>
+    </ng-template>
+  </div>
 </ion-content>

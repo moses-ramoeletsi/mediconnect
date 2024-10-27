@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { Platform } from '@ionic/angular';
 
 export interface Appointment {
   id: string;
@@ -13,17 +14,25 @@ export interface Appointment {
   patientPhone: string;
   date_and_time: string;
   purpose: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'completed';
   specialty: string;
   reminderTime?: string | null;
   hasReminder?: boolean;
+  notification?: any;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentsService {
-  constructor(private firestore: AngularFirestore) {}
+  private isMobile: boolean;
+  constructor(private firestore: AngularFirestore,
+    private platform: Platform
+  ) {
+
+    this.isMobile = this.platform.is('mobile');
+  }
+
 
   createAppointment(appointmentData: any) {
     const docRef = this.firestore.collection('appointments').doc();
@@ -62,28 +71,24 @@ export class AppointmentsService {
     return this.firestore.collection('appointments').doc(appointmentId).update({ status });
   }
   addNotification(notificationData: any) {
-    return this.firestore.collection('notifications').add(notificationData);
+    const docRef = this.firestore.collection('notifications').doc();
+    const id = docRef.ref.id;
+    notificationData.id = id;
+    return docRef.set(notificationData)
   }
-  
-  async setAppointmentReminder(appointmentId: string, reminderTime: Date): Promise<void> {
+
+  async setAppointmentReminder(
+    appointmentId: string, 
+    reminderTime: Date,
+    notification: any
+  ): Promise<void> {
     try {
       await this.firestore.collection('appointments').doc(appointmentId).update({
         reminderTime: reminderTime.toISOString(),
-        hasReminder: true
+        hasReminder: true,
+        notification: notification
       });
 
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            id: parseInt(appointmentId.substring(0, 8), 16), 
-            title: 'Medical Appointment Reminder',
-            body: `Your appointment is coming up soon!`,
-            schedule: { at: reminderTime },
-            sound: 'default',
-            smallIcon: 'ic_notification',
-          }
-        ]
-      });
     } catch (error) {
       console.error('Error setting reminder:', error);
       throw error;
@@ -92,14 +97,27 @@ export class AppointmentsService {
 
   async cancelReminder(appointmentId: string): Promise<void> {
     try {
-      await this.firestore.collection('appointments').doc(appointmentId).update({
-        reminderTime: null,
-        hasReminder: false
-      });
+      const appointmentDoc = await this.firestore
+        .collection('appointments')
+        .doc(appointmentId)
+        .get()
+        .toPromise();
 
-      await LocalNotifications.cancel({
-        notifications: [{ id: parseInt(appointmentId.substring(0, 8), 16) }]
-      });
+      if (appointmentDoc?.exists) {
+        const appointment = appointmentDoc.data() as Appointment;
+        
+        if (this.isMobile && appointment.notification) {
+          await LocalNotifications.cancel({
+            notifications: [{ id: appointment.notification.id }]
+          });
+        }
+
+        await this.firestore.collection('appointments').doc(appointmentId).update({
+          reminderTime: null,
+          hasReminder: false,
+          notification: null
+        });
+      }
     } catch (error) {
       console.error('Error canceling reminder:', error);
       throw error;
@@ -107,23 +125,46 @@ export class AppointmentsService {
   }
 
   async checkAndUpdateReminders(): Promise<void> {
-    const now = new Date();
-    const appointmentsSnapshot = await this.firestore
-      .collection<Appointment>('appointments', ref => 
-        ref.where('status', '==', 'approved')
-           .where('hasReminder', '==', true)
-           .where('reminderTime', '<=', now.toISOString())
-      )
-      .get()
-      .toPromise();
+    if (!this.isMobile) return;
 
-    if (appointmentsSnapshot) {
-      appointmentsSnapshot.forEach(async (doc) => {
-        const appointment = doc.data() as Appointment;
-        if (appointment.reminderTime && new Date(appointment.reminderTime) <= now) {
-          await this.cancelReminder(doc.id);
-        }
-      });
+    try {
+      const now = new Date();
+      const appointmentsSnapshot = await this.firestore
+        .collection<Appointment>('appointments', ref => 
+          ref.where('status', '==', 'approved')
+             .where('hasReminder', '==', true)
+             .where('reminderTime', '<=', now.toISOString())
+        )
+        .get()
+        .toPromise();
+
+      if (appointmentsSnapshot) {
+        const batch = this.firestore.firestore.batch();
+        const pendingCancellations: Promise<void>[] = [];
+
+        appointmentsSnapshot.forEach(doc => {
+          const appointment = doc.data() as Appointment;
+          if (appointment.reminderTime && new Date(appointment.reminderTime) <= now) {
+            if (appointment.notification) {
+              pendingCancellations.push(
+                LocalNotifications.cancel({
+                  notifications: [{ id: appointment.notification.id }]
+                })
+              );
+            }
+
+            batch.update(doc.ref, {
+              reminderTime: null,
+              hasReminder: false,
+              notification: null
+            });
+          }
+        });
+
+        await Promise.all([...pendingCancellations, batch.commit()]);
+      }
+    } catch (error) {
+      console.error('Error checking reminders:', error);
     }
   }
 

@@ -67,4 +67,8 @@ export class MedicationService {
   fetchAllOrders(): Observable<any[]> {
     return this.firestore.collection('orders').valueChanges({ idField: 'id' });
   }
+ 
+  deleteOrder(orderId: string): Promise<void> {
+    return this.firestore.collection('orders').doc(orderId).delete();
+  }
 }

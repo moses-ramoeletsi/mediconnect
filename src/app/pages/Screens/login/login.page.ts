@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,11 +14,13 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginPage implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   private logoutSubscription: Subscription;
+  isLoading = false;
 
   constructor(
     private authService: AuthenticationService,
     public fireServices: UserService,
     public alertController: AlertController,
+    public loadingController: LoadingController,
     public router: Router
   ) {
     this.logoutSubscription = this.authService.getLogoutObservable().subscribe(() => {
@@ -27,6 +29,8 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    localStorage.clear();
+    sessionStorage.clear();
     this.initForm();
   }
 
@@ -53,38 +57,45 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-  login() {
+  async login() {
     if (this.loginForm.valid) {
-      const userLogin = this.loginForm.value;
-      this.authService.login(userLogin).then(
-        (userCredential) => {
-          this.fireServices.getUserDetails(userCredential.user).subscribe((userData: any) => {
+      this.isLoading = true;
+      
+      try {
+        const userLogin = this.loginForm.value;
+        const userCredential = await this.authService.login(userLogin);
+        
+        this.fireServices.getUserDetails(userCredential.user).subscribe(
+          async (userData: any) => {
             if (userData && Object.keys(userData).length !== 0) {
-              localStorage.setItem('userRole', userData.userType);
-              if (userData.userType === 'doctor') {
-                this.router.navigate(['/doctor-dashboard']);
-              } else {
-                this.router.navigate(['/patient-dashboard']);
-              }
+              await this.authService.setUserRole(userData.userType);
+            } else {
+              await this.showAlert('Error', 'User data not found');
+              await this.authService.logout();
             }
-          });
-        },
-        (error) => {
-          this.showAlert('Login Error', error.message);
-        }
-      );
+            this.isLoading = false;
+          },
+          async (error) => {
+            this.isLoading = false;
+            await this.showAlert('Error', 'Failed to get user details');
+            await this.authService.logout();
+          }
+        );
+      } catch (error: any) {
+        this.isLoading = false;
+        await this.showAlert('Login Error', error.message);
+      }
     } else {
-      this.showAlert('Form Error', 'Please check the form fields.');
+      await this.showAlert('Form Error', 'Please check the form fields.');
     }
   }
 
-  showAlert(title: string, message: string) {
-    this.alertController
-      .create({
-        header: title,
-        message: message,
-        buttons: ['OK'],
-      })
-      .then((alert) => alert.present());
+  async showAlert(title: string, message: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }

@@ -1,35 +1,44 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
   constructor(
-    private authenticationService: AuthenticationService,
+    private authService: AuthenticationService,
     private router: Router,
-    private toastController: ToastController
+    private alertController: AlertController
   ) {}
 
-  async canActivate(): Promise<boolean> {
-    if (this.authenticationService.isLoggedIn()) {
-      return true;
-    } else {
-      await this.presentToast('Please log in to access this page');
-      this.router.navigate(['/login']);
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    const expectedRole = route.data['role'];
+    const currentRole = localStorage.getItem('userRole');
+
+    if (!this.authService.isLoggedIn()) {
+      await this.showAlert('Access Denied', 'Please log in to continue.');
+      await this.router.navigate(['/login'], { replaceUrl: true });
       return false;
     }
+
+    if (expectedRole && expectedRole !== currentRole) {
+      await this.showAlert('Access Denied', 'You are not authorized to access this page.');
+      const dashboardRoute = currentRole === 'doctor' ? '/doctor-dashboard' : '/patient-dashboard';
+      await this.router.navigate([dashboardRoute], { replaceUrl: true });
+      return false;
+    }
+
+    return true;
   }
 
-  private async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: 'bottom',
-      color: 'danger',
+  private async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
     });
-    toast.present();
+    await alert.present();
   }
 }

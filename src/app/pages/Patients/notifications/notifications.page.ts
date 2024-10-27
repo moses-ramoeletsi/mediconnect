@@ -48,9 +48,9 @@ export class NotificationsPage implements OnInit {
           text: 'Delete',
           handler: async () => {
             try {
-              await this.notificationsService.deleteNotification(notification.notificationId);
+              await this.notificationsService.deleteNotification(notification.id);
               this.showAlert('Success', 'Notification deleted successfully!');
-              this.notifications = this.notifications.filter(n => n.notificationId !== notification.notificationId);
+              this.notifications = this.notifications.filter(n => n.notificationId !== notification.id);
             } catch (error) {
               this.showAlert('Error', 'Error deleting notification!');
               console.error('Error deleting notification:', error);

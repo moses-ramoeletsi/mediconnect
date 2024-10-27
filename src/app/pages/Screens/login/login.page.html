@@ -9,7 +9,6 @@
       labelPlacement="floating"
       class="top-margin"
       style="color: black"
-      class="top-margin"
       formControlName="email"
     />
     <div
@@ -59,11 +58,14 @@
       expand="full"
       color="custom"
       (click)="login()"
-      >Login</ion-button
+      [disabled]="isLoading"
     >
+      <ion-spinner name="circular" *ngIf="isLoading"></ion-spinner>
+      <span *ngIf="!isLoading">Login</span>
+    </ion-button>
     <p>
       Don't have an account?
-      <a href="/register">Create Account</a>
+      <a routerLink="/register">Create Account</a>
     </p>
   </form>
 </ion-content>

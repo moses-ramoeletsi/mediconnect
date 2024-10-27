@@ -19,10 +19,12 @@ export class MedicationPage implements OnInit {
     description: '',
     imageUrl: '',
   };
+  
   userId: string | null = null;
   medication: any[] = [];
   cart: any[] = [];
   total: number = 0;
+  orders: any[] = [];
   constructor(
     private firestore: MedicationService,
     private fireservice: UserService, 
@@ -38,6 +40,7 @@ export class MedicationPage implements OnInit {
     this.fireservice.getCurrentUser().subscribe(user => {
       if (user) {
         this.userId = user.uid;
+        this.getUserOrders();
       }
     });
   }
@@ -58,6 +61,24 @@ export class MedicationPage implements OnInit {
 
   parseFloat(value: string): number {
     return parseFloat(value);
+  }
+
+  getUserOrders() {
+    if (this.userId) {
+      this.firestore.fetchUserOrders(this.userId).subscribe((orders) => {
+        this.orders = orders;
+      });
+    }
+  }
+
+  deleteOrder(orderId: string) {
+    this.firestore.deleteOrder(orderId).then(() => {
+      this.presentToast('Order successfully deleted');
+      this.getUserOrders(); 
+    }).catch(error => {
+      this.presentToast('Error deleting order: ' + error.message);
+      console.error('Error deleting order:', error);
+    });
   }
 
   addToCart(medicine: any) {

@@ -26,9 +26,7 @@ export class UserService {
   loginWithEmail(data: { email: string; password: string }) {
     return this.userAuth.signInWithEmailAndPassword(data.email, data.password);
   }
-  logout() {
-		return signOut(this.userAuth);
-	}
+
   getUserDetails(data: any) {
     return this.firebaseStore.collection('users').doc(data.uid).valueChanges();
   }
@@ -82,8 +80,5 @@ export class UserService {
         )
       );
   }
-}
-function signOut(auth: any) {
-  throw new Error('Function not implemented.');
 }
 

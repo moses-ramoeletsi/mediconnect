@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavController, IonModal, AlertController } from '@ionic/angular';
-import { BehaviorSubject, filter, map, Observable, switchMap } from 'rxjs';
+import { NavController, IonModal, AlertController, Platform } from '@ionic/angular';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppointmentsService } from 'src/app/services/appointments.service';
 import { UserService } from 'src/app/services/user.service';
@@ -28,6 +28,8 @@ export class BookAppointmentsPage implements OnInit {
   user: Observable<UserModel | null>;
   uid: string = '';
   selectedAppointment: any;
+  hasNotificationPermission: boolean = false;
+  isMobile: boolean = false;
 
   constructor(
     private navCtrl: NavController,
@@ -35,8 +37,10 @@ export class BookAppointmentsPage implements OnInit {
     private userAuth: AngularFireAuth,
     private alertController: AlertController,
     private appointmentsService: AppointmentsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private platform: Platform,
   ) {
+    this.isMobile = this.platform.is('mobile');
     this.doctors$ = this.userService.getDoctors(); 
 
     this.appointmentForm = this.fb.group({
@@ -61,31 +65,86 @@ export class BookAppointmentsPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.requestNotificationPermissions();
-    setInterval(() => {
-      this.appointmentsService.checkAndUpdateReminders();
-    }, 60000);
+  async ngOnInit() {
+    await this.initializeNotifications();
     this.userService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
-      this.loadUserAppointments(user.uid); 
+      this.loadUserAppointments(user.uid);
     });
   }
 
+  async initializeNotifications() {
+    if (this.isMobile) {
+      try {
+        const isSupported = await LocalNotifications.checkPermissions();
+        
+        if (isSupported.display === 'prompt') {
+          const perms = await LocalNotifications.requestPermissions();
+          this.hasNotificationPermission = perms.display === 'granted';
+        } else {
+          this.hasNotificationPermission = isSupported.display === 'granted';
+        }
 
-  async requestNotificationPermissions() {
-    try {
-      const perms = await LocalNotifications.requestPermissions();
-      if (perms.display !== 'granted') {
-        await this.showAlert(
-          'Notifications Required',
-          'Please enable notifications to receive appointment reminders.'
-        );
+        if (!this.hasNotificationPermission) {
+          await this.showNotificationPermissionAlert();
+        }
+
+        await LocalNotifications.registerActionTypes({
+          types: [
+            {
+              id: 'APPOINTMENT_REMINDER',
+              actions: [
+                {
+                  id: 'view',
+                  title: 'View Appointment',
+                },
+                {
+                  id: 'dismiss',
+                  title: 'Dismiss',
+                  destructive: true,
+                },
+              ],
+            },
+          ],
+        });
+
+        LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+          if (notification.actionId === 'view') {
+            this.navCtrl.navigateForward(`/appointments/${notification.notification.extra.appointmentId}`);
+          }
+        });
+
+      } catch (error) {
+        console.error('Error initializing notifications:', error);
+        this.hasNotificationPermission = false;
       }
-    } catch (error) {
-      console.error('Error requesting notification permissions:', error);
     }
   }
+
+  async showNotificationPermissionAlert() {
+    const alert = await this.alertController.create({
+      header: 'Enable Notifications',
+      message: 'To receive appointment reminders, please enable notifications in your device settings.',
+      buttons: [
+        {
+          text: 'Later',
+          role: 'cancel',
+        },
+        {
+          text: 'Open Settings',
+          handler: () => {
+            if (this.platform.is('ios')) {
+              window.open('app-settings:');
+            } else if (this.platform.is('android')) {
+              window.open('package:' + window.location.hostname);
+            }
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
 
   loadUserAppointments(uid: string) {
     this.appointmentsService
@@ -114,18 +173,6 @@ export class BookAppointmentsPage implements OnInit {
     this.reminderForm.reset();
   }
 
-  openReminderModal(appointment: any) {
-    if (appointment.status !== 'approved') {
-      this.showAlert(
-        'Not Available',
-        'Reminders can only be set for approved appointments.'
-      );
-      return;
-    }
-    
-    this.selectedAppointment = appointment;
-    this.reminderModal.present();
-  }
 
   bookAppointment() {
     if (this.appointmentForm.valid && this.currentUser && this.selectedDoctor) {
@@ -152,34 +199,93 @@ export class BookAppointmentsPage implements OnInit {
     }
   }
 
-  async setAppointmentReminder() {
-    if (!this.reminderForm.valid || !this.selectedAppointment) {
+   async openReminderModal(appointment: any) {
+    if (appointment.status !== 'approved') {
+      await this.showAlert(
+        'Not Available',
+        'Reminders can only be set for approved appointments.'
+      );
       return;
     }
 
-    try {
-      const appointmentDate = new Date(this.selectedAppointment.date_and_time);
-      const minutesBefore = parseInt(this.reminderForm.value.reminderTime);
-      const reminderTime = new Date(appointmentDate.getTime() - (minutesBefore * 60000));
-
-      if (reminderTime <= new Date()) {
-        throw new Error('Reminder time must be in the future');
-      }
-
-      await this.appointmentsService.setAppointmentReminder(
-        this.selectedAppointment.id,
-        reminderTime
-      );
-
-      await this.showAlert(
-        'Reminder Set',
-        `You will be notified ${minutesBefore} minutes before your appointment.`
-      );
-      this.dismissReminderModal();
-    } catch (error) {
-      await this.showAlert('Error', 'Failed to set reminder: ');
+    if (this.isMobile && !this.hasNotificationPermission) {
+      await this.showNotificationPermissionAlert();
+      return;
     }
+    
+    this.selectedAppointment = appointment;
+    this.reminderModal.present();
   }
+
+async setAppointmentReminder() {
+  if (!this.reminderForm.valid || !this.selectedAppointment) {
+    return;
+  }
+
+  try {
+    const appointmentDate = new Date(this.selectedAppointment.date_and_time);
+    const minutesBefore = parseInt(this.reminderForm.value.reminderTime);
+    const reminderTime = new Date(appointmentDate.getTime() - (minutesBefore * 60000));
+
+    if (reminderTime <= new Date()) {
+      throw new Error('Reminder time must be in the future');
+    }
+
+    
+    const notification = {
+      id: parseInt(this.selectedAppointment.id.substring(0, 8), 16),
+      title: 'Upcoming Medical Appointment',
+      body: `Reminder: You have an appointment with Dr. ${this.selectedAppointment.doctorName} in ${minutesBefore} minutes.`,
+      schedule: { at: reminderTime },
+      sound: 'default', 
+      attachments: [],
+      actionTypeId: 'APPOINTMENT_REMINDER',
+      extra: {
+        appointmentId: this.selectedAppointment.id,
+      },
+      smallIcon: 'ic_launcher_foreground', 
+      iconColor: '#488AFF'
+    };
+
+    if (this.isMobile) {
+      try {
+        await LocalNotifications.schedule({
+          notifications: [
+            {
+              id: notification.id,
+              title: notification.title,
+              body: notification.body,
+              schedule: notification.schedule,
+              sound: notification.sound,
+              smallIcon: notification.smallIcon,
+              iconColor: notification.iconColor,
+              extra: notification.extra
+            }
+          ]
+        });
+      } catch (error) {
+        console.error('Error scheduling notification:', error);
+        throw new Error('Failed to schedule notification');
+      }
+    }
+
+    await this.appointmentsService.setAppointmentReminder(
+      this.selectedAppointment.id,
+      reminderTime,
+      notification
+    );
+
+    await this.showAlert(
+      'Reminder Set',
+      `You will be notified ${minutesBefore} minutes before your appointment.`
+    );
+    this.dismissReminderModal();
+  } catch (error) {
+    console.error('Error setting reminder:', error);
+    await this.showAlert('Error', 'Failed to set reminder. Please try again.');
+  }
+}
+
 
   async cancelReminder(appointmentId: string) {
     try {

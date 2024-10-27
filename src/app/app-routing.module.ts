@@ -131,12 +131,16 @@ const routes: Routes = [
     path: 'notifications',
     loadChildren: () => import('./pages/Patients/notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
  
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules,  useHash: true  })
   ],
   exports: [RouterModule]
 })
