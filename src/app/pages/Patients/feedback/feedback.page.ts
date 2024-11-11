@@ -5,6 +5,7 @@ import { Observable, filter, switchMap, map } from 'rxjs';
 import { UserModel } from 'src/app/model/userModel';
 import { UserFeedbackService } from 'src/app/services/user-feedback.service';
 import { UserService } from 'src/app/services/user.service';
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 @Component({
   selector: 'app-feedback',
@@ -63,6 +64,22 @@ export class FeedbackPage implements OnInit {
       }
     });
   }
+  sendFeedback() {
+    const templateParams = {
+      from_name: this.userFeedback.name,
+      from_email: this.userFeedback.email,
+      feedback_type: this.userFeedback.feedBackType,
+      message: this.userFeedback.message,
+    };
+
+    emailjs.send('service_zl01dfe', 'template_szfwfyk', templateParams, 'J4QcwJbkk8BXHwX_N')
+      .then((response: EmailJSResponseStatus) => {
+        this.showAlert('Success', 'Feedback email sent successfully!');
+      }, (error) => {
+        this.showAlert('Error', 'Failed to send feedback email.');
+        console.error('Failed to send feedback.', error);
+      });
+  }
 
   async submitFeedBack(modal: IonModal) {
     try {
@@ -76,11 +93,12 @@ export class FeedbackPage implements OnInit {
         await this.userFeedBackServices.updateUserFeedback(this.userFeedback);
         this.showAlert('Success', 'Feedback updated successfully!');
       } else {
-        const docRef = await this.userFeedBackServices.addUserFeedback(
-          this.userFeedback
-        );
+        await this.userFeedBackServices.addUserFeedback(this.userFeedback);
         this.showAlert('Success', 'Feedback submitted successfully!');
       }
+
+      // Send feedback email
+      this.sendFeedback();
 
       this.loadUserFeedback(user!.uid);
       this.resetForm(modal);
@@ -88,6 +106,7 @@ export class FeedbackPage implements OnInit {
       this.showAlert('Error', 'Error submitting feedback!');
     }
   }
+
   resetForm(modal: IonModal) {
     this.userFeedback = {
       id: '',
