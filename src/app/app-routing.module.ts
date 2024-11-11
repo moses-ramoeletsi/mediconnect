@@ -95,10 +95,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Doctors/add-medication/add-medication.module').then( m => m.AddMedicationPageModule)
   },
   {
-    path: 'users-feedback',
-    loadChildren: () => import('./pages/Doctors/users-feedback/users-feedback.module').then( m => m.UsersFeedbackPageModule)
-  },
-  {
     path: 'basic-health-information',
     loadChildren: () => import('./pages/Doctors/basic-health-information/basic-health-information.module').then( m => m.BasichealthInformationPageModule)
   },
