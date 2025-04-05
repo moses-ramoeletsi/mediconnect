@@ -97,7 +97,6 @@ export class FeedbackPage implements OnInit {
         this.showAlert('Success', 'Feedback submitted successfully!');
       }
 
-      // Send feedback email
       this.sendFeedback();
 
       this.loadUserFeedback(user!.uid);

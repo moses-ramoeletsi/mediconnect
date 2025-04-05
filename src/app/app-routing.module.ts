@@ -120,7 +120,7 @@ const routes: Routes = [
   },
   {
     path: 'user-list',
-    loadChildren: () => import('./pages/chats/user-list/user-list.module').then( m => m.UserListPageModule)
+    loadChildren: () => import('./pages/Chats/user-list/user-list.module').then( m => m.UserListPageModule)
   },
 
   {
